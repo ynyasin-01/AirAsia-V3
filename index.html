@@ -1,0 +1,2038 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AirAsia - Flights & Hotels Booking</title>
+  <meta name="description" content="Discover flights and comfortable stays with AirAsia. Frontend booking platform with real-time flight search and hotel discovery." />
+  <meta property="og:title" content="AirAsia - Flights & Hotels Booking" />
+  <meta property="og:description" content="Discover flights and comfortable stays with AirAsia. Frontend booking platform with real-time flight search and hotel discovery." />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+
+  <!-- One continuous background shared by every app view. -->
+  <div class="site-video-background" aria-hidden="true">
+    <video autoplay muted loop playsinline preload="metadata" tabindex="-1">
+      <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260622_202655_a7f5aca0-2f80-4bc9-bcb5-96ac95662003.mp4" type="video/mp4" />
+    </video>
+  </div>
+
+  <!-- Sticky Header Navigation -->
+  <header class="site-header" id="site-header">
+    <div class="container">
+      <div class="header-inner">
+        <!-- Brand Logo -->
+        <div class="brand-wrapper">
+          <a href="#" class="brand-logo" data-target-view="flight" id="brand-logo-link" aria-label="AirAsia Home">
+            <svg class="airasia-wordmark-svg" viewBox="0 0 150 36" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="airasia">
+              <!-- Professional custom-crafted vector wordmark for 'airasia' -->
+              <g fill="#E32526">
+                <!-- a -->
+                <path d="M 21.5 19.8 C 21.5 15.2 17.8 11.8 12.8 11.8 C 6.8 11.8 2.5 16.0 2.5 22.4 C 2.5 28.6 6.8 32.8 12.9 32.8 C 16.8 32.8 19.8 30.8 21.2 27.8 L 21.2 32.2 L 26.2 32.2 L 26.2 12.4 L 21.5 12.4 L 21.5 19.8 Z M 14.2 28.2 C 10.2 28.2 7.4 25.5 7.4 22.2 C 7.4 18.8 10.2 16.2 14.2 16.2 C 18.2 16.2 21.2 18.8 21.2 22.2 C 21.2 25.5 18.2 28.2 14.2 28.2 Z"/>
+                <!-- i -->
+                <rect x="31.8" y="12.4" width="5.0" height="19.8" rx="2.5"/>
+                <circle cx="34.3" cy="6.2" r="3.0"/>
+                <!-- r -->
+                <path d="M 42.6 12.4 L 42.6 32.2 L 47.6 32.2 L 47.6 21.8 C 48.9 17.8 52.4 16.2 56.0 16.6 L 56.8 11.8 C 53.0 11.4 49.2 13.1 47.4 16.6 L 47.4 12.4 L 42.6 12.4 Z"/>
+                <!-- a -->
+                <path d="M 77.2 19.8 C 77.2 15.2 73.5 11.8 68.5 11.8 C 62.5 11.8 58.2 16.0 58.2 22.4 C 58.2 28.6 62.5 32.8 68.6 32.8 C 72.5 32.8 75.5 30.8 76.9 27.8 L 76.9 32.2 L 81.9 32.2 L 81.9 12.4 L 77.2 12.4 L 77.2 19.8 Z M 69.9 28.2 C 65.9 28.2 63.1 25.5 63.1 22.2 C 63.1 18.8 65.9 16.2 69.9 16.2 C 73.9 16.2 76.9 18.8 76.9 22.2 C 76.9 25.5 73.9 28.2 69.9 28.2 Z"/>
+                <!-- s -->
+                <path d="M 98.8 17.5 C 97.0 16.2 94.8 15.6 92.5 15.6 C 89.2 15.6 87.2 17.0 87.2 19.0 C 87.2 20.8 88.8 21.8 92.2 22.7 C 97.4 24.2 101.0 26.0 101.0 30.0 C 101.0 34.2 96.8 37.2 91.2 37.2 C 86.6 37.2 82.8 35.4 80.6 32.9 L 83.8 29.3 C 85.9 31.5 88.8 32.6 91.4 32.6 C 94.4 32.6 96.2 31.3 96.2 29.6 C 96.2 27.9 94.8 27.0 91.2 26.0 C 86.0 24.6 82.4 22.7 82.4 18.7 C 82.4 14.5 86.4 11.6 92.2 11.6 C 96.0 11.6 99.5 12.9 101.8 15.1 L 98.8 17.5 Z" transform="translate(0, -2.4)"/>
+                <!-- i -->
+                <rect x="106.8" y="12.4" width="5.0" height="19.8" rx="2.5"/>
+                <circle cx="109.3" cy="6.2" r="3.0"/>
+                <!-- a -->
+                <path d="M 134.2 19.8 C 134.2 15.2 130.5 11.8 125.5 11.8 C 119.5 11.8 115.2 16.0 115.2 22.4 C 115.2 28.6 119.5 32.8 125.6 32.8 C 129.5 32.8 132.5 30.8 133.9 27.8 L 133.9 32.2 L 138.9 32.2 L 138.9 12.4 L 134.2 12.4 L 134.2 19.8 Z M 126.9 28.2 C 122.9 28.2 120.1 25.5 120.1 22.2 C 120.1 18.8 122.9 16.2 126.9 16.2 C 130.9 16.2 133.9 18.8 133.9 22.2 C 133.9 25.5 130.9 28.2 126.9 28.2 Z"/>
+              </g>
+            </svg>
+          </a>
+        </div>
+
+        <!-- Desktop Navigation Items -->
+        <nav class="main-nav" aria-label="Main Navigation">
+          <!-- Sliding indicator pill -->
+          <div class="nav-sliding-pill" id="nav-sliding-pill" aria-hidden="true"></div>
+          <button class="nav-link active" data-target-view="flight" id="nav-item-flight">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
+            </svg>
+            <span>Flight</span>
+          </button>
+          <button class="nav-link" data-target-view="hotel" id="nav-item-hotel">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+            </svg>
+            <span>Hotel</span>
+          </button>
+          <button class="nav-link" data-target-view="bookings" id="nav-item-bookings">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
+            </svg>
+            <span>Bookings</span>
+          </button>
+          <button class="nav-link" data-target-view="about" id="nav-item-about">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="16" x2="12" y2="12"/>
+              <line x1="12" y1="8" x2="12.01" y2="8"/>
+            </svg>
+            <span>About</span>
+          </button>
+        </nav>
+
+        <!-- Header Right Utilities -->
+        <div class="header-right">
+          <!-- Interactive Currency Dropdown -->
+          <div class="currency-dropdown-wrap" id="currency-dropdown-wrap">
+            <button type="button" class="currency-selector-btn" id="currency-selector-btn" aria-haspopup="listbox" aria-expanded="false" title="Change display currency">
+              <span class="currency-btn-symbol" id="header-currency-symbol">৳</span>
+              <span class="currency-btn-code" id="header-currency-code">BDT</span>
+              <svg class="currency-btn-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M6 9l6 6 6-6"/>
+              </svg>
+            </button>
+            <div class="currency-dropdown-menu" id="currency-dropdown-menu" role="listbox" aria-label="Select Currency">
+              <div class="currency-dropdown-title">Select Currency</div>
+              <div class="currency-options-list" id="currency-options-list"></div>
+            </div>
+          </div>
+
+          <!-- Local Auth / User Profile Controls -->
+          <div class="header-auth-wrap" id="header-auth-wrap">
+            <!-- Logged out button -->
+            <button type="button" class="btn-auth-signin" id="btn-header-signin" title="Sign in to your account">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+                <circle cx="12" cy="7" r="4"/>
+              </svg>
+              <span>Sign In</span>
+            </button>
+
+            <!-- Logged in user profile dropdown capsule -->
+            <div class="user-capsule-wrap" id="header-user-wrap" style="display: none;">
+              <button type="button" class="user-capsule-btn" id="header-user-btn" aria-haspopup="true" aria-expanded="false">
+                <span class="user-capsule-avatar" id="header-avatar-letter">T</span>
+                <span class="user-capsule-name" id="header-username-text">Traveler</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <path d="M6 9l6 6 6-6"/>
+                </svg>
+              </button>
+              <div class="user-capsule-dropdown" id="header-user-dropdown">
+                <div class="dropdown-user-header">
+                  <div class="dropdown-user-name" id="dropdown-full-name">Traveler</div>
+                  <div class="dropdown-user-email" id="dropdown-email">user@airasia.com</div>
+                  <span class="dropdown-member-badge" id="dropdown-member-badge">AirAsia Member</span>
+                </div>
+                <div class="dropdown-divider"></div>
+                <button type="button" class="dropdown-item nav-link" id="dropdown-my-bookings" data-target-view="bookings">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
+                  </svg>
+                  <span>My Bookings</span>
+                </button>
+                <button type="button" class="dropdown-item text-danger" id="btn-menu-clear-data">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="3 6 5 6 21 6"/>
+                    <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
+                  </svg>
+                  <span>Clear All Stored Data</span>
+                </button>
+                <div class="dropdown-divider"></div>
+                <button type="button" class="dropdown-item" id="btn-menu-logout">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/>
+                    <polyline points="16 17 21 12 16 7"/>
+                    <line x1="21" y1="12" x2="9" y2="12"/>
+                  </svg>
+                  <span>Sign Out</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Mobile Hamburger Toggle -->
+          <button class="hamburger-btn" id="hamburger-btn" aria-label="Toggle navigation menu">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="3" y1="12" x2="21" y2="12"/>
+              <line x1="3" y1="6" x2="21" y2="6"/>
+              <line x1="3" y1="18" x2="21" y2="18"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile Drawer Menu -->
+    <div class="mobile-nav-drawer" id="mobile-drawer">
+      <div class="mobile-user-status" id="mobile-user-status" style="margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid var(--border-light);">
+        <!-- Populated dynamically via JS -->
+      </div>
+      <button class="nav-link active" data-target-view="flight">Flight</button>
+      <button class="nav-link" data-target-view="hotel">Hotel</button>
+      <button class="nav-link" data-target-view="bookings">Bookings</button>
+      <button class="nav-link" data-target-view="about">About AirAsia Demo</button>
+      <div class="mobile-currency-section">
+        <label for="mobile-currency-select" class="mobile-currency-label">Display Currency</label>
+        <select id="mobile-currency-select" class="mobile-currency-select"></select>
+      </div>
+    </div>
+  </header>
+
+  <!-- =========================================================================
+       MAIN APP CONTENT
+       ========================================================================= -->
+  <main id="app-main">
+
+    <!-- =======================================================================
+         VIEW 1: FLIGHT SEARCH & HOME PAGE
+         ======================================================================= -->
+    <section class="app-view active" id="view-flight">
+      <!-- Hero Banner -->
+      <div class="hero-section">
+        <div class="container">
+          <div class="hero-content">
+            <!-- Dynamic Demo User Greeting on Homepage -->
+            <div class="hero-user-greeting-pill" id="hero-user-greeting" style="display: none;">
+              <span class="greeting-wave" aria-hidden="true">👋</span>
+              <span>Welcome back, <strong id="hero-user-display-name">Traveler</strong>! Ready for your next journey?</span>
+            </div>
+
+            <div class="hero-pill">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+              </svg>
+              <span id="hero-explore-pill-text">Explore Southeast Asia & Beyond</span>
+            </div>
+            <h1 class="hero-title">Your next adventure starts here.</h1>
+            <p class="hero-subtitle">Discover flights and comfortable stays with AirAsia.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Prominent White Search Card Over Hero Bottom -->
+      <div class="container search-card-container">
+        <div class="booking-search-card" id="flight-search-card">
+          <!-- Card Header / Tabs -->
+          <div class="search-tabs">
+            <div class="trip-type-toggle" role="tablist" aria-label="Trip type selector">
+              <button class="trip-type-btn active" data-trip-type="oneway" id="btn-trip-oneway" role="tab" aria-selected="true">One-way</button>
+              <button class="trip-type-btn" data-trip-type="round" id="btn-trip-round" role="tab" aria-selected="false">Round-trip</button>
+            </div>
+            <div class="cabin-tag">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="16" rx="2"/>
+                <path d="M7 15h10M7 11h10M7 7h3"/>
+              </svg>
+              <span>Economy Cabin</span>
+            </div>
+          </div>
+
+          <!-- Flight Search Form Grid -->
+          <div class="flight-form-grid">
+            <!-- Origin Airport Dropdown -->
+            <div class="form-group">
+              <label class="form-label" for="origin-display-btn">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 22s-8-4.5-8-11.8A8 8 0 0112 2a8 8 0 018 8.2c0 7.3-8 11.8-8 11.8z"/>
+                  <circle cx="12" cy="10" r="3"/>
+                </svg>
+                <span>From (Origin)</span>
+              </label>
+              <div class="airport-selector-box">
+                <button type="button" class="airport-display-btn" id="origin-display-btn" aria-haspopup="listbox">
+                  <div class="airport-btn-content">
+                    <span class="airport-btn-code" id="origin-display-code">DAC</span>
+                    <span class="airport-btn-city" id="origin-display-city">Dhaka (Bangladesh)</span>
+                  </div>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 9l6 6 6-6"/>
+                  </svg>
+                </button>
+                <div class="airport-dropdown-menu" id="origin-dropdown-menu">
+                  <div class="dropdown-search-input-wrap">
+                    <input type="text" id="origin-search-input" placeholder="Search city or airport code..." autocomplete="off" />
+                  </div>
+                  <div class="airport-options-list" id="origin-options-list"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Swap Airports Button -->
+            <div class="form-group swap-form-group">
+              <button type="button" class="swap-airports-btn" id="btn-swap-airports" title="Swap origin and destination" aria-label="Swap origin and destination airports">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <path d="M7 16V4m0 0L3 8m4-4l4 4m6 4v12m0 0l4-4m-4 4l-4-4"/>
+                </svg>
+              </button>
+            </div>
+
+            <!-- Destination Airport Dropdown -->
+            <div class="form-group">
+              <label class="form-label" for="destination-display-btn">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 22s-8-4.5-8-11.8A8 8 0 0112 2a8 8 0 018 8.2c0 7.3-8 11.8-8 11.8z"/>
+                  <circle cx="12" cy="10" r="3"/>
+                </svg>
+                <span>To (Destination)</span>
+              </label>
+              <div class="airport-selector-box">
+                <button type="button" class="airport-display-btn" id="destination-display-btn" aria-haspopup="listbox">
+                  <div class="airport-btn-content">
+                    <span class="airport-btn-code" id="destination-display-code">KUL</span>
+                    <span class="airport-btn-city" id="destination-display-city">Kuala Lumpur (Malaysia)</span>
+                  </div>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 9l6 6 6-6"/>
+                  </svg>
+                </button>
+                <div class="airport-dropdown-menu" id="destination-dropdown-menu">
+                  <div class="dropdown-search-input-wrap">
+                    <input type="text" id="destination-search-input" placeholder="Search city or airport code..." autocomplete="off" />
+                  </div>
+                  <div class="airport-options-list" id="destination-options-list"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Departure Date -->
+            <div class="form-group">
+              <label class="form-label" for="flight-dep-date">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                  <line x1="16" y1="2" x2="16" y2="6"/>
+                  <line x1="8" y1="2" x2="8" y2="6"/>
+                  <line x1="3" y1="10" x2="21" y2="10"/>
+                </svg>
+                <span>Departure Date</span>
+              </label>
+              <div class="form-control-wrapper">
+                <input type="date" id="flight-dep-date" required />
+              </div>
+            </div>
+
+            <!-- Return Date (Only visible for Round-trip) -->
+            <div class="form-group" id="return-date-group" style="display: none;">
+              <label class="form-label" for="flight-ret-date">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                  <line x1="16" y1="2" x2="16" y2="6"/>
+                  <line x1="8" y1="2" x2="8" y2="6"/>
+                  <line x1="3" y1="10" x2="21" y2="10"/>
+                </svg>
+                <span>Return Date</span>
+              </label>
+              <div class="form-control-wrapper">
+                <input type="date" id="flight-ret-date" />
+              </div>
+            </div>
+
+            <!-- Passengers Selector -->
+            <div class="form-group">
+              <label class="form-label" for="passengers-display-btn">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+                  <circle cx="9" cy="7" r="4"/>
+                  <path d="M23 21v-2a4 4 0 00-3-3.87"/>
+                  <path d="M16 3.13a4 4 0 010 7.75"/>
+                </svg>
+                <span>Passengers</span>
+              </label>
+              <div class="airport-selector-box">
+                <button type="button" class="airport-display-btn" id="passengers-display-btn">
+                  <span style="font-size:14px; font-weight:700; color:var(--text-main);" id="passengers-display-text">1 Adult</span>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 9l6 6 6-6"/>
+                  </svg>
+                </button>
+                <!-- Passengers Popover -->
+                <div class="passengers-popover" id="passengers-popover">
+                  <div class="passenger-row">
+                    <div>
+                      <div class="passenger-row-label">Adults</div>
+                      <div class="passenger-row-desc">Age 12+</div>
+                    </div>
+                    <div class="counter-controls">
+                      <button type="button" class="counter-btn" id="btn-minus-adults" aria-label="Decrease adults">-</button>
+                      <span class="counter-value" id="count-adults">1</span>
+                      <button type="button" class="counter-btn" id="btn-plus-adults" aria-label="Increase adults">+</button>
+                    </div>
+                  </div>
+                  <div class="passenger-row">
+                    <div>
+                      <div class="passenger-row-label">Children</div>
+                      <div class="passenger-row-desc">Age 2 - 11</div>
+                    </div>
+                    <div class="counter-controls">
+                      <button type="button" class="counter-btn" id="btn-minus-children" aria-label="Decrease children">-</button>
+                      <span class="counter-value" id="count-children">0</span>
+                      <button type="button" class="counter-btn" id="btn-plus-children" aria-label="Increase children">+</button>
+                    </div>
+                  </div>
+                  <div class="passenger-row">
+                    <div>
+                      <div class="passenger-row-label">Infants</div>
+                      <div class="passenger-row-desc">Under 2 yrs (on lap)</div>
+                    </div>
+                    <div class="counter-controls">
+                      <button type="button" class="counter-btn" id="btn-minus-infants" aria-label="Decrease infants">-</button>
+                      <span class="counter-value" id="count-infants">0</span>
+                      <button type="button" class="counter-btn" id="btn-plus-infants" aria-label="Increase infants">+</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Actions & Validation Warning -->
+          <div class="search-card-actions">
+            <div class="search-actions-left">
+              <div class="form-feedback-msg" id="flight-search-error"></div>
+              <div class="search-trust-pill">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                  <path d="m9 12 2 2 4-4"/>
+                </svg>
+                <span>Direct AirAsia Fares • Free 7kg Cabin Baggage</span>
+              </div>
+            </div>
+
+            <div class="search-btn-cluster">
+              <button type="button" class="btn-search-secondary" id="btn-reset-flight-search" title="Reset search form to defaults">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                  <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+                  <path d="M3 3v5h5"/>
+                </svg>
+                <span>Reset</span>
+              </button>
+
+              <button type="button" class="btn-search-main" id="btn-search-flights">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <circle cx="11" cy="11" r="8"/>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                </svg>
+                <span>Search Flights</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="btn-search-arrow">
+                  <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cloud Section Divider (Variant 1: Daylight Cumulus Clouds) -->
+      <div class="cloud-section-divider cloud-divider-var-1" aria-hidden="true">
+        <div class="cloud-divider-photo"></div>
+        <div class="cloud-divider-fade"></div>
+      </div>
+
+      <!-- Popular Destinations Section -->
+      <div class="container section-padding">
+        <div class="section-header">
+          <div>
+            <span class="section-tag">Explore Top Routes</span>
+            <h2 class="section-title">
+              <svg class="section-title-icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                <circle cx="12" cy="10" r="3"/>
+              </svg>
+              <span>Popular Destinations</span>
+            </h2>
+            <p class="section-subtitle">Click any destination to pre-fill your flight search instantly.</p>
+          </div>
+        </div>
+        <div class="destinations-grid" id="popular-destinations-grid"></div>
+      </div>
+
+      <!-- Cloud Section Divider (Variant 2: Soft White Airy Horizon Clouds) -->
+      <div class="cloud-section-divider cloud-divider-var-2" aria-hidden="true">
+        <div class="cloud-divider-photo"></div>
+        <div class="cloud-divider-fade"></div>
+      </div>
+
+      <!-- Sample Flight Deals Section -->
+      <div class="container section-padding deals-showcase-panel">
+        <div class="section-header">
+          <div>
+            <span class="section-tag">Limited Time Offers</span>
+            <h2 class="section-title">
+              <svg class="section-title-icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/>
+                <line x1="7" y1="7" x2="7.01" y2="7"/>
+              </svg>
+              <span>Sample Flight Deals</span>
+            </h2>
+            <p class="section-subtitle">Direct connections with verified demo airfares and carry-on included.</p>
+          </div>
+        </div>
+        <div class="deals-grid" id="flight-deals-grid"></div>
+      </div>
+
+      <!-- Cloud Section Divider (Variant 3: Aerial Daylight Cloudscape) -->
+      <div class="cloud-section-divider cloud-divider-var-3" aria-hidden="true">
+        <div class="cloud-divider-photo"></div>
+        <div class="cloud-divider-fade"></div>
+      </div>
+
+      <!-- Benefit Cards Section -->
+      <div class="container" style="margin-bottom: 80px;">
+        <div class="benefits-grid">
+          <div class="benefit-card">
+            <div class="benefit-icon-box">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"/>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+              </svg>
+            </div>
+            <h3 class="benefit-title">Easy Search</h3>
+            <p class="benefit-desc">Fast, intuitive route selection across Dhaka, Kuala Lumpur, Bangkok, Singapore, Bali, and Jakarta with instant timezone calculations.</p>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-icon-box">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/>
+              </svg>
+            </div>
+            <h3 class="benefit-title">Clear Pricing</h3>
+            <p class="benefit-desc">All fares and add-ons are itemized transparently in your chosen currency with live conversion and no unexpected checkout surprises.</p>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-icon-box">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+                <line x1="16" y1="13" x2="8" y2="13"/>
+                <line x1="16" y1="17" x2="8" y2="17"/>
+                <polyline points="10 9 9 9 8 9"/>
+              </svg>
+            </div>
+            <h3 class="benefit-title">Manage Bookings</h3>
+            <p class="benefit-desc">Review your saved flight and hotel confirmations anytime in localStorage, cancel demo reservations, and print flight boarding summaries.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================================
+         VIEW 2: FLIGHT RESULTS
+         ======================================================================= -->
+    <section class="app-view" id="view-flight-results" style="display: none;">
+      <!-- Search Summary Bar -->
+      <div class="results-header-bar">
+        <div class="container">
+          <div class="results-summary-content">
+            <div>
+              <div class="route-summary-title" id="results-summary-route"></div>
+              <div class="route-summary-meta" id="results-summary-meta"></div>
+            </div>
+            <button class="btn-modify-search" id="btn-modify-search">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/>
+                <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/>
+              </svg>
+              <span>Modify Search</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="container">
+        <!-- Round Trip Stepper Banner -->
+        <div class="trip-step-banner" id="round-trip-step-banner" style="display: none;"></div>
+
+        <!-- Layout: Filters Sidebar + Results List -->
+        <div class="results-layout">
+          <!-- Sidebar Filters -->
+          <aside class="filters-sidebar">
+            <div class="filter-header">
+              <h3>Filter Flights</h3>
+              <button class="btn-reset-filters" id="btn-reset-flight-filters">Reset All</button>
+            </div>
+
+            <!-- Price Slider -->
+            <div class="filter-group">
+              <div class="filter-group-title">Maximum Fare</div>
+              <div class="price-slider-wrap">
+                <input type="range" id="filter-price-slider" min="5000" max="60000" step="1000" value="60000" />
+                <div class="price-slider-values">
+                  <span>BDT 5,000</span>
+                  <span id="filter-price-val">BDT 60,000</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Stops Filter -->
+            <div class="filter-group">
+              <div class="filter-group-title">Stops</div>
+              <label class="filter-checkbox-label">
+                <input type="radio" name="filter-stops" value="all" checked />
+                <span>All Flights</span>
+              </label>
+              <label class="filter-checkbox-label">
+                <input type="radio" name="filter-stops" value="direct" />
+                <span>Non-stop Only</span>
+              </label>
+              <label class="filter-checkbox-label">
+                <input type="radio" name="filter-stops" value="1stop" />
+                <span>1 Stop via KUL</span>
+              </label>
+            </div>
+
+            <!-- Departure Time Filter -->
+            <div class="filter-group">
+              <div class="filter-group-title">Departure Time</div>
+              <label class="filter-checkbox-label">
+                <input type="radio" name="filter-time" value="all" checked />
+                <span>Any Time</span>
+              </label>
+              <label class="filter-checkbox-label">
+                <input type="radio" name="filter-time" value="morning" />
+                <span>Morning (06:00 - 12:00)</span>
+              </label>
+              <label class="filter-checkbox-label">
+                <input type="radio" name="filter-time" value="afternoon" />
+                <span>Afternoon (12:00 - 18:00)</span>
+              </label>
+              <label class="filter-checkbox-label">
+                <input type="radio" name="filter-time" value="evening" />
+                <span>Evening (18:00 - 24:00)</span>
+              </label>
+            </div>
+
+            <!-- Cabin Class Filter -->
+            <div class="filter-group">
+              <div class="filter-group-title">Cabin Class</div>
+              <label class="filter-checkbox-label">
+                <input type="radio" name="filter-cabin" value="all" checked />
+                <span>All Classes</span>
+              </label>
+              <label class="filter-checkbox-label">
+                <input type="radio" name="filter-cabin" value="Economy" />
+                <span>Economy</span>
+              </label>
+              <label class="filter-checkbox-label">
+                <input type="radio" name="filter-cabin" value="Premium Flatbed" />
+                <span>Premium Flatbed</span>
+              </label>
+            </div>
+
+            <!-- Baggage Allowance Filter -->
+            <div class="filter-group">
+              <div class="filter-group-title">Baggage Included</div>
+              <label class="filter-checkbox-label">
+                <input type="radio" name="filter-baggage" value="all" checked />
+                <span>Any Baggage Policy</span>
+              </label>
+              <label class="filter-checkbox-label">
+                <input type="radio" name="filter-baggage" value="checked-included" />
+                <span>Checked Bag Included (20kg+)</span>
+              </label>
+            </div>
+
+            <!-- Demo Tag -->
+            <div class="demo-banner" style="margin-top: 20px; font-size: 11px;">
+              <span>Simulated demo flight schedules and test fares.</span>
+            </div>
+          </aside>
+
+          <!-- Flights Main List -->
+          <div class="results-main-col">
+            <div class="results-top-bar">
+              <div class="results-count" id="results-count-text">Searching flights...</div>
+              <div class="sort-controls">
+                <label for="results-sort-select" style="font-size:13px; color:var(--text-muted);">Sort by:</label>
+                <select class="sort-select" id="results-sort-select">
+                  <option value="price-asc">Lowest Price</option>
+                  <option value="duration-asc">Shortest Duration</option>
+                  <option value="departure-asc">Earliest Departure</option>
+                  <option value="price-desc">Highest Price</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="flights-list" id="flight-cards-container"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================================
+         VIEW 3: FLIGHT BOOKING FORM
+         ======================================================================= -->
+    <section class="app-view" id="view-flight-booking" style="display: none;">
+      <div class="container">
+        <div style="padding: 24px 0 12px; display: flex; align-items: center; gap: 8px;">
+          <button class="btn-outline" id="btn-back-to-results" style="padding: 8px 16px; width: auto; font-size: 13px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+            <span>Back to Flight Results</span>
+          </button>
+        </div>
+
+        <div class="booking-layout">
+          <!-- Main Passenger & Details Column -->
+          <div class="booking-main-col">
+            <!-- Selected Itinerary Card -->
+            <div class="booking-panel-card">
+              <h2 class="panel-title">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2">
+                  <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
+                </svg>
+                <span>Selected Flight Itinerary</span>
+              </h2>
+              <div id="flight-booking-itinerary-summary"></div>
+            </div>
+
+            <!-- Passenger Details Form -->
+            <div class="booking-panel-card">
+              <h2 class="panel-title">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2">
+                  <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+                  <circle cx="9" cy="7" r="4"/>
+                </svg>
+                <span>Passenger Information</span>
+              </h2>
+              <p style="font-size:13px; color:var(--text-muted); margin-bottom:16px;">
+                Please enter fictional passenger names for this demo booking. No passports or ID uploads required.
+              </p>
+              <div id="passengers-inputs-container"></div>
+            </div>
+
+            <!-- Contact Information -->
+            <div class="booking-panel-card">
+              <h2 class="panel-title">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                  <polyline points="22,6 12,13 2,6"/>
+                </svg>
+                <span>Contact Details</span>
+              </h2>
+              <div class="inputs-row-2">
+                <div>
+                  <label class="form-label" for="contact-email">Email Address (for E-Ticket)</label>
+                  <input type="email" class="input-standard" id="contact-email" value="yasinchowdhury999@gmail.com" required />
+                </div>
+                <div>
+                  <label class="form-label" for="contact-phone">Phone Number</label>
+                  <input type="tel" class="input-standard" id="contact-phone" value="+880 1712 345678" required />
+                </div>
+              </div>
+            </div>
+
+            <!-- Optional Add-ons -->
+            <div class="booking-panel-card">
+              <h2 class="panel-title">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2">
+                  <rect x="6" y="7" width="12" height="14" rx="2"/>
+                  <path d="M9 7V4a2 2 0 012-2h2a2 2 0 012 2v3"/>
+                </svg>
+                <span>Optional Flight Add-ons</span>
+              </h2>
+
+              <!-- Checked Baggage Selection -->
+              <div class="addon-item">
+                <div class="addon-info">
+                  <span class="addon-title">Checked Baggage Allowance</span>
+                  <span class="addon-desc">7kg cabin bag included free. Upgrade for heavy suitcases.</span>
+                </div>
+                <div>
+                  <select class="input-standard" id="addon-baggage-select" style="min-width: 180px;">
+                    <option value="0">None (0 BDT)</option>
+                    <option value="20">+20 kg (+2,500 BDT/pax)</option>
+                    <option value="30">+30 kg (+3,800 BDT/pax)</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Hot Meal Selection -->
+              <div class="addon-item">
+                <div class="addon-info">
+                  <span class="addon-title">AirAsia Santan Hot Meal</span>
+                  <span class="addon-desc">Signature Pak Nasser's Nasi Lemak or Chicken Teriyaki with drink.</span>
+                </div>
+                <div style="display:flex; align-items:center; gap:12px;">
+                  <span class="addon-price">+550 BDT</span>
+                  <input type="checkbox" id="addon-meal-check" style="width:20px; height:20px; accent-color:var(--primary);" />
+                </div>
+              </div>
+
+              <!-- Travel Insurance Selection -->
+              <div class="addon-item">
+                <div class="addon-info">
+                  <span class="addon-title">Demo Travel Shield Protection</span>
+                  <span class="addon-desc">Flight delay and baggage damage protection coverage.</span>
+                </div>
+                <div style="display:flex; align-items:center; gap:12px;">
+                  <span class="addon-price">+1,200 BDT</span>
+                  <input type="checkbox" id="addon-insurance-check" style="width:20px; height:20px; accent-color:var(--primary);" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sticky Right Price Summary -->
+          <div class="booking-summary-sidebar">
+            <div class="price-summary-card">
+              <h3 style="font-size:17px; font-weight:800; color:var(--dark); margin-bottom:16px;">Price Breakdown</h3>
+              <div class="price-breakdown-table">
+                <div class="price-row">
+                  <span>Base Airfare</span>
+                  <span id="price-summary-base">BDT 0</span>
+                </div>
+                <div class="price-row">
+                  <span>Airport Taxes & Govt. Fees</span>
+                  <span id="price-summary-tax">BDT 0</span>
+                </div>
+                <div class="price-row" id="price-summary-seats-row" style="display: none;">
+                  <span>Aircraft Seats</span>
+                  <span id="price-summary-seats">BDT 0</span>
+                </div>
+                <div class="price-row">
+                  <span>Selected Add-ons</span>
+                  <span id="price-summary-addons">BDT 0</span>
+                </div>
+                <div class="price-row total">
+                  <span>Total Amount</span>
+                  <span class="total-amount" id="price-summary-total">BDT 0</span>
+                </div>
+              </div>
+
+              <button class="btn-confirm-booking" id="btn-proceed-to-payment">
+                <span>Proceed to Payment</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <line x1="5" y1="12" x2="19" y2="12"/>
+                  <polyline points="12 5 19 12 12 19"/>
+                </svg>
+              </button>
+
+              <div class="demo-banner" style="margin-top: 16px;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"/>
+                  <line x1="12" y1="8" x2="12" y2="12"/>
+                  <line x1="12" y1="16" x2="12.01" y2="16"/>
+                </svg>
+                <span>Demo booking mode. No real payment or live bank authorization required.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================================
+         VIEW: SIMULATED PAYMENT
+         ======================================================================= -->
+    <section class="app-view" id="view-payment" style="display: none;">
+      <div class="container">
+        <div style="padding: 24px 0 12px; display: flex; align-items: center; gap: 8px;">
+          <button class="btn-outline" id="btn-back-to-booking" style="padding: 8px 16px; width: auto; font-size: 13px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+            <span>Back to Passenger & Seat Details</span>
+          </button>
+        </div>
+
+        <!-- Stepper Header -->
+        <div class="payment-steps-banner">
+          <div class="step-item done"><span class="step-num">✓</span> 1. Select Flight</div>
+          <div class="step-line active"></div>
+          <div class="step-item done"><span class="step-num">✓</span> 2. Passengers & Seats</div>
+          <div class="step-line active"></div>
+          <div class="step-item current"><span class="step-num">3</span> 3. Simulated Payment</div>
+          <div class="step-line"></div>
+          <div class="step-item"><span class="step-num">4</span> 4. Confirmation</div>
+        </div>
+
+        <!-- Mandatory User Notice Banner -->
+        <div class="payment-simulation-notice">
+          <div class="notice-icon">⚠️</div>
+          <div>
+            <div class="notice-title">This is a simulated payment. No real payment was processed.</div>
+            <div class="notice-desc">
+              This demonstration checkout never collects, transmits, or stores real credit card numbers or financial credentials. All transactions are simulated locally inside your browser.
+            </div>
+          </div>
+        </div>
+
+        <div class="payment-layout">
+          <!-- Left Column: Payment Form -->
+          <div class="payment-card-box">
+            <h2 class="panel-title">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2">
+                <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
+                <line x1="1" y1="10" x2="23" y2="10"/>
+              </svg>
+              <span>Simulated Payment Details</span>
+            </h2>
+
+            <!-- Payment Method Selector -->
+            <div class="payment-method-selector">
+              <label class="payment-method-option active" id="method-card-label">
+                <input type="radio" name="demo-payment-method" value="card" checked />
+                <div class="method-icon-wrap method-icon-card">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
+                    <line x1="1" y1="10" x2="23" y2="10"/>
+                  </svg>
+                </div>
+                <div class="method-content">
+                  <span class="method-name">Credit / Debit Card</span>
+                  <span class="method-sub">Visa, MasterCard, Amex</span>
+                </div>
+              </label>
+
+              <label class="payment-method-option" id="method-bkash-label">
+                <input type="radio" name="demo-payment-method" value="bkash" />
+                <div class="method-icon-wrap method-icon-bkash">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
+                    <polygon points="5 3 19 12 5 21 5 3"/>
+                  </svg>
+                </div>
+                <div class="method-content">
+                  <span class="method-name" style="color:#E2136E;">bKash E-Banking</span>
+                  <span class="method-sub">Direct MFS Gateway (0% Fee)</span>
+                </div>
+              </label>
+
+              <label class="payment-method-option" id="method-nagad-label">
+                <input type="radio" name="demo-payment-method" value="nagad" />
+                <div class="method-icon-wrap method-icon-nagad">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
+                    <circle cx="12" cy="12" r="10"/>
+                    <polyline points="12 6 12 12 16 14"/>
+                  </svg>
+                </div>
+                <div class="method-content">
+                  <span class="method-name" style="color:#EA580C;">Nagad Digital Bank</span>
+                  <span class="method-sub">Direct Postal MFS (0% Fee)</span>
+                </div>
+              </label>
+
+              <label class="payment-method-option" id="method-points-label">
+                <input type="radio" name="demo-payment-method" value="points" />
+                <div class="method-icon-wrap method-icon-points">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                  </svg>
+                </div>
+                <div class="method-content">
+                  <span class="method-name">AirAsia Points</span>
+                  <span class="method-sub">Demo Rewards Balance</span>
+                </div>
+              </label>
+            </div>
+
+            <!-- Card Form Section -->
+            <div id="demo-card-form-section">
+              <!-- Quick Fill Demo Cards -->
+              <div class="demo-card-helpers">
+                <span style="font-size:12px; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Quick Demo Test Cards:</span>
+                <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:6px;">
+                  <button type="button" class="btn-demo-helper" id="btn-fill-success-card">
+                    <span>✓ Fill Demo Card (Success)</span>
+                  </button>
+                  <button type="button" class="btn-demo-helper fail" id="btn-fill-fail-card">
+                    <span>✕ Fill Demo Card (Simulate Failure)</span>
+                  </button>
+                </div>
+              </div>
+
+              <div class="inputs-row" style="margin-top:16px;">
+                <div style="grid-column: 1 / -1;">
+                  <label class="form-label" for="demo-card-name">Cardholder Full Name</label>
+                  <input type="text" class="input-standard" id="demo-card-name" placeholder="e.g. Jane Doe" value="Demo Traveler" required />
+                </div>
+                <div style="grid-column: 1 / -1;">
+                  <label class="form-label" for="demo-card-number">Demonstration Card Number</label>
+                  <div class="card-input-wrap">
+                    <input type="text" class="input-standard" id="demo-card-number" placeholder="4532 8888 8888 8888" maxlength="19" value="4532 8888 8888 8888" required />
+                    <div class="card-brands-icons">
+                      <span class="brand-pill">VISA</span>
+                      <span class="brand-pill">MC</span>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <label class="form-label" for="demo-card-expiry">Expiry Date (MM/YY)</label>
+                  <input type="text" class="input-standard" id="demo-card-expiry" placeholder="12/28" maxlength="5" value="12/28" required />
+                </div>
+                <div>
+                  <label class="form-label" for="demo-card-cvv">Security Code (CVV)</label>
+                  <input type="password" class="input-standard" id="demo-card-cvv" placeholder="123" maxlength="3" value="888" required />
+                </div>
+              </div>
+            </div>
+
+            <!-- bKash E-Banking Form Section -->
+            <div id="demo-bkash-form-section" style="display: none;">
+              <!-- bKash Gateway Banner -->
+              <div class="mfs-gateway-banner bkash-banner">
+                <div class="mfs-logo-wrap">
+                  <div class="mfs-badge-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
+                      <polygon points="5 3 19 12 5 21 5 3"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <div class="mfs-banner-title">bKash Payment Gateway</div>
+                    <div class="mfs-banner-sub">AirAsia Bangladesh Merchant • Merchant Acc: 01844-AIRASIA</div>
+                  </div>
+                </div>
+                <div class="mfs-charge-pill">0% Gateway Fee</div>
+              </div>
+
+              <!-- Only bKash Account Number and bKash PIN -->
+              <div class="inputs-row" style="margin-top:16px;">
+                <div style="grid-column: 1 / -1;">
+                  <label class="form-label" for="demo-bkash-phone">bKash Account Number</label>
+                  <div class="mfs-input-wrap">
+                    <span class="mfs-country-prefix">🇧🇩 +880</span>
+                    <input type="tel" class="input-standard mfs-input-tel" id="demo-bkash-phone" placeholder="01712-345678" maxlength="14" value="01712-345678" required />
+                  </div>
+                  <span class="mfs-hint-text">Enter your 11-digit personal bKash mobile number</span>
+                </div>
+
+                <div style="grid-column: 1 / -1;">
+                  <label class="form-label" for="demo-bkash-pin">bKash PIN</label>
+                  <input type="password" class="input-standard" id="demo-bkash-pin" placeholder="•••••" maxlength="5" value="12345" required />
+                  <span class="mfs-hint-text">Enter your 5-digit bKash security PIN (e.g. 12345)</span>
+                </div>
+              </div>
+
+              <div class="mfs-security-note">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                </svg>
+                <span>Simulated End-to-End SSL encryption with bKash Direct Checkout.</span>
+              </div>
+            </div>
+
+            <!-- Nagad Digital Bank Form Section -->
+            <div id="demo-nagad-form-section" style="display: none;">
+              <!-- Nagad Gateway Banner -->
+              <div class="mfs-gateway-banner nagad-banner">
+                <div class="mfs-logo-wrap">
+                  <div class="mfs-badge-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
+                      <circle cx="12" cy="12" r="10"/>
+                      <polyline points="12 6 12 12 16 14"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <div class="mfs-banner-title">Nagad Digital Banking</div>
+                    <div class="mfs-banner-sub">Bangladesh Post Office Digital Financial Service</div>
+                  </div>
+                </div>
+                <div class="mfs-charge-pill">Zero Cash-out Charge</div>
+              </div>
+
+              <!-- Quick Demo Helpers -->
+              <div class="demo-card-helpers" style="margin-top: 14px;">
+                <span style="font-size:12px; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Quick Demo Test Wallets:</span>
+                <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:6px;">
+                  <button type="button" class="btn-demo-helper" id="btn-fill-nagad-success">
+                    <span>✓ Fill Demo Nagad (01823-456789 - Success)</span>
+                  </button>
+                  <button type="button" class="btn-demo-helper fail" id="btn-fill-nagad-fail">
+                    <span>✕ Fill Demo Nagad (Session Expired - Fail)</span>
+                  </button>
+                </div>
+              </div>
+
+              <div class="inputs-row" style="margin-top:16px;">
+                <div style="grid-column: 1 / -1;">
+                  <label class="form-label" for="demo-nagad-phone">Nagad Account Number</label>
+                  <div class="mfs-input-wrap">
+                    <span class="mfs-country-prefix">🇧🇩 +880</span>
+                    <input type="tel" class="input-standard mfs-input-tel" id="demo-nagad-phone" placeholder="1823-456789" maxlength="14" value="01823-456789" required />
+                  </div>
+                </div>
+
+                <div>
+                  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                    <label class="form-label" for="demo-nagad-otp" style="margin-bottom:0;">6-Digit OTP</label>
+                    <button type="button" class="btn-get-otp" id="btn-get-nagad-otp">Generate OTP</button>
+                  </div>
+                  <input type="text" class="input-standard" id="demo-nagad-otp" placeholder="654321" maxlength="6" value="654321" required />
+                  <span class="mfs-hint-text">Simulated SMS verification code</span>
+                </div>
+
+                <div>
+                  <label class="form-label" for="demo-nagad-pin">4-Digit Nagad PIN</label>
+                  <input type="password" class="input-standard" id="demo-nagad-pin" placeholder="••••" maxlength="4" value="9876" required />
+                  <span class="mfs-hint-text">Demo PIN: Enter any 4 digits (e.g. 9876)</span>
+                </div>
+              </div>
+
+              <div class="mfs-security-note">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                </svg>
+                <span>Protected by 256-bit Nagad Online Merchant Protection.</span>
+              </div>
+            </div>
+
+            <!-- Points Form Section -->
+            <div id="demo-points-form-section" style="display: none;">
+              <div class="points-balance-card">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                  <div>
+                    <div style="font-size:12px; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Available AirAsia Points</div>
+                    <div style="font-size:24px; font-weight:800; color:#D97706; margin-top:2px;">★ 48,500 Points</div>
+                  </div>
+                  <span class="status-badge" style="background: rgba(245, 158, 11, 0.25); border: 1px solid rgba(251, 191, 36, 0.4); color: #FDE68A;">Gold Member</span>
+                </div>
+                <p style="font-size:13px; color:var(--text-muted); margin-top:10px; line-height: 1.5;">
+                  100 Points = 100 BDT value. Your flight booking will be paid instantly using your simulated AirAsia rewards balance with zero transaction fees.
+                </p>
+              </div>
+            </div>
+
+            <!-- Payment Error / Feedback Alert Box -->
+            <div class="payment-feedback-box" id="payment-feedback-box" style="display: none; margin-top: 16px;"></div>
+
+            <!-- Submit Button -->
+            <button class="btn-pay-now" id="btn-process-payment">
+              <span id="btn-pay-text">Complete Simulated Payment</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+            </button>
+          </div>
+
+          <!-- Right Column: Order Recap -->
+          <div class="payment-recap-box">
+            <h3 style="font-size:17px; font-weight:800; color:var(--dark); margin-bottom:16px;">Booking Order Summary</h3>
+            <div class="recap-route-block" id="payment-recap-route"></div>
+            <div class="recap-itemized-list" id="payment-recap-breakdown"></div>
+            <div class="recap-grand-total">
+              <span>Total Due</span>
+              <span class="total-price" id="payment-recap-total">BDT 0</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================================
+         VIEW 4: FLIGHT CONFIRMATION
+         ======================================================================= -->
+    <section class="app-view" id="view-flight-confirmation" style="display: none;">
+      <div class="container">
+        <div class="confirmation-container">
+          <div class="confirmation-header">
+            <div style="display:inline-flex; width:54px; height:54px; border-radius:50%; background:rgba(255, 255, 255, 0.22); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); border:1px solid rgba(255, 255, 255, 0.4); color:white; align-items:center; justify-content:center; margin-bottom:12px; box-shadow:0 4px 12px rgba(0, 0, 0, 0.2);">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+            </div>
+            <h2 style="font-size: 26px; font-weight: 800;">Flight Booking Confirmed!</h2>
+            <p style="font-size: 14px; opacity: 0.9; margin-top: 4px;">Your electronic ticket is saved in your demo bookings list.</p>
+            <div class="confirmation-ref-pill" id="confirmation-booking-ref">AA-XXXXXX</div>
+          </div>
+
+          <div class="confirmation-body">
+            <div class="boarding-pass-visual">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:14px; border-bottom:1px dashed var(--border-light); padding-bottom:12px;">
+                <div>
+                  <span style="font-size:12px; font-weight:800; color:var(--primary); text-transform:uppercase;">AirAsia E-Boarding Pass</span>
+                  <div style="font-size:18px; font-weight:800; color:var(--dark); margin-top:2px;" id="confirmation-route-text">DAC → KUL</div>
+                  <div style="font-size:13px; color:var(--text-muted);" id="confirmation-dates-text">Travel Date: --</div>
+                </div>
+                <div style="text-align:right;">
+                  <span class="status-badge confirmed">Confirmed</span>
+                </div>
+              </div>
+
+              <div style="margin-bottom:14px;">
+                <div style="font-size:12px; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Confirmed Passengers</div>
+                <ul id="confirmation-passengers-list" style="padding-left:18px; font-size:14px; color:var(--dark); margin-top:4px;"></ul>
+              </div>
+
+              <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px dashed var(--border-light); padding-top:12px;">
+                <div>
+                  <div style="font-size:12px; color:var(--text-muted);">Payment Method</div>
+                  <div style="font-size:14px; font-weight:700; color:var(--dark);" id="confirmation-payment-method">Simulated Card</div>
+                </div>
+                <div style="text-align:right;">
+                  <div style="font-size:12px; color:var(--text-muted);">Total Paid</div>
+                  <div style="font-size:20px; font-weight:800; color:var(--primary);" id="confirmation-total-text">BDT 0</div>
+                </div>
+              </div>
+
+              <div class="barcode-mock"></div>
+            </div>
+
+            <div class="confirmation-actions">
+              <button class="btn-outline btn-print-summary">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="6 9 6 2 18 2 18 9"/>
+                  <path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/>
+                  <rect x="6" y="14" width="12" height="8"/>
+                </svg>
+                <span>Print Summary</span>
+              </button>
+              <button class="btn-outline btn-goto-my-bookings">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+                  <polyline points="14 2 14 8 20 8"/>
+                </svg>
+                <span>View My Bookings</span>
+              </button>
+              <button class="btn-search-main btn-book-another-flight" style="flex: 1; justify-content: center; padding: 12px 20px; font-size:14px;">
+                <span>Book Another Flight</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================================
+         VIEW 5: HOTEL SEARCH & DISCOVERY
+         ======================================================================= -->
+    <section class="app-view" id="view-hotel" style="display: none;">
+      <!-- Hotel Hero -->
+      <div class="hotel-hero">
+        <div class="container">
+          <div class="hero-content">
+            <div class="hero-pill">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+              </svg>
+              <span>Comfortable Stays & Resorts with AirAsia</span>
+            </div>
+            <h1 class="hero-title">Find Your Perfect Stay</h1>
+            <p class="hero-subtitle">Handpicked luxury hotels and city center suites with best rate guarantees worldwide.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hotel Search Card -->
+      <div class="container hotel-search-card">
+        <div class="booking-search-card">
+          <div class="hotel-form-grid">
+            <div class="form-group">
+              <label class="form-label" for="hotel-dest-select">Destination City</label>
+              <div class="form-control-wrapper">
+                <select id="hotel-dest-select">
+                  <option value="Kuala Lumpur" selected>Kuala Lumpur, Malaysia</option>
+                  <option value="Bangkok">Bangkok, Thailand</option>
+                  <option value="Singapore">Singapore</option>
+                  <option value="Bali">Bali, Indonesia</option>
+                  <option value="Phuket">Phuket, Thailand</option>
+                  <option value="Penang">Penang, Malaysia</option>
+                  <option value="Langkawi">Langkawi, Malaysia</option>
+                  <option value="Tokyo">Tokyo, Japan</option>
+                  <option value="Jakarta">Jakarta, Indonesia</option>
+                  <option value="Dhaka">Dhaka, Bangladesh</option>
+                  <option value="All">Show All Destinations</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="hotel-checkin-date">Check-in Date</label>
+              <div class="form-control-wrapper">
+                <input type="date" id="hotel-checkin-date" required />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="hotel-checkout-date">Check-out Date</label>
+              <div class="form-control-wrapper">
+                <input type="date" id="hotel-checkout-date" required />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="hotel-guests-count">Guests</label>
+              <div class="form-control-wrapper">
+                <input type="number" id="hotel-guests-count" min="1" max="10" value="2" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="hotel-rooms-count">Rooms</label>
+              <div class="form-control-wrapper">
+                <input type="number" id="hotel-rooms-count" min="1" max="5" value="1" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <button class="btn-search-main" id="btn-search-hotels" style="width: 100%; justify-content: center; height: 54px;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <circle cx="11" cy="11" r="8"/>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                </svg>
+                <span>Search Hotels</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cloud Section Divider (Variant 4: Dreamy Daylight Horizon) -->
+      <div class="cloud-section-divider cloud-divider-var-4" aria-hidden="true">
+        <div class="cloud-divider-photo"></div>
+        <div class="cloud-divider-fade"></div>
+      </div>
+
+      <!-- Hotel Results Layout -->
+      <div class="container" style="margin-bottom: 80px;">
+        <div class="results-layout">
+          <!-- Hotel Filters -->
+          <aside class="filters-sidebar">
+            <div class="filter-header">
+              <h3>Hotel Filters</h3>
+            </div>
+
+            <div class="filter-group">
+              <div class="filter-group-title">Minimum Star Rating</div>
+              <label class="filter-checkbox-label">
+                <input type="radio" name="filter-hotel-stars" value="0" checked />
+                <span>All Ratings</span>
+              </label>
+              <label class="filter-checkbox-label">
+                <input type="radio" name="filter-hotel-stars" value="4.5" />
+                <span>4.5+ Stars Exceptional</span>
+              </label>
+              <label class="filter-checkbox-label">
+                <input type="radio" name="filter-hotel-stars" value="4.7" />
+                <span>4.7+ Stars Luxury</span>
+              </label>
+            </div>
+
+            <div class="filter-group">
+              <div class="filter-group-title">Featured Amenity</div>
+              <label class="filter-checkbox-label">
+                <input type="radio" name="filter-hotel-amenity" value="all" checked />
+                <span>All Amenities</span>
+              </label>
+              <label class="filter-checkbox-label">
+                <input type="radio" name="filter-hotel-amenity" value="Swimming Pool" />
+                <span>Swimming Pool</span>
+              </label>
+              <label class="filter-checkbox-label">
+                <input type="radio" name="filter-hotel-amenity" value="Breakfast Included" />
+                <span>Breakfast Included</span>
+              </label>
+              <label class="filter-checkbox-label">
+                <input type="radio" name="filter-hotel-amenity" value="Airport Shuttle" />
+                <span>Airport Shuttle</span>
+              </label>
+            </div>
+
+            <div class="demo-banner">
+              <span>All hotel rates and availability shown are fictional demo data.</span>
+            </div>
+          </aside>
+
+          <!-- Hotel Cards Grid -->
+          <div class="hotels-grid" id="hotels-cards-container"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================================
+         VIEW 6: HOTEL CONFIRMATION
+         ======================================================================= -->
+    <section class="app-view" id="view-hotel-confirmation" style="display: none;">
+      <div class="container">
+        <div class="confirmation-container">
+          <div class="confirmation-header" style="background: linear-gradient(135deg, rgba(37, 99, 235, 0.9) 0%, rgba(29, 78, 216, 0.9) 100%);">
+            <div style="display:inline-flex; width:54px; height:54px; border-radius:50%; background:rgba(255, 255, 255, 0.22); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); border:1px solid rgba(255, 255, 255, 0.4); color:white; align-items:center; justify-content:center; margin-bottom:12px; box-shadow:0 4px 12px rgba(0, 0, 0, 0.2);">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+            </div>
+            <h2 style="font-size: 26px; font-weight: 800;">Hotel Stay Confirmed!</h2>
+            <p style="font-size: 14px; opacity: 0.9; margin-top: 4px;">Your stay voucher has been saved in your local demo bookings.</p>
+            <div class="confirmation-ref-pill" id="hotel-confirm-ref">HT-XXXXXX</div>
+          </div>
+
+          <div class="confirmation-body">
+            <div class="boarding-pass-visual">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:14px; border-bottom:1px dashed var(--border-light); padding-bottom:12px;">
+                <div>
+                  <span style="font-size:12px; font-weight:800; color:var(--primary); text-transform:uppercase;">Hotel Booking Voucher</span>
+                  <div style="font-size:18px; font-weight:800; color:var(--dark); margin-top:2px;" id="hotel-confirm-name">--</div>
+                  <div style="font-size:13px; color:var(--text-muted);" id="hotel-confirm-meta">--</div>
+                </div>
+                <span class="status-badge confirmed">Confirmed</span>
+              </div>
+
+              <div style="margin-bottom:14px;">
+                <div style="font-size:12px; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Registered Lead Guest</div>
+                <div style="font-size:15px; font-weight:700; color:var(--dark); margin-top:4px;" id="hotel-confirm-guest">--</div>
+              </div>
+
+              <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px dashed var(--border-light); padding-top:12px;">
+                <div>
+                  <div style="font-size:12px; color:var(--text-muted);">Payment Mode</div>
+                  <div style="font-size:14px; font-weight:700; color:var(--dark);">Demo Guaranteed (Paid)</div>
+                </div>
+                <div style="text-align:right;">
+                  <div style="font-size:12px; color:var(--text-muted);">Total Stay Cost</div>
+                  <div style="font-size:20px; font-weight:800; color:var(--primary);" id="hotel-confirm-total">BDT 0</div>
+                </div>
+              </div>
+
+              <div class="barcode-mock"></div>
+            </div>
+
+            <div class="confirmation-actions">
+              <button class="btn-outline btn-print-summary">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="6 9 6 2 18 2 18 9"/>
+                  <path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/>
+                  <rect x="6" y="14" width="12" height="8"/>
+                </svg>
+                <span>Print Voucher</span>
+              </button>
+              <button class="btn-outline btn-goto-my-bookings">
+                <span>View My Bookings</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================================
+         VIEW 7: MANAGE BOOKINGS
+         ======================================================================= -->
+    <section class="app-view" id="view-bookings" style="display: none;">
+      <div class="container section-padding">
+        <div class="bookings-header">
+          <div>
+            <h1 class="section-title">My Bookings</h1>
+            <p class="section-subtitle">Manage, review, print, and cancel your saved demo flights and hotel stays.</p>
+          </div>
+
+          <div class="bookings-header-tools">
+            <div class="bookings-tabs" role="tablist">
+              <button class="booking-tab-btn active" id="tab-flight-bookings" role="tab">
+                <span>Flight Bookings</span>
+                <span class="tab-badge-count" id="badge-flight-count">0</span>
+              </button>
+              <button class="booking-tab-btn" id="tab-hotel-bookings" role="tab">
+                <span>Hotel Bookings</span>
+                <span class="tab-badge-count" id="badge-hotel-count">0</span>
+              </button>
+            </div>
+
+            <button type="button" class="btn-clear-demo-data" id="btn-clear-all-data" title="Clear localStorage demo data">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="3 6 5 6 21 6"/>
+                <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
+              </svg>
+              <span>Clear Data</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Bookings Lists -->
+        <div class="booking-cards-list" id="bookings-flight-list"></div>
+        <div class="booking-cards-list" id="bookings-hotel-list" style="display: none;"></div>
+      </div>
+    </section>
+
+    <!-- =======================================================================
+         VIEW 8: ABOUT AIRASIA DEMO PROJECT
+         ======================================================================= -->
+    <section class="app-view" id="view-about" style="display: none;">
+      <div class="container section-padding">
+        <!-- Hero Image -->
+        <div class="about-hero">
+          <img src="/assets/Photorealistic airplane cutout.png" alt="Photorealistic airplane cutout" onerror="this.onerror=null; this.src='./public/assets/Photorealistic airplane cutout.png'" />
+          <div class="about-hero-overlay">
+            <span class="section-tag" style="color:#FECACA;">Educational Project</span>
+            <h1 style="font-size: 34px; font-weight: 800; line-height: 1.2;">AirAsia Frontend Booking Experience</h1>
+            <p style="max-width: 620px; font-size: 15px; opacity: 0.9; margin-top: 6px;">
+              A responsive, modern frontend-only web application demonstrating flight and hotel reservations with local mock data.
+            </p>
+          </div>
+        </div>
+
+        <!-- Cloud Section Divider (Variant 1: Sunlit Cumulus Horizon) -->
+        <div class="cloud-section-divider cloud-divider-var-1" aria-hidden="true">
+          <div class="cloud-divider-photo"></div>
+          <div class="cloud-divider-fade"></div>
+        </div>
+
+        <!-- Features Grid -->
+        <div class="section-header">
+          <div>
+            <span class="section-tag">Core Capabilities</span>
+            <h2 class="section-title">Built-In Frontend Features</h2>
+          </div>
+        </div>
+
+        <div class="about-features-grid">
+          <div class="benefit-card">
+            <div class="benefit-icon-box">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
+              </svg>
+            </div>
+            <h3 class="benefit-title">Flight Search</h3>
+            <p class="benefit-desc">Interactive airport autocomplete for Dhaka (DAC), Kuala Lumpur (KUL), Bangkok (DMK), Singapore (SIN), Bali (DPS), and Jakarta (CGK). Supports one-way and round trips with passenger count calculations.</p>
+          </div>
+
+          <div class="benefit-card">
+            <div class="benefit-icon-box">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+              </svg>
+            </div>
+            <h3 class="benefit-title">Hotel Discovery</h3>
+            <p class="benefit-desc">Browse handpicked hotel accommodations, view high-resolution photo galleries, filter by star ratings and amenities, and select customizable room tiers with occupancy limits.</p>
+          </div>
+
+          <div class="benefit-card">
+            <div class="benefit-icon-box">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
+              </svg>
+            </div>
+            <h3 class="benefit-title">Booking Management</h3>
+            <p class="benefit-desc">Full localStorage synchronization for bookings. Easily inspect itinerary details, print boarding passes and hotel vouchers with barcode visuals, and cancel bookings without data loss.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================================
+         VIEW 9: AUTHENTICATION (SIGN IN & SIGN UP) PAGE
+         ======================================================================= -->
+    <section class="app-view" id="view-auth" style="display: none;">
+      <div class="container section-padding">
+        <div class="auth-page-wrapper">
+          <!-- Back to Flights Button -->
+          <div class="auth-page-nav">
+            <button type="button" class="btn-back-link" id="btn-auth-back-flights">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+              </svg>
+              <span>Back to Flights</span>
+            </button>
+          </div>
+
+          <!-- Main Auth Card -->
+          <div class="auth-card-main">
+            <!-- Brand & Heading -->
+            <div class="auth-card-header">
+              <div class="auth-card-logo">
+                <span class="brand-plane-wrap" style="width: 46px; height: 46px; background: var(--primary); color: white; border-radius: 14px; display: inline-flex; align-items: center; justify-content: center; box-shadow: 0 6px 16px rgba(227, 37, 38, 0.32);">
+                  <svg class="brand-plane-svg" style="width: 24px; height: 24px;" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M22 16v-2l-8.5-5V3.5C13.5 2.67 12.83 2 12 2s-1.5.67-1.5 1.5V9L2 14v2l8.5-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5l-2-1.5v-5.5L22 16z"/>
+                  </svg>
+                </span>
+              </div>
+              <h1 class="auth-card-title" id="auth-main-title">Sign In to AirAsia</h1>
+              <p class="auth-card-subtitle" id="auth-main-subtitle">Access your bookings, manage itineraries, and enjoy seamless travel experiences.</p>
+            </div>
+
+            <!-- Tab Switcher -->
+            <div class="auth-page-tabs" role="tablist">
+              <button type="button" class="auth-page-tab-btn active" id="tab-page-signin" role="tab" aria-selected="true">
+                Sign In
+              </button>
+              <button type="button" class="auth-page-tab-btn" id="tab-page-signup" role="tab" aria-selected="false">
+                Create Account
+              </button>
+            </div>
+
+            <!-- ================= SIGN IN FORM ================= -->
+            <form id="page-form-signin" class="auth-panel-form" novalidate>
+              <div class="form-group-standard">
+                <label class="form-label" for="page-signin-email">Email Address</label>
+                <div class="input-icon-wrap">
+                  <svg class="input-left-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                    <polyline points="22,6 12,13 2,6"/>
+                  </svg>
+                  <input type="email" class="input-standard with-icon" id="page-signin-email" placeholder="name@example.com" autocomplete="email" required />
+                </div>
+              </div>
+
+              <div class="form-group-standard">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                  <label class="form-label" for="page-signin-password" style="margin-bottom: 0;">Password</label>
+                </div>
+                <div class="input-icon-wrap">
+                  <svg class="input-left-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                    <path d="M7 11V7a5 5 0 0110 0v4"/>
+                  </svg>
+                  <input type="password" class="input-standard with-icon with-toggle" id="page-signin-password" placeholder="Enter your password" autocomplete="current-password" required />
+                  <button type="button" class="btn-toggle-password" data-target="page-signin-password" aria-label="Toggle password visibility">
+                    <svg class="eye-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                      <circle cx="12" cy="12" r="3"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Error Alert -->
+              <div class="auth-alert error" id="page-signin-error" style="display: none;" role="alert"></div>
+
+              <!-- Submit Button -->
+              <button type="submit" class="btn-auth-submit" id="btn-page-signin-submit">
+                <span>Sign In</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </button>
+
+              <!-- Quick Registered User Helper -->
+              <div class="auth-test-helper-card">
+                <div class="test-helper-title">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <line x1="12" y1="16" x2="12" y2="12"/>
+                    <line x1="12" y1="8" x2="12.01" y2="8"/>
+                  </svg>
+                  <span>Quick Test Account (No API required)</span>
+                </div>
+                <p class="test-helper-desc">Feel free to register your own account, or click below to fill in a pre-registered test user:</p>
+                <button type="button" class="btn-quick-fill-account" id="btn-quick-fill-account">
+                  <span class="user-pill-icon">👤</span>
+                  <span class="user-pill-email">yasinchowdhury999@gmail.com</span>
+                  <span class="user-pill-fill">Autofill Credentials</span>
+                </button>
+              </div>
+
+              <!-- Switch to Register Link -->
+              <div class="auth-switch-link-wrap">
+                <span>Don't have an account yet?</span>
+                <button type="button" class="btn-auth-text-link" id="btn-link-goto-signup">Create an Account</button>
+              </div>
+            </form>
+
+            <!-- ================= SIGN UP FORM ================= -->
+            <form id="page-form-signup" class="auth-panel-form" style="display: none;" novalidate>
+              <div class="form-group-standard">
+                <label class="form-label" for="page-signup-name">Full Name</label>
+                <div class="input-icon-wrap">
+                  <svg class="input-left-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+                    <circle cx="12" cy="7" r="4"/>
+                  </svg>
+                  <input type="text" class="input-standard with-icon" id="page-signup-name" placeholder="e.g. Yasin Chowdhury" autocomplete="name" required />
+                </div>
+              </div>
+
+              <div class="form-group-standard">
+                <label class="form-label" for="page-signup-email">Email Address</label>
+                <div class="input-icon-wrap">
+                  <svg class="input-left-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                    <polyline points="22,6 12,13 2,6"/>
+                  </svg>
+                  <input type="email" class="input-standard with-icon" id="page-signup-email" placeholder="name@example.com" autocomplete="email" required />
+                </div>
+              </div>
+
+              <div class="form-group-standard">
+                <label class="form-label" for="page-signup-phone">Phone Number</label>
+                <div class="input-icon-wrap">
+                  <svg class="input-left-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/>
+                  </svg>
+                  <input type="tel" class="input-standard with-icon" id="page-signup-phone" placeholder="+880 1712 345678" autocomplete="tel" required />
+                </div>
+              </div>
+
+              <div class="form-group-standard">
+                <label class="form-label" for="page-signup-password">Create Password</label>
+                <div class="input-icon-wrap">
+                  <svg class="input-left-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                    <path d="M7 11V7a5 5 0 0110 0v4"/>
+                  </svg>
+                  <input type="password" class="input-standard with-icon with-toggle" id="page-signup-password" placeholder="At least 6 characters" autocomplete="new-password" minlength="6" required />
+                  <button type="button" class="btn-toggle-password" data-target="page-signup-password" aria-label="Toggle password visibility">
+                    <svg class="eye-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                      <circle cx="12" cy="12" r="3"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              <div class="form-group-standard">
+                <label class="form-label" for="page-signup-confirm">Confirm Password</label>
+                <div class="input-icon-wrap">
+                  <svg class="input-left-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                  </svg>
+                  <input type="password" class="input-standard with-icon with-toggle" id="page-signup-confirm" placeholder="Re-enter password" autocomplete="new-password" required />
+                  <button type="button" class="btn-toggle-password" data-target="page-signup-confirm" aria-label="Toggle password visibility">
+                    <svg class="eye-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                      <circle cx="12" cy="12" r="3"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              <div class="form-group-standard" style="margin-top: 6px;">
+                <label class="checkbox-label" style="display: flex; align-items: flex-start; gap: 8px; font-size: 13px; color: var(--text-muted); cursor: pointer;">
+                  <input type="checkbox" id="page-signup-terms" required style="margin-top: 3px;" />
+                  <span>I agree to AirAsia's Terms of Service and Privacy Policy.</span>
+                </label>
+              </div>
+
+              <!-- Error Alert -->
+              <div class="auth-alert error" id="page-signup-error" style="display: none;" role="alert"></div>
+
+              <!-- Submit Button -->
+              <button type="submit" class="btn-auth-submit" id="btn-page-signup-submit">
+                <span>Create Account</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+                  <circle cx="8.5" cy="7" r="4"/>
+                  <line x1="20" y1="8" x2="20" y2="14"/>
+                  <line x1="23" y1="11" x2="17" y2="11"/>
+                </svg>
+              </button>
+
+              <!-- Switch to Sign In Link -->
+              <div class="auth-switch-link-wrap">
+                <span>Already have an account?</span>
+                <button type="button" class="btn-auth-text-link" id="btn-link-goto-signin">Sign In</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- =========================================================================
+       HOTEL DETAILS MODAL
+       ========================================================================= -->
+  <div class="modal-overlay" id="hotel-details-modal">
+    <div class="modal-box">
+      <button class="modal-close-btn" aria-label="Close modal">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+
+      <!-- Gallery -->
+      <div class="hotel-modal-gallery">
+        <img id="modal-gallery-main" src="" alt="Hotel preview" />
+        <div class="hotel-modal-gallery-side">
+          <img id="modal-gallery-side-1" src="" alt="Hotel room" />
+          <img id="modal-gallery-side-2" src="" alt="Hotel pool" />
+        </div>
+      </div>
+
+      <!-- Modal Content -->
+      <div class="hotel-modal-content">
+        <div>
+          <h2 id="modal-hotel-name" style="font-size:24px; font-weight:800; color:var(--dark);"></h2>
+          <div id="modal-hotel-location" style="font-size:14px; color:var(--text-muted); margin-top:2px;"></div>
+          <p id="modal-hotel-desc" style="font-size:14px; color:var(--text-main); margin-top:12px; line-height:1.6;"></p>
+        </div>
+
+        <!-- Amenities -->
+        <div>
+          <h4 style="font-size:14px; font-weight:800; color:var(--dark); text-transform:uppercase; margin-bottom:8px;">Hotel Amenities</h4>
+          <div id="modal-amenities-container" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap:10px;"></div>
+        </div>
+
+        <!-- Stay Details Meta -->
+        <div style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); padding:12px 16px; border-radius:var(--radius-md); font-size:14px; font-weight:600; color:var(--text-main);">
+          Stay Dates: <span id="modal-stay-meta" style="color:var(--primary); font-weight:700;"></span>
+        </div>
+
+        <!-- Room Options -->
+        <div>
+          <h4 style="font-size:14px; font-weight:800; color:var(--dark); text-transform:uppercase; margin-bottom:10px;">Choose Your Room</h4>
+          <div class="rooms-list" id="modal-rooms-container"></div>
+        </div>
+
+        <!-- Guest Contact Form -->
+        <div style="border-top:1px solid var(--border-light); padding-top:18px;">
+          <h4 style="font-size:14px; font-weight:800; color:var(--dark); text-transform:uppercase; margin-bottom:12px;">Guest Information</h4>
+          <div class="inputs-row">
+            <div>
+              <label class="form-label" for="hotel-guest-name">Lead Guest</label>
+              <input type="text" class="input-standard" id="hotel-guest-name" placeholder="Full name" required />
+            </div>
+            <div>
+              <label class="form-label" for="hotel-guest-email">Email</label>
+              <input type="email" class="input-standard" id="hotel-guest-email" placeholder="name@example.com" required />
+            </div>
+            <div>
+              <label class="form-label" for="hotel-guest-phone">Phone</label>
+              <input type="tel" class="input-standard" id="hotel-guest-phone" placeholder="+880 1712 345678" required />
+            </div>
+          </div>
+          <div style="margin-top:10px;">
+            <label class="form-label" for="hotel-guest-requests">Special Requests (Optional)</label>
+            <input type="text" class="input-standard" id="hotel-guest-requests" placeholder="e.g. Quiet room, high floor, airport taxi pickup" />
+          </div>
+        </div>
+
+        <!-- Modal Footer Total & Action -->
+        <div style="display:flex; align-items:center; justify-content:space-between; border-top:1px solid var(--border-light); padding-top:18px; margin-top:8px;">
+          <div>
+            <div style="font-size:12px; color:var(--text-muted);">Total Stay Price (Incl. Taxes & Service)</div>
+            <div id="modal-itemized-total" style="font-size:24px; font-weight:800; color:var(--primary);">BDT 0</div>
+          </div>
+          <button class="btn-search-main" id="btn-confirm-hotel-booking" style="padding: 12px 32px;">
+            Book Room
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       BOOKING DETAILS MODAL (FOR MY BOOKINGS VIEW)
+       ========================================================================= -->
+  <div class="modal-overlay" id="booking-summary-modal">
+    <div class="modal-box" style="max-width: 600px;">
+      <button class="modal-close-btn" aria-label="Close modal">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+      <div style="padding: 24px;">
+        <h3 style="font-size: 20px; font-weight: 800; color:var(--dark); margin-bottom: 16px;">Booking Summary</h3>
+        <div id="booking-modal-summary-content"></div>
+        <div style="display:flex; justify-content:flex-end; gap:12px; margin-top:20px;">
+          <button class="btn-outline btn-print-summary">Print Summary</button>
+          <button class="btn-search-main btn-close-modal" style="padding: 10px 24px; font-size:14px;">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       BKASH PAYMENT CONFIRMATION MODAL
+       ========================================================================= -->
+  <div class="modal-overlay" id="bkash-confirm-modal">
+    <div class="modal-box" style="max-width: 440px;">
+      <button class="modal-close-btn" id="btn-close-bkash-modal" aria-label="Close modal">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+      <div style="padding: 24px; text-align: center;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: rgba(226, 19, 110, 0.2); color: #F43F5E; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 14px; border: 1px solid rgba(244, 63, 94, 0.4); box-shadow: 0 4px 14px rgba(226, 19, 110, 0.3);">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polygon points="5 3 19 12 5 21 5 3"/>
+          </svg>
+        </div>
+        <h3 style="font-size: 20px; font-weight: 800; color: #F8FAFC;">Confirm bKash Payment</h3>
+        <p style="font-size: 14px; color: var(--text-muted); margin-top: 6px;">
+          Please review and confirm your bKash payment authorization before processing.
+        </p>
+
+        <div style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 12px; padding: 14px 16px; margin-top: 16px; text-align: left; box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);">
+          <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 8px;">
+            <span style="color: var(--text-muted);">Merchant</span>
+            <span style="font-weight: 700; color: #F8FAFC;">AirAsia Bangladesh</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 8px;">
+            <span style="color: var(--text-muted);">bKash Account</span>
+            <span style="font-weight: 700; color: #F8FAFC;" id="bkash-confirm-account-num">+880 01712-345678</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 8px;">
+            <span style="color: var(--text-muted);">Booking Type</span>
+            <span style="font-weight: 700; color: #F8FAFC;">AirAsia Flight Ticket</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 15px; border-top: 1px dashed rgba(255, 255, 255, 0.12); padding-top: 8px; margin-top: 4px;">
+            <span style="font-weight: 800; color: #F8FAFC;">Amount to Deduct</span>
+            <span style="font-weight: 800; color: #FF4D4F;" id="bkash-confirm-amount-display">BDT 0</span>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 10px; margin-top: 20px;">
+          <button type="button" class="btn-outline" id="btn-cancel-bkash-confirm" style="flex: 1;">Cancel</button>
+          <button type="button" class="btn-primary" id="btn-proceed-bkash-confirm" style="flex: 1; background: #E2136E; border-color: #E2136E; color: white;">
+            Confirm & Pay
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       CANCEL BOOKING CONFIRMATION MODAL
+       ========================================================================= -->
+  <div class="modal-overlay" id="cancel-booking-modal">
+    <div class="modal-box" style="max-width: 440px;">
+      <button class="modal-close-btn" id="btn-close-cancel-modal" aria-label="Close modal">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+      <div style="padding: 24px; text-align: center;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: rgba(239, 68, 68, 0.2); color: #F87171; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 14px; border: 1px solid rgba(248, 113, 113, 0.4); box-shadow: 0 4px 14px rgba(220, 38, 38, 0.3);">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="15" y1="9" x2="9" y2="15"></line>
+            <line x1="9" y1="9" x2="15" y2="15"></line>
+          </svg>
+        </div>
+        <h3 style="font-size: 20px; font-weight: 800; color: #F8FAFC;">Cancel Booking?</h3>
+        <p style="font-size: 14px; color: var(--text-muted); margin-top: 8px; line-height: 1.5;">
+          Are you sure you want to cancel booking <strong id="cancel-modal-booking-id" style="color: #F8FAFC;"></strong>? Its status will be updated to Cancelled.
+        </p>
+        <div style="display: flex; gap: 10px; margin-top: 22px;">
+          <button type="button" class="btn-outline" id="btn-abort-cancel-booking" style="flex: 1;">Keep Booking</button>
+          <button type="button" class="btn-danger-action" id="btn-proceed-cancel-booking" style="flex: 1;">Yes, Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       DELETE BOOKING CONFIRMATION MODAL
+       ========================================================================= -->
+  <div class="modal-overlay" id="delete-booking-modal">
+    <div class="modal-box delete-booking-modal-box">
+      <button type="button" class="modal-close-btn" id="btn-close-delete-modal" aria-label="Close modal">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+      <div class="delete-booking-modal-content">
+        <div class="delete-booking-icon" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="3 6 5 6 21 6"/>
+            <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
+          </svg>
+        </div>
+        <h3>Delete this booking?</h3>
+        <p>Booking <strong id="delete-modal-booking-id"></strong> will be permanently removed from your saved bookings.</p>
+        <div class="delete-booking-modal-actions">
+          <button type="button" class="btn-outline btn-close-modal">Keep Booking</button>
+          <button type="button" class="btn-danger-action" id="btn-confirm-delete-booking">Delete Booking</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       CLEAR ALL DATA CONFIRMATION MODAL
+       ========================================================================= -->
+  <div class="modal-overlay" id="clear-data-modal">
+    <div class="modal-box" style="max-width: 440px;">
+      <button class="modal-close-btn" id="btn-close-clear-modal" aria-label="Close modal">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+      <div style="padding: 24px; text-align: center;">
+        <div style="width: 48px; height: 48px; border-radius: 50%; background: rgba(239, 68, 68, 0.2); color: #F87171; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 12px; border: 1px solid rgba(248, 113, 113, 0.4); box-shadow: 0 4px 14px rgba(220, 38, 38, 0.3);">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="3 6 5 6 21 6"/>
+            <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
+          </svg>
+        </div>
+        <h3 style="font-size: 19px; font-weight: 800; color: #F8FAFC;">Clear All Stored Data?</h3>
+        <p style="font-size: 14px; color: var(--text-muted); margin-top: 8px; line-height: 1.5;">
+          This will permanently remove all previous flight bookings, hotel reservations, saved passenger profiles, and user preferences stored in your browser's localStorage.
+        </p>
+        <div style="display: flex; gap: 10px; margin-top: 22px;">
+          <button type="button" class="btn-outline" id="btn-cancel-clear-data" style="flex: 1;">Cancel</button>
+          <button type="button" class="btn-danger-action" id="btn-confirm-clear-data" style="flex: 1;">Yes, Clear All Data</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toast-container" aria-live="polite"></div>
+
+  <!-- Cloud Transition Divider Before Footer -->
+  <div class="cloud-section-divider cloud-divider-var-2" aria-hidden="true" style="margin-bottom: -30px; position: relative; z-index: 2;">
+    <div class="cloud-divider-photo"></div>
+    <div class="cloud-divider-fade"></div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <a href="#" class="brand-logo" data-target-view="flight" aria-label="AirAsia Home">
+            <svg class="airasia-wordmark-svg" viewBox="0 0 150 36" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="airasia">
+              <g fill="#E32526">
+                <!-- a -->
+                <path d="M 21.5 19.8 C 21.5 15.2 17.8 11.8 12.8 11.8 C 6.8 11.8 2.5 16.0 2.5 22.4 C 2.5 28.6 6.8 32.8 12.9 32.8 C 16.8 32.8 19.8 30.8 21.2 27.8 L 21.2 32.2 L 26.2 32.2 L 26.2 12.4 L 21.5 12.4 L 21.5 19.8 Z M 14.2 28.2 C 10.2 28.2 7.4 25.5 7.4 22.2 C 7.4 18.8 10.2 16.2 14.2 16.2 C 18.2 16.2 21.2 18.8 21.2 22.2 C 21.2 25.5 18.2 28.2 14.2 28.2 Z"/>
+                <!-- i -->
+                <rect x="31.8" y="12.4" width="5.0" height="19.8" rx="2.5"/>
+                <circle cx="34.3" cy="6.2" r="3.0"/>
+                <!-- r -->
+                <path d="M 42.6 12.4 L 42.6 32.2 L 47.6 32.2 L 47.6 21.8 C 48.9 17.8 52.4 16.2 56.0 16.6 L 56.8 11.8 C 53.0 11.4 49.2 13.1 47.4 16.6 L 47.4 12.4 L 42.6 12.4 Z"/>
+                <!-- a -->
+                <path d="M 77.2 19.8 C 77.2 15.2 73.5 11.8 68.5 11.8 C 62.5 11.8 58.2 16.0 58.2 22.4 C 58.2 28.6 62.5 32.8 68.6 32.8 C 72.5 32.8 75.5 30.8 76.9 27.8 L 76.9 32.2 L 81.9 32.2 L 81.9 12.4 L 77.2 12.4 L 77.2 19.8 Z M 69.9 28.2 C 65.9 28.2 63.1 25.5 63.1 22.2 C 63.1 18.8 65.9 16.2 69.9 16.2 C 73.9 16.2 76.9 18.8 76.9 22.2 C 76.9 25.5 73.9 28.2 69.9 28.2 Z"/>
+                <!-- s -->
+                <path d="M 98.8 17.5 C 97.0 16.2 94.8 15.6 92.5 15.6 C 89.2 15.6 87.2 17.0 87.2 19.0 C 87.2 20.8 88.8 21.8 92.2 22.7 C 97.4 24.2 101.0 26.0 101.0 30.0 C 101.0 34.2 96.8 37.2 91.2 37.2 C 86.6 37.2 82.8 35.4 80.6 32.9 L 83.8 29.3 C 85.9 31.5 88.8 32.6 91.4 32.6 C 94.4 32.6 96.2 31.3 96.2 29.6 C 96.2 27.9 94.8 27.0 91.2 26.0 C 86.0 24.6 82.4 22.7 82.4 18.7 C 82.4 14.5 86.4 11.6 92.2 11.6 C 96.0 11.6 99.5 12.9 101.8 15.1 L 98.8 17.5 Z" transform="translate(0, -2.4)"/>
+                <!-- i -->
+                <rect x="106.8" y="12.4" width="5.0" height="19.8" rx="2.5"/>
+                <circle cx="109.3" cy="6.2" r="3.0"/>
+                <!-- a -->
+                <path d="M 134.2 19.8 C 134.2 15.2 130.5 11.8 125.5 11.8 C 119.5 11.8 115.2 16.0 115.2 22.4 C 115.2 28.6 119.5 32.8 125.6 32.8 C 129.5 32.8 132.5 30.8 133.9 27.8 L 133.9 32.2 L 138.9 32.2 L 138.9 12.4 L 134.2 12.4 L 134.2 19.8 Z M 126.9 28.2 C 122.9 28.2 120.1 25.5 120.1 22.2 C 120.1 18.8 122.9 16.2 126.9 16.2 C 130.9 16.2 133.9 18.8 133.9 22.2 C 133.9 25.5 130.9 28.2 126.9 28.2 Z"/>
+              </g>
+            </svg>
+          </a>
+          <p>
+            An educational frontend-only flight and hotel booking website built with modern HTML, CSS, and vanilla JavaScript.
+          </p>
+        </div>
+
+        <div class="footer-links">
+          <a href="#" class="nav-link" data-target-view="flight">Flight</a>
+          <a href="#" class="nav-link" data-target-view="hotel">Hotel</a>
+          <a href="#" class="nav-link" data-target-view="bookings">Bookings</a>
+          <a href="#" class="nav-link" data-target-view="about">About</a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>
+          &copy; <span id="current-year">2026</span> AirAsia Educational Frontend Demo.
+        </div>
+        <div style="font-size: 12px; color: var(--text-light);">
+          Unofficial demo project. Multi-currency support. No real payments or bookings.
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Local Static Datasets (Zero API Dependency) -->
+  <script src="./flights-data.js"></script>
+  <script src="./hotels-data.js"></script>
+  <!-- Vanilla JavaScript Application Logic -->
+  <script src="./script.js"></script>
+</body>
+</html>

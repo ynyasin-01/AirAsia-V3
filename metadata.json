@@ -1,0 +1,8 @@
+{
+  "name": "AirAsia PROJECT",
+  "description": "Frontend flight and hotel booking website with flight search, hotel discovery, multi-currency pricing support, and demo booking management.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
