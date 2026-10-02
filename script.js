@@ -911,6 +911,18 @@
     if (userBtn && userDropdown) {
       userBtn.addEventListener('click', (e) => {
         e.stopPropagation();
+        const currWrap = document.getElementById('currency-dropdown-wrap');
+        if (currWrap) {
+          currWrap.classList.remove('open');
+          const cBtn = document.getElementById('currency-selector-btn');
+          if (cBtn) cBtn.setAttribute('aria-expanded', 'false');
+        }
+        const langWrap = document.getElementById('language-dropdown-wrap');
+        if (langWrap) {
+          langWrap.classList.remove('open');
+          const lBtn = document.getElementById('language-selector-btn');
+          if (lBtn) lBtn.setAttribute('aria-expanded', 'false');
+        }
         userDropdown.classList.toggle('open');
       });
 
@@ -1000,7 +1012,7 @@
         const emailInput = document.getElementById('page-signin-email');
         const passInput = document.getElementById('page-signin-password');
         const signinError = document.getElementById('page-signin-error');
-        if (emailInput) emailInput.value = 'yasinchowdhury999@gmail.com';
+        if (emailInput) emailInput.value = 'demo.traveler@airasia.com';
         if (passInput) passInput.value = 'pass1234';
         if (signinError) signinError.style.display = 'none';
         showToast('Filled test user credentials. Click Sign In to continue.', 'info');
@@ -1230,11 +1242,29 @@
   // Seed sample bookings & registered test user if completely empty
   function seedInitialDemoBookings() {
     try {
+      // Clean up any previously stored personal email from localStorage
+      const cur = store.getItem(AUTH_USER_KEY);
+      if (cur && cur.includes('yasinchowdhury')) {
+        store.removeItem(AUTH_USER_KEY);
+      }
+      const reg = store.getItem(AUTH_REGISTRY_KEY);
+      if (reg && reg.includes('yasinchowdhury')) {
+        store.removeItem(AUTH_REGISTRY_KEY);
+      }
+      const fBookings = store.getItem(FLIGHT_BOOKINGS_KEY);
+      if (fBookings && fBookings.includes('yasinchowdhury')) {
+        store.removeItem(FLIGHT_BOOKINGS_KEY);
+      }
+      const hBookings = store.getItem(HOTEL_BOOKINGS_KEY);
+      if (hBookings && hBookings.includes('yasinchowdhury')) {
+        store.removeItem(HOTEL_BOOKINGS_KEY);
+      }
+
       if (!store.getItem(AUTH_REGISTRY_KEY)) {
         const initialUser = {
           id: 'usr-1',
-          name: 'Yasin Chowdhury',
-          email: 'yasinchowdhury999@gmail.com',
+          name: 'Demo Traveler',
+          email: 'demo.traveler@airasia.com',
           phone: '+880 1712 345678',
           password: 'pass1234',
           joinedAt: new Date().toISOString()
@@ -1255,7 +1285,7 @@
             flightNumber: 'AK-71',
             airline: 'AirAsia',
             passengersCount: 1,
-            passengersList: [{ name: 'Yasin Chowdhury', type: 'Adult', seat: '1A' }],
+            passengersList: [{ name: 'Demo Traveler', type: 'Adult', seat: '1A' }],
             totalPrice: 27000,
             status: 'Confirmed',
             isSimulatedPayment: true,
@@ -1278,8 +1308,8 @@
             nights: 3,
             rooms: 1,
             guestCount: 2,
-            leadGuest: 'Yasin Chowdhury',
-            email: 'yasinchowdhury999@gmail.com',
+            leadGuest: 'Demo Traveler',
+            email: 'demo.traveler@airasia.com',
             phone: '+880 1712 345678',
             totalPrice: 28050,
             status: 'Confirmed',
@@ -1312,11 +1342,22 @@
     AED: { code: 'AED', symbol: 'AED', name: 'UAE Dirham', rate: 0.030, decimals: 2, flag: '🇦🇪' }
   };
 
+  const LANGUAGES = {
+    EN: { code: 'EN', name: 'English', native: 'English', flag: '🇬🇧', region: 'Global' },
+    MS: { code: 'MS', name: 'Malay', native: 'Bahasa Melayu', flag: '🇲🇾', region: 'Malaysia' },
+    TH: { code: 'TH', name: 'Thai', native: 'ภาษาไทย', flag: '🇹🇭', region: 'Thailand' },
+    ID: { code: 'ID', name: 'Indonesian', native: 'Bahasa Indonesia', flag: '🇮🇩', region: 'Indonesia' },
+    ZH: { code: 'ZH', name: 'Chinese', native: '简体中文', flag: '🇨🇳', region: 'China / SG' },
+    JA: { code: 'JA', name: 'Japanese', native: '日本語', flag: '🇯🇵', region: 'Japan' },
+    BN: { code: 'BN', name: 'Bengali', native: 'বাংলা', flag: '🇧🇩', region: 'Bangladesh' }
+  };
+
   // ==========================================================================
   // Application State
   // ==========================================================================
   const State = {
     selectedCurrency: 'BDT',
+    selectedLanguage: 'EN',
     currentView: 'flight', // 'flight' | 'flight-results' | 'flight-booking' | 'payment' | 'flight-confirmation' | 'hotel' | 'hotel-confirmation' | 'bookings' | 'about'
     flightSearch: {
       tripType: 'oneway', // 'oneway' | 'round'
@@ -1337,10 +1378,10 @@
       selectedOutbound: null,
       selectedReturn: null,
       filters: {
-        maxPrice: 60000,
+        maxPrice: 150000,
         stops: 'all', // 'all' | 'direct' | '1stop'
         depTime: 'all', // 'all' | 'morning' | 'afternoon' | 'evening'
-        cabin: 'all', // 'all' | 'Economy' | 'Premium Flatbed'
+        cabin: 'all', // 'all' | 'Economy' | 'Premium Flatbed' | 'Business Class' | 'First Class'
         baggage: 'all' // 'all' | 'checked-included'
       },
       sortBy: 'price-asc'
@@ -1399,7 +1440,18 @@
     try {
       const parts = dateStr.split('-');
       const d = new Date(parts[0], parts[1] - 1, parts[2]);
-      return d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
+      const langLocaleMap = {
+        EN: 'en-US',
+        MS: 'ms-MY',
+        TH: 'th-TH',
+        ID: 'id-ID',
+        ZH: 'zh-CN',
+        JA: 'ja-JP',
+        BN: 'bn-BD'
+      };
+      const currentLang = State.selectedLanguage || 'EN';
+      const locale = langLocaleMap[currentLang] || 'en-US';
+      return d.toLocaleDateString(locale, { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
     } catch {
       return dateStr;
     }
@@ -1433,8 +1485,9 @@
     const bagSelect = document.getElementById('addon-baggage-select');
     if (bagSelect) {
       const currentVal = bagSelect.value;
+      const noneText = window.t ? window.t('addon_baggage_0', '7kg Cabin Baggage (Included)') : 'None (Free)';
       bagSelect.innerHTML = `
-        <option value="0">None (Free)</option>
+        <option value="0">${noneText}</option>
         <option value="20">+20 kg (+${formatPrice(2500)}/pax)</option>
         <option value="30">+30 kg (+${formatPrice(3800)}/pax)</option>
       `;
@@ -1508,7 +1561,7 @@
     } else if (State.currentView === 'flight-results') {
       renderFlightCards();
     } else if (State.currentView === 'flight-booking') {
-      updateFlightBookingPriceBreakdown();
+      if (typeof updateBookingPriceSummary === 'function') updateBookingPriceSummary();
     } else if (State.currentView === 'flight-confirmation') {
       if (State.flightBooking.lastConfirmedBooking) {
         const totalEl = document.getElementById('confirmation-total-text');
@@ -1598,6 +1651,15 @@
     // Toggle dropdown on button click
     selBtn.addEventListener('click', (e) => {
       e.stopPropagation();
+      const langWrap = document.getElementById('language-dropdown-wrap');
+      if (langWrap) {
+        langWrap.classList.remove('open');
+        const lBtn = document.getElementById('language-selector-btn');
+        if (lBtn) lBtn.setAttribute('aria-expanded', 'false');
+      }
+      const userDropdown = document.getElementById('header-user-dropdown');
+      if (userDropdown) userDropdown.classList.remove('open');
+
       const isOpen = wrap.classList.toggle('open');
       selBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
     });
@@ -1621,6 +1683,225 @@
     // Apply saved currency without notification on init
     setCurrency(saved, false);
   }
+
+  function setLanguage(code, notify = true) {
+    if (!LANGUAGES[code]) return;
+    State.selectedLanguage = code;
+    try {
+      localStorage.setItem('airasia_selected_language', code);
+    } catch {
+      // ignore
+    }
+
+    const lang = LANGUAGES[code];
+
+    // Update Header Display
+    const codeEl = document.getElementById('header-language-code');
+    if (codeEl) codeEl.textContent = lang.code;
+
+    // Update Mobile Select
+    const mobileSel = document.getElementById('mobile-language-select');
+    if (mobileSel && mobileSel.value !== code) {
+      mobileSel.value = code;
+    }
+
+    // Update active class in dropdown options
+    const items = document.querySelectorAll('.language-option-item');
+    items.forEach(btn => {
+      if (btn.dataset.language === code) {
+        btn.classList.add('active');
+        btn.setAttribute('aria-selected', 'true');
+      } else {
+        btn.classList.remove('active');
+        btn.setAttribute('aria-selected', 'false');
+      }
+    });
+
+    // Close dropdown
+    const wrap = document.getElementById('language-dropdown-wrap');
+    if (wrap) wrap.classList.remove('open');
+    const selBtn = document.getElementById('language-selector-btn');
+    if (selBtn) selBtn.setAttribute('aria-expanded', 'false');
+
+    // 1. Apply translations across DOM via translations.js
+    if (window.applyLanguageTranslations) {
+      window.applyLanguageTranslations(code);
+    }
+
+    // 2. Update dynamic passenger selector summary text
+    const paxSummaryEl = document.getElementById('passengers-display-text');
+    if (paxSummaryEl && State.flightSearch) {
+      const { adults, children, infants } = State.flightSearch;
+      let text = adults > 1 ? `${adults} ${(window.t ? window.t('pax_adults', 'Adults') : 'Adults')}` : `${adults} ${(window.t ? window.t('pax_adult_singular', 'Adult') : 'Adult')}`;
+      if (children > 0) {
+        text += `, ${children} ${children > 1 ? (window.t ? window.t('pax_children', 'Children') : 'Children') : (window.t ? window.t('pax_child_singular', 'Child') : 'Child')}`;
+      }
+      if (infants > 0) {
+        text += `, ${infants} ${infants > 1 ? (window.t ? window.t('pax_infants', 'Infants') : 'Infants') : (window.t ? window.t('pax_infant_singular', 'Infant') : 'Infant')}`;
+      }
+      paxSummaryEl.textContent = text;
+    }
+
+    // 3. Update dynamic addon labels & slider labels
+    if (typeof renderFlightBookingAddonLabels === 'function') renderFlightBookingAddonLabels();
+    if (typeof updatePriceSliderLabels === 'function') updatePriceSliderLabels();
+
+    // 4. Update airport display if applicable
+    if (typeof updateAirportDisplay === 'function' && State.flightSearch) {
+      updateAirportDisplay('origin', State.flightSearch.origin);
+      updateAirportDisplay('destination', State.flightSearch.destination);
+    }
+
+    // 5. Update auth UI if needed
+    if (typeof updateAuthUI === 'function') {
+      updateAuthUI();
+    }
+
+    // 6. Re-render active view to immediately reflect the new language
+    if (State.currentView === 'flight') {
+      if (typeof initHomeWidgets === 'function') initHomeWidgets();
+    } else if (State.currentView === 'flight-results') {
+      if (typeof renderFlightResultsView === 'function') renderFlightResultsView();
+      if (typeof renderFlightCards === 'function') renderFlightCards();
+    } else if (State.currentView === 'flight-booking') {
+      if (typeof updateBookingPriceSummary === 'function') updateBookingPriceSummary();
+    } else if (State.currentView === 'flight-confirmation') {
+      if (State.flightBooking.lastConfirmedBooking) {
+        const totalEl = document.getElementById('confirmation-total-text');
+        if (totalEl) totalEl.textContent = formatPrice(State.flightBooking.lastConfirmedBooking.totalPrice);
+      }
+    } else if (State.currentView === 'hotel') {
+      if (typeof renderHotelsList === 'function') renderHotelsList();
+    } else if (State.currentView === 'hotel-confirmation') {
+      if (State.hotelBooking.lastConfirmedBooking) {
+        const totalEl = document.getElementById('hotel-confirm-total');
+        if (totalEl) totalEl.textContent = formatPrice(State.hotelBooking.lastConfirmedBooking.totalPrice);
+      }
+    } else if (State.currentView === 'bookings') {
+      if (typeof renderBookingsPage === 'function') renderBookingsPage();
+    }
+
+    // Update Cabin Selector Button UI
+    if (typeof window.updateCabinSelectorButtonUI === 'function') {
+      window.updateCabinSelectorButtonUI();
+    }
+
+    setTimeout(() => {
+      if (typeof updateNavSlidingPill === 'function') updateNavSlidingPill();
+    }, 60);
+
+    if (notify) {
+      const toastPrefix = window.t ? window.t('toast_lang_changed', 'Language switched to') : 'Language switched to';
+      showToast(`${toastPrefix} ${lang.name} (${lang.native})`, 'info');
+    }
+  }
+
+  function initLanguageSelector() {
+    const wrap = document.getElementById('language-dropdown-wrap');
+    const selBtn = document.getElementById('language-selector-btn');
+    const optionsList = document.getElementById('language-options-list');
+    const mobileSelect = document.getElementById('mobile-language-select');
+
+    if (!wrap || !selBtn) return;
+
+    // Load saved language or default to EN
+    let saved = 'EN';
+    try {
+      saved = localStorage.getItem('airasia_selected_language') || 'EN';
+    } catch {
+      saved = 'EN';
+    }
+    if (!LANGUAGES[saved]) saved = 'EN';
+    State.selectedLanguage = saved;
+
+    // Populate dropdown options
+    if (optionsList) {
+      optionsList.innerHTML = '';
+      Object.keys(LANGUAGES).forEach(lCode => {
+        const l = LANGUAGES[lCode];
+        const isSel = lCode === saved;
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = `language-option-item ${isSel ? 'active' : ''}`;
+        btn.dataset.language = lCode;
+        btn.setAttribute('role', 'option');
+        btn.setAttribute('aria-selected', isSel ? 'true' : 'false');
+        btn.innerHTML = `
+          <div class="language-option-left">
+            <span class="language-option-flag">${l.flag}</span>
+            <span class="language-option-code">${l.code}</span>
+            <span class="language-option-name">${escapeHtml(l.name)} (${escapeHtml(l.native)})</span>
+          </div>
+          <span class="language-option-check">✓</span>
+        `;
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          setLanguage(lCode, true);
+        });
+        optionsList.appendChild(btn);
+      });
+    }
+
+    // Populate mobile select
+    if (mobileSelect) {
+      mobileSelect.innerHTML = '';
+      Object.keys(LANGUAGES).forEach(lCode => {
+        const l = LANGUAGES[lCode];
+        const opt = document.createElement('option');
+        opt.value = lCode;
+        opt.textContent = `${l.flag} ${l.code} - ${l.name} (${l.native})`;
+        if (lCode === saved) opt.selected = true;
+        mobileSelect.appendChild(opt);
+      });
+      mobileSelect.addEventListener('change', (e) => {
+        setLanguage(e.target.value, true);
+      });
+    }
+
+    // Toggle dropdown on button click
+    selBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const currWrap = document.getElementById('currency-dropdown-wrap');
+      if (currWrap) {
+        currWrap.classList.remove('open');
+        const cBtn = document.getElementById('currency-selector-btn');
+        if (cBtn) cBtn.setAttribute('aria-expanded', 'false');
+      }
+      const userDropdown = document.getElementById('header-user-dropdown');
+      if (userDropdown) userDropdown.classList.remove('open');
+
+      const isOpen = wrap.classList.toggle('open');
+      selBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    });
+
+    // Close when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!wrap.contains(e.target)) {
+        wrap.classList.remove('open');
+        selBtn.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && wrap.classList.contains('open')) {
+        wrap.classList.remove('open');
+        selBtn.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    // Apply saved language without notification on init
+    setLanguage(saved, false);
+  }
+
+  // Enforce Default Pure Dark Mode
+  State.theme = 'dark';
+  try {
+    localStorage.removeItem('airasia_theme');
+  } catch (e) {}
+  document.documentElement.setAttribute('data-theme', 'dark');
+  document.documentElement.classList.add('dark-theme');
+  document.documentElement.classList.remove('light-theme');
 
   function calculateNights(checkIn, checkOut) {
     const d1 = new Date(checkIn);
@@ -1694,8 +1975,18 @@
             baggageAllowance: baggage,
             hasCheckedBag,
             adultPrice: adultBase,
-            seatPitch: f.seatPitch || (cabin === 'Premium Flatbed' ? '59 inches • Full Flatbed' : '29 inches standard • Leather seats'),
-            mealOption: cabin === 'Premium Flatbed' ? 'Complimentary Santan Meal included' : 'Santan in-flight meals available for pre-order'
+            seatPitch: f.seatPitch || (
+              cabin === 'First Class' ? '78 inches • Private Enclosed Suite with Sliding Door' :
+              cabin === 'Business Class' ? '64 inches • 180° Direct-Aisle Lie-Flat Suite' :
+              cabin === 'Premium Flatbed' ? '59 inches • Full Flatbed' :
+              '29 inches standard • Leather seats'
+            ),
+            mealOption: f.mealOption || (
+              cabin === 'First Class' ? 'Royal Caviar & Multi-Course Chef Dining, Dom Pérignon' :
+              cabin === 'Business Class' ? 'Executive Santan Gourmet Dining, Fine Wine & Champagne' :
+              cabin === 'Premium Flatbed' ? 'Complimentary Santan Gourmet Meal included' :
+              'Santan in-flight meals available for pre-order'
+            )
           };
         });
       }
@@ -1726,12 +2017,14 @@
       baseDistanceFare = 34500;
     }
 
-    // Generate 5 schedule slots
+    // Generate 7 schedule slots covering all 4 cabin classes
     const schedules = [
       { flightNo: 'AK-71', airline: 'AirAsia', depHour: 1, depMin: 25, aircraft: 'Airbus A320neo', stopType: 'direct', priceVar: 0, cabinClass: 'Economy', baggage: '7 kg Cabin Baggage included', hasChecked: false },
-      { flightNo: 'D7-182', airline: 'AirAsia X', depHour: 7, depMin: 45, aircraft: 'Airbus A330-300', stopType: 'direct', priceVar: 1800, cabinClass: 'Premium Flatbed', baggage: '20 kg Checked + 7 kg Cabin included', hasChecked: true },
-      { flightNo: 'AK-77', airline: 'AirAsia', depHour: 13, depMin: 15, aircraft: 'Airbus A320', stopType: 'direct', priceVar: -900, cabinClass: 'Economy', baggage: '7 kg Cabin Baggage included', hasChecked: false },
-      { flightNo: 'FD-312', airline: 'Thai AirAsia', depHour: 18, depMin: 30, aircraft: 'Airbus A320neo', stopType: 'direct', priceVar: 2400, cabinClass: 'Economy', baggage: '20 kg Checked + 7 kg Cabin included', hasChecked: true },
+      { flightNo: 'D7-182', airline: 'AirAsia X', depHour: 7, depMin: 45, aircraft: 'Airbus A330-300', stopType: 'direct', priceVar: 18000, cabinClass: 'Premium Flatbed', baggage: '25 kg Checked + 7 kg Cabin included', hasChecked: true },
+      { flightNo: 'AK-516', airline: 'AirAsia Executive', depHour: 11, depMin: 15, aircraft: 'Airbus A330-900neo', stopType: 'direct', priceVar: 32000, cabinClass: 'Business Class', baggage: '40 kg Checked + 2x 7 kg Cabin included', hasChecked: true },
+      { flightNo: 'D7-990', airline: 'AirAsia X Prestige', depHour: 23, depMin: 45, aircraft: 'Airbus A350-1000 Prestige Suite', stopType: 'direct', priceVar: 72000, cabinClass: 'First Class', baggage: '50 kg Checked + 2x 10 kg Cabin included', hasChecked: true },
+      { flightNo: 'AK-77', airline: 'AirAsia', depHour: 14, depMin: 30, aircraft: 'Airbus A320', stopType: 'direct', priceVar: -900, cabinClass: 'Economy', baggage: '7 kg Cabin Baggage included', hasChecked: false },
+      { flightNo: 'AK-702', airline: 'AirAsia Executive', depHour: 18, depMin: 20, aircraft: 'Boeing 787-9 Dreamliner', stopType: 'direct', priceVar: 34500, cabinClass: 'Business Class', baggage: '40 kg Checked + 2x 7 kg Cabin included', hasChecked: true },
       { flightNo: 'QZ-204', airline: 'Indonesia AirAsia', depHour: 10, depMin: 10, aircraft: 'Airbus A320', stopType: '1stop', extraMins: 110, priceVar: -3200, cabinClass: 'Economy', baggage: '7 kg Cabin Baggage included', hasChecked: false }
     ];
 
@@ -1777,8 +2070,18 @@
         baggageAllowance: slot.baggage,
         hasCheckedBag: slot.hasChecked,
         adultPrice: adultBase,
-        seatPitch: slot.cabinClass === 'Premium Flatbed' ? '59 inches • Full Flatbed' : '29 inches standard • Leather seats',
-        mealOption: slot.cabinClass === 'Premium Flatbed' ? 'Complimentary Santan Meal included' : 'Santan in-flight meals available for pre-order'
+        seatPitch: slot.seatPitch || (
+          slot.cabinClass === 'First Class' ? '78 inches • Private Enclosed Suite with Sliding Door' :
+          slot.cabinClass === 'Business Class' ? '64 inches • 180° Direct-Aisle Lie-Flat Suite' :
+          slot.cabinClass === 'Premium Flatbed' ? '59 inches • Full Flatbed' :
+          '29 inches standard • Leather seats'
+        ),
+        mealOption: slot.mealOption || (
+          slot.cabinClass === 'First Class' ? 'Royal Caviar & Multi-Course Chef Dining, Dom Pérignon' :
+          slot.cabinClass === 'Business Class' ? 'Executive Santan Gourmet Dining, Fine Wine & Champagne' :
+          slot.cabinClass === 'Premium Flatbed' ? 'Complimentary Santan Gourmet Meal included' :
+          'Santan in-flight meals available for pre-order'
+        )
       };
     });
   }
@@ -1990,6 +2293,10 @@
       showAuthTab(isSignUpActive ? 'signup' : 'signin');
     }
 
+    if (window.applyLanguageTranslations) {
+      window.applyLanguageTranslations(State.selectedLanguage || 'EN');
+    }
+
     setTimeout(() => {
       observeScrollRevealElements();
     }, 60);
@@ -2027,6 +2334,10 @@
         btn.classList.add('active');
         const type = btn.dataset.tripType;
         State.flightSearch.tripType = type;
+        const searchCard = document.getElementById('flight-search-card');
+        if (searchCard) {
+          searchCard.classList.toggle('is-round-trip', type === 'round');
+        }
         if (returnDateGroup) {
           returnDateGroup.style.display = type === 'round' ? 'flex' : 'none';
         }
@@ -2081,6 +2392,9 @@
     // Passengers Popover
     setupPassengersSelector();
 
+    // Cabin Class Selector
+    setupCabinSelector();
+
     // Flight Search Submit
     const searchBtn = document.getElementById('btn-search-flights');
     if (searchBtn) {
@@ -2100,6 +2414,12 @@
         State.flightSearch.destination = 'KUL';
         updateAirportDisplay('origin', 'DAC');
         updateAirportDisplay('destination', 'KUL');
+
+        // Reset cabin to Economy
+        State.flightSearch.cabin = 'Economy';
+        if (typeof window.updateCabinSelectorButtonUI === 'function') {
+          window.updateCabinSelectorButtonUI();
+        }
 
         // Reset dates
         const todayStr = new Date().toISOString().split('T')[0];
@@ -2223,9 +2543,13 @@
     function updateSummary() {
       const { adults, children, infants } = State.flightSearch;
       const total = adults + children + infants;
-      let text = `${adults} Adult${adults > 1 ? 's' : ''}`;
-      if (children > 0) text += `, ${children} Child${children > 1 ? 'ren' : ''}`;
-      if (infants > 0) text += `, ${infants} Infant${infants > 1 ? 's' : ''}`;
+      let text = adults > 1 ? `${adults} ${(window.t ? window.t('pax_adults', 'Adults') : 'Adults')}` : `${adults} ${(window.t ? window.t('pax_adult_singular', 'Adult') : 'Adult')}`;
+      if (children > 0) {
+        text += `, ${children} ${children > 1 ? (window.t ? window.t('pax_children', 'Children') : 'Children') : (window.t ? window.t('pax_child_singular', 'Child') : 'Child')}`;
+      }
+      if (infants > 0) {
+        text += `, ${infants} ${infants > 1 ? (window.t ? window.t('pax_infants', 'Infants') : 'Infants') : (window.t ? window.t('pax_infant_singular', 'Infant') : 'Infant')}`;
+      }
       if (summaryEl) summaryEl.textContent = text;
 
       // Update counters in popover
@@ -2300,6 +2624,143 @@
     updateSummary();
   }
 
+  function setupCabinSelector() {
+    const wrapper = document.getElementById('cabin-selector-wrapper');
+    const btn = document.getElementById('cabin-selector-btn');
+    const menu = document.getElementById('cabin-dropdown-menu');
+    const nameEl = document.getElementById('cabin-btn-name');
+    const iconEl = document.getElementById('cabin-btn-icon');
+    const badgeEl = document.getElementById('cabin-btn-badge');
+    const optionCards = document.querySelectorAll('.cabin-option-card');
+
+    if (!btn || !menu) return;
+
+    const cabinConfig = {
+      'Economy': {
+        icon: '💺',
+        nameKey: 'cabin_economy',
+        defaultName: 'Economy',
+        tagKey: 'tag_economy',
+        defaultTag: 'Best Value',
+        tierClass: 'tier-economy'
+      },
+      'Premium Flatbed': {
+        icon: '🛌',
+        nameKey: 'cabin_flatbed',
+        defaultName: 'Premium Flatbed',
+        tagKey: 'tag_flatbed',
+        defaultTag: 'Lie-Flat',
+        tierClass: 'tier-flatbed'
+      },
+      'Business Class': {
+        icon: '💼',
+        nameKey: 'cabin_business',
+        defaultName: 'Business Class',
+        tagKey: 'tag_business',
+        defaultTag: 'Executive VIP',
+        tierClass: 'tier-business'
+      },
+      'First Class': {
+        icon: '👑',
+        nameKey: 'cabin_first',
+        defaultName: 'First Class',
+        tagKey: 'tag_first',
+        defaultTag: 'Presidential Suite',
+        tierClass: 'tier-first'
+      }
+    };
+
+    function updateButtonUI(cabin) {
+      const cfg = cabinConfig[cabin] || cabinConfig['Economy'];
+      if (iconEl) iconEl.textContent = cfg.icon;
+      if (nameEl) {
+        nameEl.textContent = window.t ? window.t(cfg.nameKey, cfg.defaultName) : cfg.defaultName;
+        nameEl.setAttribute('data-i18n', cfg.nameKey);
+      }
+      if (badgeEl) {
+        badgeEl.textContent = window.t ? window.t(cfg.tagKey, cfg.defaultTag) : cfg.defaultTag;
+        badgeEl.setAttribute('data-i18n', cfg.tagKey);
+      }
+
+      // Update button tier class
+      btn.classList.remove('tier-economy', 'tier-flatbed', 'tier-business', 'tier-first');
+      btn.classList.add(cfg.tierClass);
+
+      // Update active option
+      optionCards.forEach(card => {
+        const isMatch = card.dataset.cabin === cabin;
+        card.classList.toggle('active', isMatch);
+        card.setAttribute('aria-selected', isMatch ? 'true' : 'false');
+      });
+    }
+
+    // Toggle dropdown
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      // Close other popovers
+      document.querySelectorAll('.airport-dropdown-menu, #passengers-popover, #currency-dropdown-wrap, #language-dropdown-wrap').forEach(el => {
+        el.classList.remove('open');
+      });
+
+      const isOpen = menu.classList.toggle('open');
+      if (wrapper) wrapper.classList.toggle('open', isOpen);
+      btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    });
+
+    // Option cards click
+    optionCards.forEach(card => {
+      card.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const selectedCabin = card.dataset.cabin;
+        if (!selectedCabin) return;
+
+        State.flightSearch.cabin = selectedCabin;
+        updateButtonUI(selectedCabin);
+
+        // Close menu
+        menu.classList.remove('open');
+        if (wrapper) wrapper.classList.remove('open');
+        btn.setAttribute('aria-expanded', 'false');
+
+        // Play micro pulse on button
+        btn.classList.add('pulse-pop');
+        setTimeout(() => btn.classList.remove('pulse-pop'), 450);
+
+        // Toast feedback
+        const cfg = cabinConfig[selectedCabin] || cabinConfig['Economy'];
+        const translatedName = window.t ? window.t(cfg.nameKey, cfg.defaultName) : cfg.defaultName;
+        const toastPrefix = window.t ? window.t('toast_cabin_changed', 'Cabin class selected:') : 'Cabin class selected:';
+        showToast(`${toastPrefix} ${translatedName}`, 'info');
+      });
+    });
+
+    // Close on outside click
+    document.addEventListener('click', (e) => {
+      if (wrapper && !wrapper.contains(e.target)) {
+        menu.classList.remove('open');
+        if (wrapper) wrapper.classList.remove('open');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    // Close on Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && menu.classList.contains('open')) {
+        menu.classList.remove('open');
+        if (wrapper) wrapper.classList.remove('open');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    // Expose for language updates
+    window.updateCabinSelectorButtonUI = () => {
+      updateButtonUI(State.flightSearch.cabin || 'Economy');
+    };
+
+    // Initialize with current state
+    updateButtonUI(State.flightSearch.cabin || 'Economy');
+  }
+
   function handleFlightSearchSubmit() {
     const errorEl = document.getElementById('flight-search-error');
     if (errorEl) {
@@ -2352,8 +2813,16 @@
       tripType,
       adults,
       children: State.flightSearch.children,
-      infants
+      infants,
+      cabin: State.flightSearch.cabin || 'Economy'
     };
+
+    // If user selected a specific cabin class in search, filter to it initially
+    if (State.flightSearch.cabin && State.flightSearch.cabin !== 'all') {
+      State.flightResults.filters.cabin = State.flightSearch.cabin;
+    } else {
+      State.flightResults.filters.cabin = 'all';
+    }
 
     renderFlightResultsView();
     switchView('flight-results');
@@ -2395,8 +2864,19 @@
 
     if (summaryMetaEl) {
       const paxCount = s.adults + s.children + s.infants;
-      const tripText = s.tripType === 'round' ? `Round Trip • Dep: ${formatDisplayDate(s.departureDate)} - Ret: ${formatDisplayDate(s.returnDate)}` : `One Way • ${formatDisplayDate(s.departureDate)}`;
-      summaryMetaEl.textContent = `${tripText} • ${paxCount} Passenger${paxCount > 1 ? 's' : ''} • Economy`;
+      const roundLabel = window.t ? window.t('trip_round', 'Round-trip') : 'Round Trip';
+      const onewayLabel = window.t ? window.t('trip_oneway', 'One-way') : 'One Way';
+      const tripText = s.tripType === 'round' ? `${roundLabel} • Dep: ${formatDisplayDate(s.departureDate)} - Ret: ${formatDisplayDate(s.returnDate)}` : `${onewayLabel} • ${formatDisplayDate(s.departureDate)}`;
+      const paxLabel = paxCount > 1 ? (window.t ? window.t('nav_passengers', 'Passengers') : 'Passengers') : (window.t ? window.t('pax_passenger', 'Passenger') : 'Passenger');
+      let cabinLabel = window.t ? window.t('cabin_economy', 'Economy') : 'Economy';
+      if (s.cabin === 'Premium Flatbed') {
+        cabinLabel = window.t ? window.t('cabin_flatbed', 'Premium Flatbed') : 'Premium Flatbed';
+      } else if (s.cabin === 'Business Class') {
+        cabinLabel = window.t ? window.t('cabin_business', 'Business Class') : 'Business Class';
+      } else if (s.cabin === 'First Class') {
+        cabinLabel = window.t ? window.t('cabin_first', 'First Class') : 'First Class';
+      }
+      summaryMetaEl.textContent = `${tripText} • ${paxCount} ${paxLabel} • ${cabinLabel}`;
     }
 
     // Step banner for round trips
@@ -2404,14 +2884,17 @@
       if (s.tripType === 'round') {
         stepBanner.style.display = 'flex';
         const isOutbound = State.flightResults.activeRoundTripStep === 'outbound';
+        const step1Text = window.t ? window.t('results_step_1', 'Step 1 of 2: Select Outbound Flight') : 'Step 1 of 2: Select Outbound Flight';
+        const step2Text = window.t ? window.t('results_step_2', 'Step 2 of 2: Select Return Flight') : 'Step 2 of 2: Select Return Flight';
+        const changeOutboundText = window.t ? window.t('btn_change_outbound', 'Change Outbound') : 'Change Outbound';
         stepBanner.innerHTML = `
           <div>
-            <strong>${isOutbound ? 'Step 1 of 2: Select Outbound Flight' : 'Step 2 of 2: Select Return Flight'}</strong>
+            <strong>${isOutbound ? step1Text : step2Text}</strong>
             <span style="margin-left: 8px; font-weight: normal;">
               ${isOutbound ? `${orig.city} to ${dest.city} on ${formatDisplayDate(s.departureDate)}` : `${dest.city} to ${orig.city} on ${formatDisplayDate(s.returnDate)}`}
             </span>
           </div>
-          ${State.flightResults.selectedOutbound && !isOutbound ? `<button id="btn-back-to-outbound" style="font-size:12px; font-weight:700; color:var(--primary); text-decoration:underline;">Change Outbound</button>` : ''}
+          ${State.flightResults.selectedOutbound && !isOutbound ? `<button id="btn-back-to-outbound" style="font-size:12px; font-weight:700; color:var(--primary); text-decoration:underline;">${changeOutboundText}</button>` : ''}
         `;
 
         const backBtn = document.getElementById('btn-back-to-outbound');
@@ -2466,6 +2949,7 @@
     });
 
     cabinRadios.forEach(radio => {
+      radio.checked = radio.value === State.flightResults.filters.cabin;
       radio.onchange = (e) => {
         State.flightResults.filters.cabin = e.target.value;
         renderFlightCards();
@@ -2479,23 +2963,49 @@
       };
     });
 
+    function syncPriceSort(val) {
+      State.flightResults.sortBy = val;
+      if (sortSelect) sortSelect.value = val;
+      const pRadios = document.querySelectorAll('input[name="filter-price-sort"]');
+      pRadios.forEach(r => { r.checked = (r.value === val); });
+      const bAsc = document.getElementById('btn-price-filter-asc');
+      const bDesc = document.getElementById('btn-price-filter-desc');
+      if (bAsc) bAsc.classList.toggle('active', val === 'price-asc');
+      if (bDesc) bDesc.classList.toggle('active', val === 'price-desc');
+      renderFlightCards();
+    }
+
     if (sortSelect) {
-      sortSelect.onchange = (e) => {
-        State.flightResults.sortBy = e.target.value;
-        renderFlightCards();
-      };
+      sortSelect.value = State.flightResults.sortBy;
+      sortSelect.onchange = (e) => syncPriceSort(e.target.value);
+    }
+
+    const priceSortRadios = document.querySelectorAll('input[name="filter-price-sort"]');
+    priceSortRadios.forEach(radio => {
+      radio.checked = (radio.value === State.flightResults.sortBy);
+      radio.onchange = (e) => syncPriceSort(e.target.value);
+    });
+
+    const btnPriceAsc = document.getElementById('btn-price-filter-asc');
+    if (btnPriceAsc) {
+      btnPriceAsc.onclick = () => syncPriceSort('price-asc');
+    }
+
+    const btnPriceDesc = document.getElementById('btn-price-filter-desc');
+    if (btnPriceDesc) {
+      btnPriceDesc.onclick = () => syncPriceSort('price-desc');
     }
 
     if (resetBtn) {
       resetBtn.onclick = () => {
-        State.flightResults.filters = { maxPrice: 60000, stops: 'all', depTime: 'all', cabin: 'all', baggage: 'all' };
-        if (priceSlider) priceSlider.value = 60000;
-        if (priceVal) priceVal.textContent = formatBDT(60000);
+        State.flightResults.filters = { maxPrice: 150000, stops: 'all', depTime: 'all', cabin: 'all', baggage: 'all' };
+        if (priceSlider) priceSlider.value = 150000;
+        if (priceVal) priceVal.textContent = formatBDT(150000);
         stopsRadios.forEach(r => r.checked = r.value === 'all');
         timeRadios.forEach(r => r.checked = r.value === 'all');
         cabinRadios.forEach(r => r.checked = r.value === 'all');
         baggageRadios.forEach(r => r.checked = r.value === 'all');
-        renderFlightCards();
+        syncPriceSort('price-asc');
       };
     }
   }
@@ -2526,8 +3036,7 @@
 
       // Cabin filter
       if (f.cabin && f.cabin !== 'all') {
-        if (f.cabin === 'Premium Flatbed' && fl.cabinClass !== 'Premium Flatbed') return false;
-        if (f.cabin === 'Economy' && fl.cabinClass === 'Premium Flatbed') return false;
+        if (fl.cabinClass !== f.cabin) return false;
       }
 
       // Baggage filter
@@ -2546,7 +3055,8 @@
     });
 
     if (countEl) {
-      countEl.textContent = `${filtered.length} flight${filtered.length === 1 ? '' : 's'} available`;
+      const availText = window.t ? window.t('flight_available', 'flights available') : 'flights available';
+      countEl.textContent = `${filtered.length} ${availText}`;
     }
 
     if (filtered.length === 0) {
@@ -2557,9 +3067,9 @@
               <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
             </svg>
           </div>
-          <h3 class="empty-state-title">No matching flights found</h3>
-          <p class="empty-state-desc">Try adjusting your price slider, time slot, cabin class, or stop filters to see available flights.</p>
-          <button class="btn-outline" id="btn-empty-reset" style="margin-top: 12px; width: auto; padding: 10px 24px;">Reset Filters</button>
+          <h3 class="empty-state-title">${window.t ? window.t('no_flights_title', 'No matching flights found') : 'No matching flights found'}</h3>
+          <p class="empty-state-desc">${window.t ? window.t('no_flights_desc', 'Try adjusting your price slider, time slot, cabin class, or stop filters to see available flights.') : 'Try adjusting your price slider, time slot, cabin class, or stop filters to see available flights.'}</p>
+          <button class="btn-outline" id="btn-empty-reset" style="margin-top: 12px; width: auto; padding: 10px 24px;">${window.t ? window.t('filter_clear_all', 'Reset Filters') : 'Reset Filters'}</button>
         </div>
       `;
       const btn = document.getElementById('btn-empty-reset');
@@ -2578,6 +3088,26 @@
       const infantPrice = Math.round(flight.adultPrice * 0.15);
       const totalPrice = (flight.adultPrice * adults) + (childPrice * children) + (infantPrice * infants);
 
+      const directLabel = window.t ? window.t('flight_card_direct', 'Direct') : 'Direct';
+      const oneStopLabel = window.t ? window.t('flight_card_1stop', '1 Stop') : '1 Stop';
+      const stopsText = flight.isDirect ? directLabel : (flight.stops === '1 Stop' ? oneStopLabel : flight.stops);
+      const perAdultText = window.t ? window.t('flight_per_adult', '/ adult') : '/ adult';
+      const selectFlightText = window.t ? window.t('flight_card_select', 'Select Flight') : 'Select Flight';
+      const flightDetailsText = window.t ? window.t('flight_card_details', 'Flight Details') : 'Flight Details';
+
+      let cabinBadgeClass = 'economy';
+      let cabinIcon = '💺';
+      if (flight.cabinClass === 'Premium Flatbed') {
+        cabinBadgeClass = 'flatbed';
+        cabinIcon = '🛌';
+      } else if (flight.cabinClass === 'Business Class') {
+        cabinBadgeClass = 'business';
+        cabinIcon = '💼';
+      } else if (flight.cabinClass === 'First Class') {
+        cabinBadgeClass = 'first-class';
+        cabinIcon = '👑';
+      }
+
       const card = document.createElement('div');
       card.className = 'flight-card';
       card.innerHTML = `
@@ -2586,8 +3116,8 @@
             <span class="airline-name">${escapeHtml(flight.airline)}</span>
             <span class="flight-number">${escapeHtml(flight.flightNumber)}</span>
             <span class="aircraft-type">${escapeHtml(flight.aircraft)}</span>
-            <span class="cabin-badge ${flight.cabinClass === 'Premium Flatbed' ? 'flatbed' : 'economy'}" style="margin-top:4px; display:inline-block; font-size:11px; font-weight:700; padding:2px 8px; border-radius:4px; background:${flight.cabinClass === 'Premium Flatbed' ? 'rgba(227,37,38,0.12)' : 'var(--bg-light)'}; color:${flight.cabinClass === 'Premium Flatbed' ? 'var(--primary)' : 'var(--text-muted)'};">
-              ${escapeHtml(flight.cabinClass || 'Economy')}
+            <span class="cabin-badge ${cabinBadgeClass}">
+              <span class="cabin-badge-icon">${cabinIcon}</span> ${escapeHtml(flight.cabinClass || 'Economy')}
             </span>
           </div>
 
@@ -2604,7 +3134,7 @@
                   <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
                 </svg>
               </div>
-              <div class="flight-stops-text ${flight.isDirect ? '' : 'has-stop'}">${escapeHtml(flight.stops)}</div>
+              <div class="flight-stops-text ${flight.isDirect ? '' : 'has-stop'}">${escapeHtml(stopsText)}</div>
             </div>
 
             <div class="time-point arr">
@@ -2615,9 +3145,9 @@
 
           <div class="flight-action-col">
             <div class="flight-price-total">${formatBDT(totalPrice)}</div>
-            <div class="flight-price-per-pax">${formatBDT(flight.adultPrice)} / adult</div>
+            <div class="flight-price-per-pax">${formatBDT(flight.adultPrice)} ${perAdultText}</div>
             <button class="btn-select-flight" data-flight-id="${escapeHtml(flight.id)}">
-              Select Flight
+              ${selectFlightText}
             </button>
           </div>
         </div>
@@ -2631,7 +3161,7 @@
             <span>${escapeHtml(flight.baggageAllowance)}</span>
           </div>
           <button class="btn-toggle-details" data-target="details-${escapeHtml(flight.id)}">
-            <span>Flight Details</span>
+            <span>${flightDetailsText}</span>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M6 9l6 6 6-6"/>
             </svg>
@@ -2652,14 +3182,13 @@
               <div class="detail-item-desc">
                 Craft: ${escapeHtml(flight.aircraft)}<br>
                 Seat Pitch: ${escapeHtml(flight.seatPitch)}<br>
-                Class: Economy (Demo Fare)
+                Class: ${escapeHtml(flight.cabinClass || 'Economy')}
               </div>
             </div>
             <div>
               <div class="detail-item-title">Baggage & Meals</div>
               <div class="detail-item-desc">
-                Cabin: 7 kg included<br>
-                Check-in: Up to 30 kg available in booking add-ons<br>
+                Allowance: ${escapeHtml(flight.baggageAllowance)}<br>
                 ${escapeHtml(flight.mealOption)}
               </div>
             </div>
@@ -2789,12 +3318,18 @@
       }
     }
 
-    // Auto-fill contact info if logged in
+    // Auto-fill contact info with demo credentials (sanitizing any personal email)
     const emailInput = document.getElementById('contact-email');
     const phoneInput = document.getElementById('contact-phone');
-    if (currentUser) {
-      if (emailInput && !emailInput.value) emailInput.value = currentUser.email;
-      if (phoneInput && !phoneInput.value) phoneInput.value = '+880 1712-345678';
+    if (emailInput) {
+      if (currentUser && currentUser.email && !currentUser.email.includes('yasinchowdhury')) {
+        emailInput.value = currentUser.email;
+      } else {
+        emailInput.value = 'demo.traveler@airasia.com';
+      }
+    }
+    if (phoneInput) {
+      phoneInput.value = (currentUser && currentUser.phone) ? currentUser.phone : '+880 1712 345678';
     }
 
     // Initialize Aircraft Seat Selection
@@ -2845,7 +3380,7 @@
         </div>
         <div>
           <label class="form-label" for="${idPrefix}-first">First Name</label>
-          <input type="text" class="input-standard" id="${idPrefix}-first" placeholder="e.g. Yasin" value="${escapeHtml(firstName)}" required />
+          <input type="text" class="input-standard" id="${idPrefix}-first" placeholder="e.g. Alex" value="${escapeHtml(firstName)}" required />
         </div>
         <div>
           <label class="form-label" for="${idPrefix}-last">Last Name</label>
@@ -3282,7 +3817,7 @@
         const numInput = document.getElementById('demo-card-number');
         const expInput = document.getElementById('demo-card-expiry');
         const cvvInput = document.getElementById('demo-card-cvv');
-        if (nameInput) nameInput.value = user ? user.name : 'Yasin Chowdhury';
+        if (nameInput) nameInput.value = user ? user.name : 'Demo Traveler';
         if (numInput) numInput.value = '4532 8888 8888 8888';
         if (expInput) expInput.value = '12/28';
         if (cvvInput) cvvInput.value = '888';
@@ -4010,10 +4545,10 @@
           </div>
           <div class="hotel-price-footer">
             <div>
-              <div class="hotel-price-night">${formatBDT(hotel.pricePerNight)}<span style="font-size:12px; font-weight:normal; color:var(--text-muted);">/night</span></div>
+              <div class="hotel-price-night">${formatBDT(hotel.pricePerNight)}<span style="font-size:12px; font-weight:normal; color:var(--text-muted);">${window.t ? (' ' + window.t('hotel_per_night', '/ night')) : '/night'}</span></div>
               <div class="hotel-total-stay">${formatBDT(totalStay)} total for ${nights} night${nights > 1 ? 's' : ''}, ${rooms} room${rooms > 1 ? 's' : ''}</div>
             </div>
-            <button class="btn-view-hotel" data-hotel-id="${escapeHtml(hotel.id)}">View Details</button>
+            <button class="btn-view-hotel" data-hotel-id="${escapeHtml(hotel.id)}">${window.t ? window.t('btn_view_details', 'View Details') : 'View Details'}</button>
           </div>
         </div>
       `;
@@ -4228,9 +4763,9 @@
                   <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
                 </svg>
               </div>
-              <h3 class="empty-state-title">No flight bookings yet. Start planning your next adventure.</h3>
-              <p class="empty-state-desc">Search direct flights across Southeast Asia with AirAsia fares.</p>
-              <button class="btn-search-main" id="btn-empty-goto-flight" style="padding: 10px 24px; font-size:14px; margin-top:8px;">Search Flights</button>
+              <h3 class="empty-state-title">${window.t ? window.t('bookings_empty_title', 'No bookings found') : 'No flight bookings yet.'}</h3>
+              <p class="empty-state-desc">${window.t ? window.t('bookings_empty_desc', 'You have not made any bookings yet.') : 'Search direct flights across Southeast Asia with AirAsia fares.'}</p>
+              <button class="btn-search-main" id="btn-empty-goto-flight" style="padding: 10px 24px; font-size:14px; margin-top:8px;">${window.t ? window.t('btn_search_flights', 'Search Flights') : 'Search Flights'}</button>
             </div>
           `;
           const btn = document.getElementById('btn-empty-goto-flight');
@@ -4266,16 +4801,16 @@
               <div style="display:flex; align-items:center; gap:20px;">
                 <div style="text-align:right;">
                   <div style="font-size:18px; font-weight:800; color:var(--primary);">${formatBDT(booking.totalPrice)}</div>
-                  <div style="font-size:11px; color:var(--text-muted);">Total Paid</div>
+                  <div style="font-size:11px; color:var(--text-muted);">${window.t ? window.t('total_paid_label', 'Total Paid') : 'Total Paid'}</div>
                 </div>
 
                 <div class="saved-booking-actions">
                   <button class="btn-outline btn-view-booking-details" data-id="${escapeHtml(booking.id)}" data-type="flight" style="padding: 8px 16px; font-size:13px;">
-                    View Details
+                    ${window.t ? window.t('btn_view_details', 'View Details') : 'View Details'}
                   </button>
                   ${booking.status !== 'Cancelled' ? `
                     <button class="btn-cancel-booking" data-id="${escapeHtml(booking.id)}" data-type="flight">
-                      Cancel Booking
+                      ${window.t ? window.t('btn_cancel_booking', 'Cancel Booking') : 'Cancel Booking'}
                     </button>
                   ` : ''}
                   <button type="button" class="btn-delete-booking" data-id="${escapeHtml(booking.id)}" data-type="flight" aria-label="Delete booking ${escapeHtml(booking.id)}">
@@ -4283,7 +4818,7 @@
                       <polyline points="3 6 5 6 21 6"/>
                       <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
                     </svg>
-                    <span>Delete</span>
+                    <span>${window.t ? window.t('btn_delete_booking', 'Delete') : 'Delete'}</span>
                   </button>
                 </div>
               </div>
@@ -4303,9 +4838,9 @@
                   <path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
                 </svg>
               </div>
-              <h3 class="empty-state-title">No hotel bookings yet. Start planning your next adventure.</h3>
-              <p class="empty-state-desc">Explore handpicked stays, resorts, and city hotels with best rate guarantees.</p>
-              <button class="btn-search-main" id="btn-empty-goto-hotel" style="padding: 10px 24px; font-size:14px; margin-top:8px;">Search Hotels</button>
+              <h3 class="empty-state-title">${window.t ? window.t('bookings_empty_title', 'No bookings found') : 'No hotel bookings yet.'}</h3>
+              <p class="empty-state-desc">${window.t ? window.t('bookings_empty_desc', 'You have not made any reservations yet.') : 'Explore handpicked stays, resorts, and city hotels with best rate guarantees.'}</p>
+              <button class="btn-search-main" id="btn-empty-goto-hotel" style="padding: 10px 24px; font-size:14px; margin-top:8px;">${window.t ? window.t('btn_search_hotels', 'Search Hotels') : 'Search Hotels'}</button>
             </div>
           `;
           const btn = document.getElementById('btn-empty-goto-hotel');
@@ -4330,16 +4865,16 @@
               <div style="display:flex; align-items:center; gap:20px;">
                 <div style="text-align:right;">
                   <div style="font-size:18px; font-weight:800; color:var(--primary);">${formatBDT(booking.totalPrice)}</div>
-                  <div style="font-size:11px; color:var(--text-muted);">Total Paid</div>
+                  <div style="font-size:11px; color:var(--text-muted);">${window.t ? window.t('total_paid_label', 'Total Paid') : 'Total Paid'}</div>
                 </div>
 
                 <div class="saved-booking-actions">
                   <button class="btn-outline btn-view-booking-details" data-id="${escapeHtml(booking.id)}" data-type="hotel" style="padding: 8px 16px; font-size:13px;">
-                    View Details
+                    ${window.t ? window.t('btn_view_details', 'View Details') : 'View Details'}
                   </button>
                   ${booking.status !== 'Cancelled' ? `
                     <button class="btn-cancel-booking" data-id="${escapeHtml(booking.id)}" data-type="hotel">
-                      Cancel Booking
+                      ${window.t ? window.t('btn_cancel_booking', 'Cancel Booking') : 'Cancel Booking'}
                     </button>
                   ` : ''}
                   <button type="button" class="btn-delete-booking" data-id="${escapeHtml(booking.id)}" data-type="hotel" aria-label="Delete booking ${escapeHtml(booking.id)}">
@@ -4347,7 +4882,7 @@
                       <polyline points="3 6 5 6 21 6"/>
                       <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
                     </svg>
-                    <span>Delete</span>
+                    <span>${window.t ? window.t('btn_delete_booking', 'Delete') : 'Delete'}</span>
                   </button>
                 </div>
               </div>
@@ -4672,7 +5207,7 @@
             </div>
             <span class="destination-country">${escapeHtml(item.country)}</span>
             <div class="destination-footer">
-              <span class="price-label" style="color: rgba(255, 255, 255, 0.85) !important;">Fares from</span>
+              <span class="price-label" style="color: rgba(255, 255, 255, 0.85) !important;">${window.t ? window.t('fares_from', 'Fares from') : 'Fares from'}</span>
               <span class="price-amount" style="color: #ffffff !important; font-weight: 800;">${formatBDT(item.price)}</span>
             </div>
           </div>
@@ -4708,7 +5243,7 @@
             <p>${escapeHtml(deal.desc)}</p>
           </div>
           <div class="deal-price">
-            <span style="font-size:11px; color:rgba(255, 255, 255, 0.88) !important; display:block; text-transform:uppercase; letter-spacing:0.4px; font-weight:600;">One Way from</span>
+            <span style="font-size:11px; color:rgba(255, 255, 255, 0.88) !important; display:block; text-transform:uppercase; letter-spacing:0.4px; font-weight:600;">${window.t ? window.t('fares_from', 'One Way from') : 'One Way from'}</span>
             <span class="deal-price-val" style="color: #ffffff !important; font-weight: 800;">${formatBDT(deal.price)}</span>
           </div>
         `;
@@ -4818,21 +5353,37 @@
       });
     });
 
-    // Mobile Hamburger button with outside click dismissal
     const hamburgerBtn = document.getElementById('hamburger-btn');
     const mobileDrawer = document.getElementById('mobile-drawer');
     if (hamburgerBtn && mobileDrawer) {
+      const toggleDrawer = (forceState) => {
+        const isOpen = forceState !== undefined ? forceState : !mobileDrawer.classList.contains('open');
+        mobileDrawer.classList.toggle('open', isOpen);
+        hamburgerBtn.classList.toggle('active', isOpen);
+        hamburgerBtn.setAttribute('aria-expanded', isOpen);
+        // Lock body scroll when drawer is open to prevent background scrolling
+        document.body.style.overflow = isOpen ? 'hidden' : '';
+      };
+
       hamburgerBtn.addEventListener('click', (e) => {
         e.stopPropagation();
-        mobileDrawer.classList.toggle('open');
+        toggleDrawer();
       });
 
       document.addEventListener('click', (e) => {
         if (mobileDrawer.classList.contains('open')) {
           if (!mobileDrawer.contains(e.target) && !hamburgerBtn.contains(e.target)) {
-            mobileDrawer.classList.remove('open');
+            toggleDrawer(false);
           }
         }
+      });
+
+      // Also close drawer when clicking a link inside it
+      const mobileNavLinks = mobileDrawer.querySelectorAll('.nav-link');
+      mobileNavLinks.forEach(link => {
+        link.addEventListener('click', () => {
+          toggleDrawer(false);
+        });
       });
     }
 
@@ -4897,6 +5448,51 @@
         switchView('flight');
       });
     });
+
+    // Hero CTA & Scroll Indicator Smooth Scroll Handlers
+    function initHeroScrollInteractions() {
+      const bookFlightBtn = document.getElementById('btn-hero-book-flights');
+      const flightScrollPrompt = document.getElementById('hero-scroll-prompt');
+      const dealsBtn = document.getElementById('btn-hero-deals-link');
+
+      function scrollToFlightCard(e) {
+        if (e) e.preventDefault();
+        const card = document.getElementById('flight-search-card');
+        if (card) {
+          card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          card.classList.add('pulse-highlight');
+          setTimeout(() => card.classList.remove('pulse-highlight'), 1200);
+        }
+      }
+
+      if (bookFlightBtn) bookFlightBtn.addEventListener('click', scrollToFlightCard);
+      if (flightScrollPrompt) flightScrollPrompt.addEventListener('click', scrollToFlightCard);
+
+      if (dealsBtn) {
+        dealsBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          const dealsPanel = document.getElementById('flight-deals-grid') || document.querySelector('.deals-showcase-panel');
+          if (dealsPanel) {
+            dealsPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        });
+      }
+
+      // Hotel Hero CTA & Scroll Indicator
+      const hotelCta = document.getElementById('btn-hero-search-hotels');
+      const hotelScrollPrompt = document.getElementById('hotel-scroll-prompt');
+      function scrollToHotelCard(e) {
+        if (e) e.preventDefault();
+        const card = document.getElementById('hotel-search-card');
+        if (card) {
+          card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          card.classList.add('pulse-highlight');
+          setTimeout(() => card.classList.remove('pulse-highlight'), 1200);
+        }
+      }
+      if (hotelCta) hotelCta.addEventListener('click', scrollToHotelCard);
+      if (hotelScrollPrompt) hotelScrollPrompt.addEventListener('click', scrollToHotelCard);
+    }
 
     // Modal Close Buttons
     document.querySelectorAll('.modal-close-btn, .btn-close-modal').forEach(btn => {
@@ -4988,6 +5584,12 @@
               const cBtn = document.getElementById('currency-selector-btn');
               if (cBtn) cBtn.setAttribute('aria-expanded', 'false');
             }
+            const langWrap = document.getElementById('language-dropdown-wrap');
+            if (langWrap && langWrap.classList.contains('open')) {
+              langWrap.classList.remove('open');
+              const lBtn = document.getElementById('language-selector-btn');
+              if (lBtn) lBtn.setAttribute('aria-expanded', 'false');
+            }
             const userDropdown = document.getElementById('header-user-dropdown');
             if (userDropdown && userDropdown.classList.contains('open')) {
               userDropdown.classList.remove('open');
@@ -5023,9 +5625,11 @@
     initCancelBookingModal();
     initDeleteBookingModal();
     initCurrencySelector();
+    initLanguageSelector();
     initFlightSearchForm();
     initHomeWidgets();
     initHotelSearchForm();
+    initHeroScrollInteractions();
     initScrollRevealObserver();
 
     // Initial View

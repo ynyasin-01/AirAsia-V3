@@ -45,7 +45,7 @@
   --shadow-card: 0 16px 36px -4px rgba(0, 0, 0, 0.6), 0 0 24px rgba(227, 37, 38, 0.12);
   --shadow-floating: 0 32px 70px -12px rgba(0, 0, 0, 0.85);
 
-  --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans", "Noto Sans Bengali", "Noto Sans Thai", "Noto Sans JP", "Noto Sans SC", sans-serif;
   --font-display: "Plus Jakarta Sans", var(--font-sans);
 
   /* Scroll-Linked Dynamic Blur & Ambient Layering Variables */
@@ -254,6 +254,7 @@ header#site-header:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1),
   display: flex;
   align-items: center;
   justify-content: space-between;
+  position: relative;
   height: 72px;
   border: none;
   transition: height 0.65s cubic-bezier(0.16, 1, 0.3, 1),
@@ -387,6 +388,74 @@ header#site-header:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > na
               background 0.65s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+@media (min-width: 992px) {
+  header#site-header:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > nav:nth-of-type(1),
+  .site-header .main-nav,
+  .main-nav,
+  header#site-header.scrolled .main-nav,
+  .site-header.scrolled .main-nav {
+    position: absolute !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    margin: 0 !important;
+    z-index: 50 !important;
+  }
+}
+
+/* Zero Overlap Protection Between Center Nav and Header Utilities */
+.brand-wrapper {
+  z-index: 60 !important;
+}
+
+.header-right {
+  z-index: 60 !important;
+}
+
+@media (min-width: 992px) and (max-width: 1360px) {
+  .main-nav {
+    padding: 3px !important;
+  }
+  .main-nav .nav-link {
+    padding: 5px 10px !important;
+    font-size: 12.5px !important;
+    gap: 4px !important;
+  }
+  .header-right {
+    gap: 6px !important;
+  }
+  .btn-auth-signin {
+    padding: 5px 11px !important;
+    font-size: 12px !important;
+  }
+  .currency-selector-btn.merged-locale-btn,
+  .language-selector-btn.merged-locale-btn {
+    padding: 4px 7px !important;
+    font-size: 12.5px !important;
+    gap: 4px !important;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1140px) {
+  .main-nav .nav-link svg {
+    display: none !important;
+  }
+  .main-nav .nav-link {
+    padding: 5px 8px !important;
+    font-size: 12px !important;
+  }
+  .btn-auth-signin span {
+    display: none !important;
+  }
+  .btn-auth-signin {
+    padding: 7px !important;
+    border-radius: var(--radius-full) !important;
+  }
+  .currency-btn-chevron,
+  .language-btn-chevron {
+    display: none !important;
+  }
+}
+
 /* Scrolled navigation panel - dynamic blur effect after scrolling, centered and sleek */
 header#site-header.scrolled > div:nth-of-type(1) > div:nth-of-type(1) > nav:nth-of-type(1),
 .site-header.scrolled .main-nav,
@@ -450,9 +519,9 @@ header#site-header:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > di
 .header-right {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   flex-shrink: 0;
-  max-width: 380px;
+  max-width: 520px;
   opacity: 1;
   transform: translateX(0) scale(1);
   transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
@@ -465,18 +534,22 @@ header#site-header:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > di
   white-space: nowrap;
 }
 
-/* Smooth and slow fade-out for currency, sign-in button, and utilities when scrolling down */
+/* Smooth and slow fade-out for currency, language, sign-in button, and utilities when scrolling down */
 .site-header.scrolled .header-right,
 header#site-header.scrolled .header-right,
+.site-header.scrolled .locale-merged-wrap,
+header#site-header.scrolled .locale-merged-wrap,
+.site-header.scrolled #locale-merged-wrap,
 .site-header.scrolled .currency-dropdown-wrap,
 header#site-header.scrolled .currency-dropdown-wrap,
+.site-header.scrolled .language-dropdown-wrap,
+header#site-header.scrolled .language-dropdown-wrap,
 .site-header.scrolled .header-auth-wrap,
 header#site-header.scrolled .header-auth-wrap,
 .site-header.scrolled #currency-dropdown-wrap,
+.site-header.scrolled #language-dropdown-wrap,
 .site-header.scrolled #btn-header-signin,
-.site-header.scrolled #header-user-wrap,
-.site-header.scrolled .hamburger-btn,
-header#site-header.scrolled .hamburger-btn {
+.site-header.scrolled #header-user-wrap {
   opacity: 0 !important;
   max-width: 0 !important;
   margin: 0 !important;
@@ -492,6 +565,74 @@ header#site-header.scrolled .hamburger-btn {
               margin 0.8s cubic-bezier(0.16, 1, 0.3, 1),
               gap 0.8s cubic-bezier(0.16, 1, 0.3, 1),
               visibility 0.7s ease !important;
+}
+
+/* ==========================================================================
+   Merged Currency & Language Capsule (Luxury, Compact, Zero Nav Overlap)
+   ========================================================================== */
+.locale-merged-wrap {
+  position: relative;
+  z-index: 120;
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.locale-pill-group {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(calc(16px + var(--scroll-blur-boost, 0px)));
+  -webkit-backdrop-filter: blur(calc(16px + var(--scroll-blur-boost, 0px)));
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: var(--radius-full);
+  padding: 3px 5px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.28), 0 1px 3px rgba(0, 0, 0, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.12);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.locale-pill-group:hover {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.locale-pill-divider {
+  width: 1px;
+  height: 16px;
+  background: rgba(255, 255, 255, 0.2);
+  margin: 0 3px;
+  flex-shrink: 0;
+}
+
+.currency-selector-btn.merged-locale-btn,
+.language-selector-btn.merged-locale-btn {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 5px 8px !important;
+  border-radius: var(--radius-full);
+  font-size: 13px;
+  font-weight: 700;
+  gap: 5px;
+  color: var(--text-main);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  transition: all 0.18s ease;
+  user-select: none;
+}
+
+.currency-selector-btn.merged-locale-btn:hover,
+.language-selector-btn.merged-locale-btn:hover {
+  background: rgba(255, 255, 255, 0.16) !important;
+  color: #FFFFFF !important;
+  transform: none !important;
+}
+
+.currency-selector-btn.merged-locale-btn:focus-visible,
+.language-selector-btn.merged-locale-btn:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 1px;
 }
 
 /* Interactive Currency Dropdown with Glossy Dark Glass & Refined Shadows */
@@ -560,7 +701,8 @@ header#site-header.scrolled .hamburger-btn {
 .currency-dropdown-menu {
   position: absolute;
   top: calc(100% + 8px);
-  right: 0;
+  left: 0;
+  right: auto;
   min-width: 270px;
   background: rgba(15, 23, 42, 0.96);
   backdrop-filter: blur(36px) saturate(210%);
@@ -693,19 +835,299 @@ header#site-header.scrolled .hamburger-btn {
   border-color: var(--primary);
 }
 
-.hamburger-btn {
-  display: none;
-  width: 42px;
-  height: 42px;
-  border-radius: var(--radius-md);
+/* Interactive Language Dropdown with Glossy Dark Glass & Refined Shadows */
+.language-dropdown-wrap {
+  position: relative;
+  z-index: 120;
+}
+
+.language-dropdown-wrap.open {
+  z-index: 130;
+}
+
+.language-selector-btn {
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
+  gap: 7px;
   background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(calc(16px + var(--scroll-blur-boost, 0px)));
+  -webkit-backdrop-filter: blur(calc(16px + var(--scroll-blur-boost, 0px)));
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  padding: 7px 13px;
+  border-radius: var(--radius-full);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-main);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  font-family: inherit;
+  user-select: none;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.28), 0 1px 3px rgba(0, 0, 0, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.15);
+}
+
+.language-selector-btn:hover {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.3);
+  color: #FFFFFF;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.38), 0 2px 6px rgba(0, 0, 0, 0.2), inset 0 1px 1px rgba(255, 255, 255, 0.25);
+}
+
+.language-selector-btn:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.language-btn-globe {
+  color: #38BDF8;
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 6px rgba(56, 189, 248, 0.4));
+}
+
+.language-btn-code {
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+.language-btn-chevron {
+  color: var(--text-muted);
+  transition: transform 0.2s ease;
+}
+
+.language-dropdown-wrap.open .language-btn-chevron {
+  transform: rotate(180deg);
+}
+
+.language-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 250px;
+  background: rgba(15, 23, 42, 0.96);
+  backdrop-filter: blur(36px) saturate(210%);
+  -webkit-backdrop-filter: blur(36px) saturate(210%);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 20px 48px -6px rgba(0, 0, 0, 0.75), 0 6px 18px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.15);
+  padding: 8px;
+  z-index: 1000;
+  display: none;
+  max-height: 380px;
+  overflow-y: auto;
+  white-space: normal;
+}
+
+.language-dropdown-wrap.open .language-dropdown-menu {
+  display: block;
+  animation: dropdownFade 0.15s ease-out;
+}
+
+.language-dropdown-title {
+  padding: 6px 12px 8px;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--text-muted);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 4px;
+}
+
+.language-option-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 9px 12px;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  border: none;
+  font-family: inherit;
+  font-size: 13px;
+  color: var(--text-main);
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.15s ease;
+}
+
+.language-option-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #FFFFFF;
+}
+
+.language-option-item.active {
+  background: rgba(227, 37, 38, 0.16);
+  color: #FFFFFF;
+  font-weight: 700;
+}
+
+.language-option-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.language-option-flag {
+  font-size: 16px;
+  line-height: 1;
+}
+
+.language-option-code {
+  font-weight: 800;
+  font-size: 13px;
+}
+
+.language-option-name {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.language-option-check {
+  color: var(--primary);
+  font-weight: bold;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.language-option-item.active .language-option-check {
+  opacity: 1;
+}
+
+/* Mobile drawer language select */
+.mobile-language-section {
+  padding: 12px 8px 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin-top: 8px;
+}
+
+.mobile-language-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.mobile-language-select {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(15, 23, 42, 0.8);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  color: var(--text-main);
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  font-size: 14px;
+  font-weight: 600;
+  color: #F8FAFC;
+  font-family: inherit;
+  outline: none;
+}
+
+.mobile-language-select:focus {
+  border-color: var(--primary);
+}
+
+
+
+/* Premium Animated Hamburger Menu with Glassmorphism */
+.hamburger-btn {
+  display: none;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-full);
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 5px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  padding: 0;
+}
+
+.hamburger-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.hamburger-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+}
+
+.hamburger-btn:hover::before {
+  opacity: 1;
+}
+
+.hamburger-btn:active {
+  transform: translateY(1px) scale(0.96);
+}
+
+.hamburger-line {
+  display: block;
+  width: 20px;
+  height: 2px;
+  background-color: var(--text-main);
+  border-radius: 2px;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+              opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+              width 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              background-color 0.3s ease;
+  transform-origin: center;
+}
+
+.hamburger-btn:hover .hamburger-line {
+  background-color: #FFFFFF;
+}
+
+.hamburger-btn .line-middle {
+  width: 14px;
+  align-self: flex-start;
+  margin-left: 12px;
+}
+
+.hamburger-btn:hover .line-middle {
+  width: 20px;
+  margin-left: 0;
+}
+
+/* Active State (X Animation) */
+.hamburger-btn.active .line-top {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.hamburger-btn.active .line-middle {
+  opacity: 0;
+  transform: translateX(-10px);
+}
+
+.hamburger-btn.active .line-bottom {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+.hamburger-btn.active {
+  background: rgba(227, 37, 38, 0.15);
+  border-color: rgba(227, 37, 38, 0.4);
+  box-shadow: 0 0 15px rgba(227, 37, 38, 0.2);
+}
+
+.hamburger-btn.active .hamburger-line {
+  background-color: #F87171;
 }
 
 /* Mobile Drawer with Dark Glass morphism and Smooth Slide */
@@ -756,20 +1178,17 @@ header#site-header.scrolled .hamburger-btn {
 main#app-main:nth-of-type(1) > section#view-flight:nth-of-type(1) > div:nth-of-type(1),
 .hero-section {
   position: relative;
-  min-height: 520px;
+  min-height: calc(100vh - 72px);
+  min-height: 88vh;
   margin-top: -72px; /* Pulls hero image up under the transparent glass header */
-  background: 
-    radial-gradient(ellipse 85% 65% at 28% 28%, rgba(16, 185, 129, 0.42) 0%, transparent 65%),
-    radial-gradient(ellipse 75% 55% at 75% 25%, rgba(6, 182, 212, 0.38) 0%, transparent 60%),
-    radial-gradient(ellipse 90% 45% at 50% 10%, rgba(168, 85, 247, 0.32) 0%, transparent 62%),
-    linear-gradient(180deg, rgba(5, 11, 24, 0.4) 0%, rgba(8, 18, 38, 0.55) 60%, rgba(5, 11, 24, 0.92) 100%),
-    url('https://images.unsplash.com/photo-1531366936337-7c912a4589a7?auto=format&fit=crop&w=2560&q=85') center 28% / cover no-repeat;
-  background-attachment: fixed;
+  background: transparent !important;
+  background-image: none !important;
   color: white;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 136px 0 140px; /* 72px header clearance + 64px content breathing space */
+  align-items: center;
+  padding: 160px 0 110px;
   will-change: background-position;
 }
 
@@ -849,10 +1268,11 @@ main#app-main:nth-of-type(1) > section#view-flight:nth-of-type(1) > div:nth-of-t
    Search Card (Floating over Hero with Glass Morphism Theme)
    ========================================================================== */
 .search-card-container {
-  margin-top: -100px;
+  margin-top: 80px; /* Pushes card into the 2nd fold / scroll, leaving hero clear */
   position: relative;
   z-index: 10;
-  margin-bottom: 48px;
+  margin-bottom: 64px;
+  scroll-margin-top: 96px;
 }
 
 .booking-search-card {
@@ -930,20 +1350,490 @@ div#flight-search-card {
   box-shadow: 0 4px 16px rgba(227, 37, 38, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.3);
 }
 
-.cabin-tag {
+/* Premium Animated Cabin Class Selector Button & Popover */
+.cabin-selector-wrapper {
+  position: relative;
+  display: inline-block;
+  z-index: 50;
+}
+
+.cabin-selector-btn {
+  position: relative;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  font-size: 13px;
-  font-weight: 700;
-  color: #F8FAFC;
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  padding: 7px 16px;
+  gap: 10px;
+  padding: 6px 16px 6px 12px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.04) 100%);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.22);
   border-radius: var(--radius-full);
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  color: #FFFFFF;
+  cursor: pointer;
+  font-family: inherit;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.28), inset 0 1px 1px rgba(255, 255, 255, 0.25);
+  overflow: hidden;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+  outline: none;
+}
+
+.cabin-selector-btn:hover {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.08) 100%);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35), 0 0 18px rgba(255, 255, 255, 0.15), inset 0 1px 2px rgba(255, 255, 255, 0.4);
+}
+
+.cabin-selector-wrapper.open .cabin-selector-btn {
+  border-color: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.4), inset 0 1px 2px rgba(255, 255, 255, 0.5);
+}
+
+.cabin-btn-shimmer {
+  position: absolute;
+  top: -50%;
+  left: -60%;
+  width: 45%;
+  height: 200%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+  transform: rotate(25deg);
+  animation: cabinShimmerSweep 5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  pointer-events: none;
+}
+
+@keyframes cabinShimmerSweep {
+  0% { transform: translateX(-120%) rotate(25deg); }
+  25%, 100% { transform: translateX(360%) rotate(25deg); }
+}
+
+.cabin-btn-sparkle {
+  font-size: 13px;
+  line-height: 1;
+  animation: sparkleBlink 3s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes sparkleBlink {
+  0%, 100% { opacity: 0.7; transform: scale(0.9); }
+  50% { opacity: 1; transform: scale(1.2); filter: drop-shadow(0 0 6px #FBBF24); }
+}
+
+.cabin-btn-icon {
+  font-size: 16px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.5));
+  transition: transform 0.25s ease;
+}
+
+.cabin-selector-btn:hover .cabin-btn-icon {
+  transform: scale(1.12);
+}
+
+.cabin-btn-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  line-height: 1.15;
+}
+
+.cabin-btn-sub {
+  font-size: 9.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.cabin-btn-name {
+  font-size: 13px;
+  font-weight: 800;
+  color: #FFFFFF;
+  letter-spacing: 0.2px;
+}
+
+.cabin-btn-badge {
+  font-size: 10px;
+  font-weight: 800;
+  padding: 2.5px 8px;
+  border-radius: var(--radius-full);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  transition: all 0.3s ease;
+}
+
+.cabin-btn-chevron {
+  stroke: rgba(255, 255, 255, 0.75);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), stroke 0.2s ease;
+  flex-shrink: 0;
+}
+
+.cabin-selector-btn:hover .cabin-btn-chevron {
+  stroke: #FFFFFF;
+}
+
+.cabin-selector-wrapper.open .cabin-btn-chevron {
+  transform: rotate(180deg);
+  stroke: #FFFFFF;
+}
+
+/* Tier Themes for Cabin Selector Button */
+.cabin-selector-btn.tier-economy .cabin-btn-badge {
+  background: rgba(16, 185, 129, 0.2);
+  color: #34D399;
+  border: 1px solid rgba(16, 185, 129, 0.35);
+}
+
+.cabin-selector-btn.tier-flatbed {
+  background: linear-gradient(135deg, rgba(88, 28, 135, 0.35) 0%, rgba(30, 27, 75, 0.5) 100%);
+  border-color: rgba(168, 85, 247, 0.4);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3), 0 0 16px rgba(168, 85, 247, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+}
+
+.cabin-selector-btn.tier-flatbed .cabin-btn-badge {
+  background: rgba(168, 85, 247, 0.25);
+  color: #D8B4FE;
+  border: 1px solid rgba(168, 85, 247, 0.45);
+}
+
+.cabin-selector-btn.tier-business {
+  background: linear-gradient(135deg, rgba(30, 58, 138, 0.45) 0%, rgba(15, 23, 42, 0.7) 100%);
+  border-color: rgba(96, 165, 250, 0.45);
+  box-shadow: 0 4px 22px rgba(0, 0, 0, 0.35), 0 0 20px rgba(59, 130, 246, 0.3), inset 0 1px 1px rgba(245, 158, 11, 0.3);
+}
+
+.cabin-selector-btn.tier-business .cabin-btn-name {
+  background: linear-gradient(135deg, #FFFFFF 40%, #93C5FD 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.cabin-selector-btn.tier-business .cabin-btn-badge {
+  background: linear-gradient(135deg, #1E3A8A, #2563EB);
+  color: #FDE047;
+  border: 1px solid rgba(253, 224, 71, 0.55);
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.4);
+}
+
+.cabin-selector-btn.tier-first {
+  background: linear-gradient(135deg, rgba(69, 39, 10, 0.65) 0%, rgba(15, 23, 42, 0.8) 100%);
+  border-color: rgba(251, 191, 36, 0.7);
+  animation: firstClassGlow 3s ease-in-out infinite;
+}
+
+.cabin-selector-btn.tier-first .cabin-btn-name {
+  background: linear-gradient(135deg, #FFFBEB 0%, #FDE047 60%, #F59E0B 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 900;
+}
+
+.cabin-selector-btn.tier-first .cabin-btn-badge {
+  background: linear-gradient(135deg, #F59E0B, #D97706);
+  color: #0F172A;
+  font-weight: 900;
+  border: 1px solid #FEF08A;
+  box-shadow: 0 2px 10px rgba(245, 158, 11, 0.5);
+}
+
+@keyframes firstClassGlow {
+  0%, 100% {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35), 0 0 16px rgba(251, 191, 36, 0.35), inset 0 1px 2px rgba(255, 255, 255, 0.4);
+  }
+  50% {
+    box-shadow: 0 6px 28px rgba(0, 0, 0, 0.45), 0 0 26px rgba(251, 191, 36, 0.7), inset 0 1px 3px rgba(255, 255, 255, 0.6);
+  }
+}
+
+/* Luxury Animated Popover Menu */
+.cabin-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  width: 380px;
+  max-width: min(380px, calc(100vw - 32px));
+  background: rgba(13, 20, 36, 0.96);
+  backdrop-filter: blur(28px) saturate(190%);
+  -webkit-backdrop-filter: blur(28px) saturate(190%);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 20px;
+  padding: 14px;
+  box-shadow: 0 24px 60px -10px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.08), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px) scale(0.96);
+  transform-origin: top right;
+  transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1), transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.25s;
+  z-index: 1050;
+  pointer-events: none;
+}
+
+.cabin-dropdown-menu.show,
+.cabin-dropdown-menu.open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+@keyframes pulsePop {
+  0% { transform: scale(1); }
+  45% { transform: scale(1.06); }
+  100% { transform: scale(1); }
+}
+
+.cabin-selector-btn.pulse-pop {
+  animation: pulsePop 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cabin-dropdown-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 6px 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 10px;
+}
+
+.cabin-dropdown-title {
+  font-size: 13px;
+  font-weight: 800;
+  color: #F8FAFC;
+  letter-spacing: 0.3px;
+}
+
+.cabin-dropdown-count {
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.08);
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.cabin-options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cabin-option-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 12px 14px;
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 14px;
+  color: #FFFFFF;
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+}
+
+.cabin-option-card:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.22);
+  transform: translateX(4px);
+}
+
+.cabin-option-card.active {
+  background: linear-gradient(135deg, rgba(227, 37, 38, 0.18) 0%, rgba(227, 37, 38, 0.06) 100%);
+  border-color: rgba(227, 37, 38, 0.6);
+  box-shadow: 0 4px 20px rgba(227, 37, 38, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.15);
+}
+
+.cabin-opt-icon-wrap {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 19px;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.cabin-option-card:hover .cabin-opt-icon-wrap {
+  transform: scale(1.1);
+}
+
+.cabin-opt-icon-wrap.economy {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.25), rgba(6, 95, 70, 0.3));
+  border: 1px solid rgba(16, 185, 129, 0.4);
+}
+
+.cabin-opt-icon-wrap.flatbed {
+  background: linear-gradient(135deg, rgba(168, 85, 247, 0.25), rgba(107, 33, 168, 0.3));
+  border: 1px solid rgba(168, 85, 247, 0.4);
+}
+
+.cabin-opt-icon-wrap.business {
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.3), rgba(29, 78, 216, 0.4));
+  border: 1px solid rgba(96, 165, 250, 0.45);
+}
+
+.cabin-opt-icon-wrap.first-class {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.3), rgba(217, 119, 6, 0.4));
+  border: 1px solid rgba(251, 191, 36, 0.55);
+}
+
+.cabin-opt-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.cabin-opt-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 3px;
+  flex-wrap: wrap;
+}
+
+.cabin-opt-title {
+  font-size: 14px;
+  font-weight: 800;
+  color: #FFFFFF;
+}
+
+.cabin-opt-tag {
+  font-size: 10px;
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: var(--radius-full);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.tag-economy {
+  background: rgba(16, 185, 129, 0.18);
+  color: #34D399;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.tag-flatbed {
+  background: rgba(168, 85, 247, 0.2);
+  color: #C084FC;
+  border: 1px solid rgba(168, 85, 247, 0.35);
+}
+
+.tag-business {
+  background: rgba(59, 130, 246, 0.22);
+  color: #93C5FD;
+  border: 1px solid rgba(59, 130, 246, 0.4);
+}
+
+.tag-first {
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.25), rgba(217, 119, 6, 0.3));
+  color: #FDE047;
+  border: 1px solid rgba(251, 191, 36, 0.55);
+}
+
+.cabin-opt-perks {
+  font-size: 11.5px;
+  color: rgba(255, 255, 255, 0.65);
+  line-height: 1.35;
+  margin: 0;
+  white-space: normal;
+}
+
+.cabin-opt-select-mark {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 900;
+  background: rgba(255, 255, 255, 0.08);
+  color: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+.cabin-option-card.active .cabin-opt-select-mark {
+  background: var(--primary);
+  color: #FFFFFF;
+  border-color: var(--primary);
+  box-shadow: 0 2px 8px rgba(227, 37, 38, 0.5);
+}
+
+/* Flight Card Cabin Badges */
+.cabin-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 3px 9px;
+  border-radius: var(--radius-full);
+  width: fit-content;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  line-height: 1.2;
+  margin-top: 2px;
+}
+
+.cabin-badge-icon {
+  font-size: 12px;
+  line-height: 1;
+}
+
+.cabin-badge.economy {
+  background: rgba(16, 185, 129, 0.14);
+  color: #34D399;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.cabin-badge.flatbed {
+  background: rgba(168, 85, 247, 0.18);
+  color: #C084FC;
+  border: 1px solid rgba(168, 85, 247, 0.35);
+}
+
+.cabin-badge.business {
+  background: linear-gradient(135deg, rgba(30, 58, 138, 0.45) 0%, rgba(37, 99, 235, 0.25) 100%);
+  color: #93C5FD;
+  border: 1px solid rgba(96, 165, 250, 0.5);
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25);
+}
+
+.cabin-badge.first-class {
+  background: linear-gradient(135deg, rgba(217, 119, 6, 0.35) 0%, rgba(251, 191, 36, 0.2) 100%);
+  color: #FDE047;
+  border: 1px solid rgba(251, 191, 36, 0.6);
+  box-shadow: 0 2px 10px rgba(245, 158, 11, 0.35);
+  position: relative;
+  overflow: hidden;
+}
+
+.cabin-badge.first-class::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -60%;
+  width: 40%;
+  height: 200%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+  transform: rotate(25deg);
+  animation: badgeGlint 4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes badgeGlint {
+  0% { transform: translateX(-120%) rotate(25deg); }
+  30%, 100% { transform: translateX(360%) rotate(25deg); }
 }
 
 /* Flight Form Grid */
@@ -1390,6 +2280,7 @@ main#app-main:nth-of-type(1) > section#view-flight:nth-of-type(1) > div:nth-of-t
 .btn-search-secondary {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 7px;
   padding: 13px 22px;
   border-radius: var(--radius-full);
@@ -1401,8 +2292,15 @@ main#app-main:nth-of-type(1) > section#view-flight:nth-of-type(1) > div:nth-of-t
   font-size: 14px;
   font-weight: 700;
   cursor: pointer;
+  white-space: nowrap !important;
+  flex-shrink: 0;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.12);
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-search-secondary span {
+  white-space: nowrap !important;
+  display: inline !important;
 }
 
 .btn-search-secondary:hover {
@@ -1572,12 +2470,6 @@ hr.section-divider {
   transform: translateY(0);
 }
 
-.destination-card.in-view:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-card);
-  border-color: var(--primary-subtle);
-}
-
 .benefit-card.in-view:hover {
   transform: translateY(-3px);
   box-shadow: var(--shadow-md);
@@ -1592,33 +2484,53 @@ hr.section-divider {
   }
 }
 
-/* Destination Cards: Full Transparent with Container Box Shadows Kept */
+/* Destination Cards: Frosted Blur Effect with Deep Container Box Shadow */
 .destination-card {
-  background: transparent !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-  border-radius: var(--radius-lg);
+  background: rgba(10, 16, 32, 0.32) !important;
+  backdrop-filter: blur(28px) saturate(190%) contrast(105%) !important;
+  -webkit-backdrop-filter: blur(28px) saturate(190%) contrast(105%) !important;
+  border-radius: var(--radius-xl);
   overflow: hidden;
-  border: none !important;
-  box-shadow: 0 16px 38px -6px rgba(0, 0, 0, 0.48), 0 4px 14px rgba(0, 0, 0, 0.22) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  box-shadow: 0 24px 55px -10px rgba(0, 0, 0, 0.82),
+              0 12px 26px -4px rgba(0, 0, 0, 0.55),
+              0 0 0 1px rgba(255, 255, 255, 0.16) inset,
+              0 1px 2px 0 rgba(255, 255, 255, 0.28) inset !important;
   cursor: pointer;
   display: flex;
   flex-direction: column;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.destination-card:hover {
-  background: transparent !important;
-  border-color: transparent !important;
-  box-shadow: 0 24px 50px -6px rgba(0, 0, 0, 0.62), 0 8px 20px rgba(0, 0, 0, 0.28) !important;
-  transform: translateY(-4px);
+.destination-card:hover,
+.destination-card.in-view:hover {
+  background: rgba(18, 28, 54, 0.48) !important;
+  border-color: rgba(255, 255, 255, 0.38) !important;
+  box-shadow: 0 34px 75px -12px rgba(0, 0, 0, 0.92),
+              0 16px 32px -4px rgba(0, 0, 0, 0.65),
+              0 0 35px rgba(227, 37, 38, 0.25),
+              0 0 0 1px rgba(255, 255, 255, 0.3) inset,
+              0 1px 3px 0 rgba(255, 255, 255, 0.45) inset !important;
+  transform: translateY(-8px) !important;
 }
 
 .destination-img-wrap {
   position: relative;
   height: 190px;
   overflow: hidden;
-  background: #1e293b;
+  background: transparent;
+}
+
+.destination-img-wrap::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 48px;
+  background: linear-gradient(to bottom, rgba(10, 16, 32, 0) 0%, rgba(10, 16, 32, 0.55) 100%);
+  pointer-events: none;
+  z-index: 2;
 }
 
 .destination-img-wrap img {
@@ -1661,7 +2573,7 @@ main#app-main:nth-of-type(1) > section#view-flight:nth-of-type(1) > div:nth-of-t
   border-radius: var(--radius-full);
 }
 
-/* Selected Elements: Destination Card Body Sections with Container Box Shadows and Blur Effect */
+/* Destination Card Body: Frosted Blur Effect with Inset Container Shadow */
 main#app-main:nth-of-type(1) > section#view-flight:nth-of-type(1) > div:nth-of-type(4) > div#popular-destinations-grid:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2),
 main#app-main:nth-of-type(1) > section#view-flight:nth-of-type(1) > div:nth-of-type(4) > div#popular-destinations-grid:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(2),
 main#app-main:nth-of-type(1) > section#view-flight:nth-of-type(1) > div:nth-of-type(4) > div#popular-destinations-grid:nth-of-type(2) > div:nth-of-type(3) > div:nth-of-type(2),
@@ -1674,14 +2586,15 @@ main#app-main:nth-of-type(1) > section#view-flight:nth-of-type(1) > div:nth-of-t
 main#app-main:nth-of-type(1) > section#view-flight:nth-of-type(1) > div:nth-of-type(3) > div#popular-destinations-grid:nth-of-type(2) > div:nth-of-type(4) > div:nth-of-type(2),
 main#app-main:nth-of-type(1) > section#view-flight:nth-of-type(1) > div:nth-of-type(3) > div#popular-destinations-grid:nth-of-type(2) > div:nth-of-type(5) > div:nth-of-type(2),
 main#app-main:nth-of-type(1) > section#view-flight:nth-of-type(1) > div:nth-of-type(3) > div#popular-destinations-grid:nth-of-type(2) > div:nth-of-type(6) > div:nth-of-type(2),
-.destination-body {
-  background: rgba(15, 23, 42, 0.45) !important;
-  backdrop-filter: blur(20px) saturate(180%) !important;
-  -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
-  box-shadow: 0 16px 36px -4px rgba(0, 0, 0, 0.65), 0 4px 16px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.12) !important;
-  border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
-  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
-  padding: 18px;
+.destination-body,
+#popular-destinations-grid .destination-card .destination-body {
+  background: rgba(10, 16, 32, 0.45) !important;
+  backdrop-filter: blur(24px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16), 0 8px 24px -4px rgba(0, 0, 0, 0.45) !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.12) !important;
+  border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+  padding: 18px 20px;
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -1749,18 +2662,18 @@ main#app-main:nth-of-type(1) > section#view-flight:nth-of-type(1) > div:nth-of-t
   margin-top: 48px;
 }
 
-/* Selected Elements: Full Transparent Benefit Cards with Container Box Shadows */
+/* Benefit Cards: Transparent Blurry Glass */
 main#app-main:nth-of-type(1) > section#view-flight:nth-of-type(1) > div:nth-of-type(5) > div:nth-of-type(1) > div:nth-of-type(1),
 main#app-main:nth-of-type(1) > section#view-flight:nth-of-type(1) > div:nth-of-type(5) > div:nth-of-type(1) > div:nth-of-type(2),
 main#app-main:nth-of-type(1) > section#view-flight:nth-of-type(1) > div:nth-of-type(5) > div:nth-of-type(1) > div:nth-of-type(3),
 .benefit-card {
-  background: transparent !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
+  background: rgba(12, 19, 34, 0.45) !important;
+  backdrop-filter: blur(24px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
   padding: 28px;
   border-radius: var(--radius-lg);
-  border: none !important;
-  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.6) !important;
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.12) !important;
   display: flex;
   flex-direction: column;
   gap: 14px;
@@ -1771,10 +2684,10 @@ main#app-main:nth-of-type(1) > section#view-flight:nth-of-type(1) > div:nth-of-t
 main#app-main:nth-of-type(1) > section#view-flight:nth-of-type(1) > div:nth-of-type(5) > div:nth-of-type(1) > div:nth-of-type(2):hover,
 main#app-main:nth-of-type(1) > section#view-flight:nth-of-type(1) > div:nth-of-type(5) > div:nth-of-type(1) > div:nth-of-type(3):hover,
 .benefit-card:hover {
-  background: transparent !important;
-  border-color: transparent !important;
+  background: rgba(18, 28, 50, 0.58) !important;
+  border-color: rgba(255, 255, 255, 0.26) !important;
   transform: translateY(-3px);
-  box-shadow: 0 24px 50px -8px rgba(0, 0, 0, 0.75) !important;
+  box-shadow: 0 24px 50px -8px rgba(0, 0, 0, 0.7), 0 0 25px rgba(227, 37, 38, 0.12) !important;
 }
 
 .benefit-icon-box {
@@ -2165,6 +3078,89 @@ main#app-main:nth-of-type(1) > section#view-hotel:nth-of-type(6) > div:nth-of-ty
 .sort-select:focus {
   border-color: var(--primary);
   box-shadow: 0 0 0 2px rgba(227, 37, 38, 0.2);
+}
+
+/* Quick Price Filter & Sort Bar */
+.price-filter-bar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+  margin-bottom: 20px;
+  padding: 10px 16px;
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: var(--radius-full);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  flex-wrap: wrap;
+}
+
+.price-filter-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #94A3B8;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.price-filter-title svg {
+  color: var(--primary);
+}
+
+.price-filter-pills-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.price-filter-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: var(--radius-full);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: #E2E8F0;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.price-filter-pill svg {
+  color: #94A3B8;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.price-filter-pill:hover {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.28);
+  color: #FFFFFF;
+  transform: translateY(-1px);
+}
+
+.price-filter-pill:active {
+  transform: scale(0.97);
+}
+
+.price-filter-pill.active {
+  background: linear-gradient(135deg, rgba(227, 37, 38, 0.95), rgba(185, 20, 21, 0.95)) !important;
+  border-color: rgba(255, 120, 120, 0.45) !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 4px 16px rgba(227, 37, 38, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.3) !important;
+}
+
+.price-filter-pill.active svg {
+  color: #FFFFFF !important;
+  stroke-width: 2.8;
 }
 
 /* Flight Cards List with Dark Glossy Glassmorphism */
@@ -2722,6 +3718,10 @@ main#app-main:nth-of-type(1) > section#view-hotel:nth-of-type(6) > div:nth-of-ty
   border-bottom: 1px solid rgba(255, 255, 255, 0.18);
 }
 
+.confirmation-check-badge {
+  color: #FFFFFF;
+}
+
 .confirmation-ref-pill {
   display: inline-block;
   background: rgba(255, 255, 255, 0.25);
@@ -2800,28 +3800,28 @@ main#app-main:nth-of-type(1) > section#view-hotel:nth-of-type(6) > div:nth-of-ty
    ========================================================================== */
 .hotel-hero {
   position: relative;
-  min-height: 440px;
+  min-height: calc(100vh - 72px);
+  min-height: 88vh;
   margin-top: -72px; /* Pulls hero image up under the transparent glass header */
-  background: 
-    radial-gradient(ellipse 80% 60% at 30% 25%, rgba(16, 185, 129, 0.38) 0%, transparent 65%),
-    radial-gradient(ellipse 70% 50% at 75% 20%, rgba(6, 182, 212, 0.32) 0%, transparent 60%),
-    linear-gradient(180deg, rgba(5, 11, 24, 0.45) 0%, rgba(8, 18, 38, 0.65) 60%, rgba(6, 11, 24, 0.92) 100%),
-    url('https://images.unsplash.com/photo-1517411032315-54ef2cb783bb?auto=format&fit=crop&w=2560&q=85') center 30% / cover no-repeat;
+  background: transparent !important;
+  background-image: none !important;
   color: white;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 120px 0 120px;
+  align-items: center;
+  padding: 160px 0 110px;
 }
 
 /* ==========================================================================
    Hotel Search Card & Hero Section (Luxury Frosted Glass Edition)
    ========================================================================== */
 .hotel-search-card {
-  margin-top: -80px;
-  margin-bottom: 48px;
+  margin-top: 80px; /* Pushes card into 2nd fold / scroll */
+  margin-bottom: 64px;
   position: relative;
   z-index: 30;
+  scroll-margin-top: 96px;
 }
 
 #hotel-search-card {
@@ -3381,8 +4381,8 @@ main#app-main:nth-of-type(1) > section#view-hotel:nth-of-type(6) > div:nth-of-ty
 /* Hotel Page Responsive Adjustments */
 @media (max-width: 1024px) {
   .hotel-search-card {
-    margin-top: -40px;
-    margin-bottom: 32px;
+    margin-top: 48px;
+    margin-bottom: 36px;
   }
   #hotel-search-card {
     padding: 20px;
@@ -3403,7 +4403,8 @@ main#app-main:nth-of-type(1) > section#view-hotel:nth-of-type(6) > div:nth-of-ty
 
 @media (max-width: 640px) {
   .hotel-search-card {
-    margin-top: -24px;
+    margin-top: 36px;
+    margin-bottom: 28px;
   }
   #hotel-search-card {
     padding: 16px 14px;
@@ -4547,12 +5548,6 @@ html, body {
 
   .hamburger-btn {
     display: flex !important;
-    width: 40px;
-    height: 40px;
-    padding: 8px;
-    align-items: center;
-    justify-content: center;
-    border-radius: var(--radius-sm);
   }
 
   /* Mobile Drawer Menu */
@@ -4560,6 +5555,7 @@ html, body {
     top: 60px !important;
     max-height: calc(100dvh - 60px);
     overflow-y: auto;
+    overscroll-behavior-y: none;
     -webkit-overflow-scrolling: touch;
     padding: 16px 18px 24px;
     gap: 8px;
@@ -4596,8 +5592,8 @@ html, body {
 
   /* Search Card Container */
   .search-card-container {
-    margin-top: -24px;
-    margin-bottom: 28px;
+    margin-top: 40px;
+    margin-bottom: 32px;
   }
 
   .booking-search-card {
@@ -4617,13 +5613,53 @@ html, body {
     font-size: 13px;
   }
 
-  .cabin-tag {
-    font-size: 12px;
-    padding: 4px 10px;
+  .cabin-selector-wrapper {
+    max-width: 100%;
   }
 
-  /* Flight Form Grid & Vertical Swap */
-  .flight-form-grid,
+  .cabin-selector-btn {
+    padding: 5px 12px 5px 10px;
+    gap: 8px;
+  }
+
+  .cabin-btn-name {
+    font-size: 12px;
+  }
+
+  .cabin-btn-sub {
+    font-size: 9px;
+  }
+
+  .cabin-btn-badge {
+    font-size: 9px;
+    padding: 1.5px 6px;
+  }
+
+  .cabin-dropdown-menu {
+    right: 0;
+    left: auto;
+    width: 320px;
+    max-width: calc(100vw - 28px);
+    padding: 12px 10px;
+    border-radius: 16px;
+  }
+
+  .cabin-option-card {
+    padding: 10px 12px;
+    gap: 10px;
+  }
+
+  .cabin-opt-icon-wrap {
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
+  }
+
+  .cabin-opt-perks {
+    font-size: 11px;
+  }
+
+  /* Hotel Form Grid */
   .hotel-form-grid {
     grid-template-columns: 1fr !important;
     gap: 12px;
@@ -4706,22 +5742,110 @@ html, body {
   }
 
   .btn-search-secondary {
-    flex: 0 0 90px;
-    height: 50px;
-    justify-content: center;
+    flex: 0 0 auto !important;
+    width: auto !important;
+    min-width: max-content !important;
+    height: 48px !important;
+    padding: 0 16px !important;
+    white-space: nowrap !important;
+    justify-content: center !important;
+  }
+
+  .btn-search-secondary span {
+    white-space: nowrap !important;
+    display: inline !important;
   }
 
   .btn-search-main {
-    flex: 1;
-    height: 50px;
+    flex: 1 1 auto;
+    height: 48px;
     justify-content: center;
-    font-size: 15px;
+    font-size: 14px;
+    padding: 0 14px;
+    white-space: nowrap !important;
   }
 
-  /* Popular Destinations & Deals */
+  /* Popular Destinations & Deals: Two Sides (2 columns) Compact Layout */
   .destinations-grid {
-    grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
-    gap: 16px;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px 10px !important;
+    padding: 10px 4px 20px 4px !important;
+    margin: -10px -4px 0 -4px !important;
+  }
+
+  .destination-card,
+  #popular-destinations-grid .destination-card {
+    border-radius: var(--radius-lg) !important;
+    box-shadow: 0 10px 25px -4px rgba(0, 0, 0, 0.7),
+                0 0 0 1px rgba(255, 255, 255, 0.12) inset !important;
+    transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+  }
+
+  .destination-card:active,
+  #popular-destinations-grid .destination-card:active {
+    transform: scale(0.98) !important;
+  }
+
+  .destination-img-wrap {
+    height: 112px !important;
+  }
+
+  .destination-badge {
+    font-size: 8.5px !important;
+    font-weight: 800 !important;
+    padding: 2px 6px !important;
+    top: 6px !important;
+    left: 6px !important;
+    letter-spacing: 0.3px !important;
+  }
+
+  .destination-body,
+  #popular-destinations-grid .destination-card .destination-body {
+    padding: 10px 9px 12px 9px !important;
+    gap: 3px !important;
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg) !important;
+  }
+
+  .destination-name {
+    font-size: 13px !important;
+    font-weight: 800 !important;
+    line-height: 1.2 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    max-width: 90px !important;
+  }
+
+  .destination-code {
+    font-size: 9.5px !important;
+    font-weight: 700 !important;
+    padding: 1px 5px !important;
+    border-radius: 4px !important;
+  }
+
+  .destination-country {
+    font-size: 10.5px !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  .destination-footer {
+    margin-top: 6px !important;
+    padding-top: 5px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 1px !important;
+  }
+
+  .price-label {
+    font-size: 9.5px !important;
+  }
+
+  .price-amount {
+    font-size: 13px !important;
+    font-weight: 800 !important;
   }
 
   .deals-showcase-panel {
@@ -4730,19 +5854,132 @@ html, body {
     border-radius: var(--radius-lg);
   }
 
+  /* Flight Deals in Two Sides (2 columns) */
   .deals-grid {
-    grid-template-columns: 1fr;
-    gap: 12px;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px 10px !important;
   }
 
   .deal-card {
-    padding: 14px;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    justify-content: space-between !important;
+    padding: 12px 10px !important;
+    min-height: 118px !important;
+    gap: 8px !important;
+    border-radius: var(--radius-lg) !important;
+    box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.12) inset !important;
   }
 
+  .deal-card:active {
+    transform: scale(0.98) !important;
+  }
+
+  .deal-info h4 {
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    line-height: 1.25 !important;
+    margin-bottom: 2px !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    width: 100% !important;
+  }
+
+  .deal-info p {
+    font-size: 10.5px !important;
+    line-height: 1.3 !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+  }
+
+  .deal-price {
+    margin-top: auto !important;
+    width: 100% !important;
+    padding-top: 6px !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 1px !important;
+  }
+
+  .deal-price-val {
+    font-size: 13px !important;
+    font-weight: 800 !important;
+  }
+
+  /* Why AirAsia & About Features in Two Sides (2 columns) */
   .benefits-grid,
   .about-features-grid {
-    grid-template-columns: 1fr;
-    gap: 14px;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px 10px !important;
+  }
+
+  .benefit-card {
+    padding: 14px 11px !important;
+    gap: 7px !important;
+    border-radius: var(--radius-lg) !important;
+    box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.12) inset !important;
+  }
+
+  .benefit-card:active {
+    transform: scale(0.98) !important;
+  }
+
+  .benefit-icon-box {
+    width: 36px !important;
+    height: 36px !important;
+    border-radius: 10px !important;
+    margin-bottom: 2px !important;
+  }
+
+  .benefit-icon-box svg {
+    width: 18px !important;
+    height: 18px !important;
+  }
+
+  .benefit-title {
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    line-height: 1.25 !important;
+  }
+
+  .benefit-desc {
+    font-size: 10.5px !important;
+    line-height: 1.35 !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 3 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+  }
+
+  /* Price Filter Bar on Mobile */
+  .price-filter-bar {
+    border-radius: var(--radius-lg) !important;
+    padding: 8px 10px !important;
+    gap: 8px !important;
+  }
+
+  .price-filter-title {
+    font-size: 11px !important;
+  }
+
+  .price-filter-pills-group {
+    width: 100% !important;
+    display: flex !important;
+    gap: 6px !important;
+  }
+
+  .price-filter-pill {
+    flex: 1 1 0 !important;
+    justify-content: center !important;
+    padding: 7px 8px !important;
+    font-size: 12px !important;
+    white-space: nowrap !important;
   }
 
   /* Flight Results View */
@@ -4989,7 +6226,7 @@ html, body {
   }
 
   .hotel-search-card {
-    margin-top: -24px;
+    margin-top: 40px;
     margin-bottom: 28px;
   }
 
@@ -5181,18 +6418,35 @@ html, body {
   }
 
   .search-btn-cluster {
-    flex-direction: column-reverse;
-    gap: 8px;
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 8px !important;
+    width: 100% !important;
   }
 
   .btn-search-secondary {
-    width: 100%;
-    height: 42px;
+    flex: 0 0 auto !important;
+    width: auto !important;
+    min-width: max-content !important;
+    height: 46px !important;
+    padding: 0 14px !important;
+    font-size: 13px !important;
+    white-space: nowrap !important;
+    justify-content: center !important;
+  }
+
+  .btn-search-secondary span {
+    white-space: nowrap !important;
+    display: inline !important;
   }
 
   .btn-search-main {
-    width: 100%;
-    height: 48px;
+    flex: 1 1 auto !important;
+    height: 46px !important;
+    font-size: 13.5px !important;
+    padding: 0 10px !important;
+    white-space: nowrap !important;
+    justify-content: center !important;
   }
 
   .seatmap-row {
@@ -5460,30 +6714,696 @@ header#site-header.scrolled > div:nth-of-type(1) {
   box-shadow: none !important;
 }
 
-#view-flight #flight-search-card.booking-search-card {
-  background: rgba(12, 19, 31, 0.72) !important;
-  -webkit-backdrop-filter: blur(28px) saturate(155%) !important;
-  backdrop-filter: blur(28px) saturate(155%) !important;
-  border: 1px solid rgba(255, 255, 255, 0.2) !important;
-  box-shadow: 0 28px 76px rgba(0, 0, 0, 0.42), inset 0 1px rgba(255, 255, 255, 0.14) !important;
+/* All Cards Master Glassmorphism: Transparent Blurry Effect */
+.booking-search-card,
+#flight-search-card,
+#hotel-search-card,
+.flight-card,
+.hotel-card,
+.deal-card,
+.benefit-card,
+.saved-booking-card,
+.booking-panel-card,
+.price-summary-card,
+.payment-card-box,
+.auth-card,
+.auth-panel-form,
+.auth-test-helper-card,
+.filters-sidebar,
+.booking-summary-sidebar,
+.cabin-dropdown-menu,
+.airport-dropdown-menu,
+.passengers-popover,
+.currency-dropdown-menu,
+.language-dropdown-menu,
+.user-capsule-dropdown,
+.modal-box,
+.about-features-grid > *,
+.confirmation-card {
+  background: rgba(12, 19, 34, 0.45) !important;
+  backdrop-filter: blur(24px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.52), inset 0 1px 0 rgba(255, 255, 255, 0.12) !important;
 }
 
-.booking-search-card,
-.filters-sidebar,
-.booking-summary-card,
-.hotel-card,
-.saved-booking-card,
-.benefit-card,
-.deal-card,
-.about-features-grid > *,
-.auth-card {
-  -webkit-backdrop-filter: blur(22px) saturate(145%);
-  backdrop-filter: blur(22px) saturate(145%);
+.flight-card:hover,
+.hotel-card:hover,
+.deal-card:hover,
+.benefit-card:hover,
+.saved-booking-card:hover {
+  background: rgba(18, 28, 50, 0.58) !important;
+  border-color: rgba(255, 255, 255, 0.26) !important;
+  box-shadow: 0 24px 50px -10px rgba(0, 0, 0, 0.65), 0 0 25px rgba(227, 37, 38, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+  transform: translateY(-4px);
+}
+
+/* ==========================================================================
+   Popular Destinations Section: Frosted Blur Effect with Container Box Shadow
+   ========================================================================== */
+#popular-destinations-grid {
+  padding: 14px 8px 32px 8px;
+  margin: -14px -8px 0 -8px;
+}
+
+.destination-card,
+#popular-destinations-grid .destination-card {
+  background: rgba(10, 16, 32, 0.32) !important;
+  backdrop-filter: blur(28px) saturate(190%) contrast(105%) !important;
+  -webkit-backdrop-filter: blur(28px) saturate(190%) contrast(105%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  box-shadow: 0 24px 55px -10px rgba(0, 0, 0, 0.82),
+              0 12px 26px -4px rgba(0, 0, 0, 0.55),
+              0 0 0 1px rgba(255, 255, 255, 0.16) inset,
+              0 1px 2px 0 rgba(255, 255, 255, 0.28) inset !important;
+}
+
+.destination-card:hover,
+.destination-card.in-view:hover,
+#popular-destinations-grid .destination-card:hover {
+  background: rgba(18, 28, 54, 0.48) !important;
+  border-color: rgba(255, 255, 255, 0.38) !important;
+  box-shadow: 0 34px 75px -12px rgba(0, 0, 0, 0.92),
+              0 16px 32px -4px rgba(0, 0, 0, 0.65),
+              0 0 35px rgba(227, 37, 38, 0.25),
+              0 0 0 1px rgba(255, 255, 255, 0.3) inset,
+              0 1px 3px 0 rgba(255, 255, 255, 0.45) inset !important;
+  transform: translateY(-8px) !important;
 }
 
 @media (max-width: 768px) {
   .site-video-background video {
     object-position: center;
+  }
+
+  /* ==========================================================================
+     First Card (Search Card): High Transparent with Blur Effect & Compact Modern Layout
+     ========================================================================== */
+  .search-card-container {
+    margin-top: 18px !important;
+    margin-bottom: 22px !important;
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+  }
+
+  main#app-main > section#view-flight > div.search-card-container > div#flight-search-card,
+  .booking-search-card,
+  #flight-search-card {
+    background: rgba(8, 14, 28, 0.24) !important;
+    backdrop-filter: blur(32px) saturate(200%) contrast(105%) !important;
+    -webkit-backdrop-filter: blur(32px) saturate(200%) contrast(105%) !important;
+    border-radius: 16px !important;
+    border: 1px solid rgba(255, 255, 255, 0.18) !important;
+    box-shadow: 0 16px 40px -8px rgba(0, 0, 0, 0.82),
+                0 0 0 1px rgba(255, 255, 255, 0.12) inset,
+                0 1px 2px rgba(255, 255, 255, 0.22) inset !important;
+    padding: 10px 10px 11px !important;
+  }
+
+  .search-tabs {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 6px !important;
+    margin-bottom: 8px !important;
+    padding-bottom: 7px !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+  }
+
+  .trip-type-toggle {
+    background: rgba(0, 0, 0, 0.38) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    padding: 2px !important;
+    border-radius: var(--radius-full) !important;
+    gap: 2px !important;
+  }
+
+  .trip-type-btn {
+    padding: 3px 8px !important;
+    font-size: 10.5px !important;
+    font-weight: 700 !important;
+    border-radius: var(--radius-full) !important;
+    height: 24px !important;
+  }
+
+  .cabin-selector-wrapper {
+    max-width: 52% !important;
+  }
+
+  .cabin-selector-btn {
+    height: 26px !important;
+    padding: 2px 8px 2px 6px !important;
+    gap: 4px !important;
+    border-radius: var(--radius-full) !important;
+    background: rgba(255, 255, 255, 0.06) !important;
+    border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  }
+
+  .cabin-btn-sparkle {
+    display: none !important;
+  }
+
+  .cabin-btn-icon {
+    font-size: 10px !important;
+  }
+
+  .cabin-btn-sub {
+    display: none !important;
+  }
+
+  .cabin-btn-name {
+    font-size: 10.5px !important;
+    font-weight: 700 !important;
+  }
+
+  .cabin-btn-badge {
+    font-size: 8px !important;
+    padding: 1px 4px !important;
+    border-radius: 4px !important;
+  }
+
+  /* First Card: Compact 2-Side (Two-Column) Layout */
+  .flight-form-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    column-gap: 8px !important;
+    row-gap: 7px !important;
+    position: relative !important;
+  }
+
+  .flight-form-grid .form-group {
+    margin-bottom: 0 !important;
+    min-width: 0 !important;
+  }
+
+  .form-group-origin {
+    grid-column: 1 !important;
+    grid-row: 1 !important;
+  }
+
+  .form-group-destination {
+    grid-column: 2 !important;
+    grid-row: 1 !important;
+  }
+
+  .swap-form-group {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    position: absolute !important;
+    left: 50% !important;
+    top: 34px !important;
+    transform: translate(-50%, -50%) !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: auto !important;
+    height: auto !important;
+    z-index: 10 !important;
+    pointer-events: none !important;
+  }
+
+  .swap-airports-btn {
+    pointer-events: auto !important;
+    width: 25px !important;
+    height: 25px !important;
+    border-radius: 50% !important;
+    transform: none !important;
+    margin: 0 !important;
+    background: rgba(14, 23, 44, 0.96) !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.7), 0 0 0 2px rgba(8, 14, 28, 0.7) !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: #F87171 !important;
+    cursor: pointer !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  }
+
+  .swap-airports-btn:active {
+    transform: scale(0.9) !important;
+    background: rgba(227, 37, 38, 0.45) !important;
+    color: #FFFFFF !important;
+  }
+
+  .swap-airports-btn svg {
+    width: 12px !important;
+    height: 12px !important;
+  }
+
+  .form-group-dep-date {
+    grid-column: 1 !important;
+    grid-row: 2 !important;
+  }
+
+  /* One-way default: passengers takes column 2, row 2 */
+  .form-group-passengers {
+    grid-column: 2 !important;
+    grid-row: 2 !important;
+  }
+
+  /* Round-trip: return date takes column 2, row 2; passengers spans both sides on row 3 */
+  .form-group-ret-date {
+    grid-column: 2 !important;
+    grid-row: 2 !important;
+  }
+
+  .is-round-trip .form-group-passengers,
+  #flight-search-card.is-round-trip .form-group-passengers {
+    grid-column: 1 / -1 !important;
+    grid-row: 3 !important;
+  }
+
+  .form-label {
+    font-size: 9.5px !important;
+    font-weight: 700 !important;
+    color: #94A3B8 !important;
+    margin-bottom: 3px !important;
+    gap: 4px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.3px !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    display: flex !important;
+    align-items: center !important;
+  }
+
+  .form-label svg {
+    width: 10px !important;
+    height: 10px !important;
+    flex-shrink: 0 !important;
+  }
+
+  main#app-main > section#view-flight > div.search-card-container > div#flight-search-card .airport-display-btn,
+  .airport-display-btn {
+    height: 38px !important;
+    padding: 3px 8px !important;
+    border-radius: 10px !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    backdrop-filter: blur(14px) !important;
+    -webkit-backdrop-filter: blur(14px) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 4px !important;
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .airport-btn-content {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    justify-content: center !important;
+    min-width: 0 !important;
+    flex: 1 1 auto !important;
+    line-height: 1.15 !important;
+    overflow: hidden !important;
+  }
+
+  .airport-btn-code {
+    font-size: 13px !important;
+    font-weight: 800 !important;
+    color: #F8FAFC !important;
+    line-height: 1.1 !important;
+  }
+
+  .airport-btn-city {
+    font-size: 10px !important;
+    color: #94A3B8 !important;
+    max-width: 100% !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    display: block !important;
+    line-height: 1.1 !important;
+  }
+
+  .airport-display-btn svg {
+    flex-shrink: 0 !important;
+    width: 12px !important;
+    height: 12px !important;
+    color: #94A3B8 !important;
+  }
+
+  main#app-main > section#view-flight > div.search-card-container > div#flight-search-card input[type="date"],
+  .form-control-wrapper input[type="date"],
+  input#flight-dep-date,
+  input#flight-ret-date {
+    height: 38px !important;
+    padding: 3px 8px !important;
+    border-radius: 10px !important;
+    font-size: 11.5px !important;
+    font-weight: 600 !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  main#app-main > section#view-flight > div.search-card-container > div#flight-search-card button#passengers-display-btn,
+  button#passengers-display-btn {
+    height: 38px !important;
+    padding: 3px 8px !important;
+    border-radius: 10px !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 4px !important;
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  #passengers-display-text {
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  #destination-dropdown-menu {
+    left: auto !important;
+    right: 0 !important;
+  }
+
+  #flight-search-card .airport-dropdown-menu {
+    width: calc(100vw - 28px) !important;
+    max-width: 310px !important;
+  }
+
+  .search-card-actions {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 6px !important;
+    margin-top: 8px !important;
+  }
+
+  .search-actions-left {
+    display: none !important;
+  }
+
+  .search-btn-cluster {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 6px !important;
+    width: 100% !important;
+    margin-left: 0 !important;
+  }
+
+  .btn-search-secondary {
+    flex: 0 0 auto !important;
+    width: auto !important;
+    min-width: max-content !important;
+    height: 38px !important;
+    padding: 0 12px !important;
+    font-size: 11.5px !important;
+    font-weight: 700 !important;
+    white-space: nowrap !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 5px !important;
+    border-radius: 10px !important;
+    background: rgba(255, 255, 255, 0.06) !important;
+    border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  }
+
+  .btn-search-secondary span {
+    white-space: nowrap !important;
+    display: inline !important;
+  }
+
+  .btn-search-main {
+    flex: 1 1 auto !important;
+    height: 38px !important;
+    font-size: 12.5px !important;
+    padding: 0 12px !important;
+    white-space: nowrap !important;
+    border-radius: 10px !important;
+    justify-content: center !important;
+    background: linear-gradient(135deg, #E32526 0%, #B91C1C 100%) !important;
+  }
+
+  /* Explore Popular Destinations: Two Sides (2 columns) & Small / Premium */
+  #popular-destinations-grid,
+  .destinations-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px 10px !important;
+    padding: 8px 4px 24px 4px !important;
+    margin: -8px -4px 0 -4px !important;
+  }
+
+  .destination-card,
+  #popular-destinations-grid .destination-card {
+    border-radius: 14px !important;
+    overflow: hidden !important;
+    box-shadow: 0 10px 24px -4px rgba(0, 0, 0, 0.72),
+                0 0 0 1px rgba(255, 255, 255, 0.15) inset !important;
+    transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+  }
+
+  .destination-card:active,
+  #popular-destinations-grid .destination-card:active {
+    transform: scale(0.97) !important;
+  }
+
+  .destination-img-wrap {
+    height: 110px !important;
+  }
+
+  .destination-badge {
+    font-size: 8.5px !important;
+    font-weight: 800 !important;
+    padding: 2px 6px !important;
+    top: 6px !important;
+    left: 6px !important;
+    letter-spacing: 0.35px !important;
+    border-radius: 6px !important;
+  }
+
+  .destination-body,
+  #popular-destinations-grid .destination-card .destination-body {
+    padding: 10px 9px 12px 9px !important;
+    gap: 3px !important;
+    border-radius: 0 0 14px 14px !important;
+  }
+
+  .destination-name {
+    font-size: 13px !important;
+    font-weight: 800 !important;
+    line-height: 1.2 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    max-width: 85px !important;
+  }
+
+  .destination-code {
+    font-size: 9.5px !important;
+    font-weight: 700 !important;
+    padding: 1px 5px !important;
+    border-radius: 4px !important;
+  }
+
+  .destination-country {
+    font-size: 10.5px !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  .destination-footer {
+    margin-top: 6px !important;
+    padding-top: 5px !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 1px !important;
+  }
+
+  .price-label {
+    font-size: 9.5px !important;
+  }
+
+  .price-amount {
+    font-size: 13px !important;
+    font-weight: 800 !important;
+    color: #FFFFFF !important;
+  }
+
+  /* Flight Deals: Two Sides (2 columns) Compact Layout */
+  #flight-deals-grid,
+  .deals-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px 10px !important;
+  }
+
+  .deal-card {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    justify-content: space-between !important;
+    padding: 12px 10px !important;
+    min-height: 116px !important;
+    gap: 6px !important;
+    border-radius: 14px !important;
+    box-shadow: 0 8px 22px -4px rgba(0, 0, 0, 0.58),
+                0 0 0 1px rgba(255, 255, 255, 0.12) inset !important;
+  }
+
+  .deal-card:active {
+    transform: scale(0.97) !important;
+  }
+
+  .deal-info h4 {
+    font-size: 12.5px !important;
+    font-weight: 700 !important;
+    line-height: 1.25 !important;
+    margin-bottom: 2px !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    width: 100% !important;
+  }
+
+  .deal-info p {
+    font-size: 10px !important;
+    line-height: 1.3 !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+  }
+
+  .deal-price {
+    margin-top: auto !important;
+    width: 100% !important;
+    padding-top: 5px !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 1px !important;
+  }
+
+  .deal-price-val {
+    font-size: 13px !important;
+    font-weight: 800 !important;
+    color: #FFFFFF !important;
+  }
+
+  /* Why AirAsia & About Features: Two Sides (2 columns) */
+  .benefits-grid,
+  .about-features-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px 10px !important;
+  }
+
+  .benefit-card {
+    padding: 13px 10px !important;
+    gap: 6px !important;
+    border-radius: 14px !important;
+    box-shadow: 0 8px 22px -4px rgba(0, 0, 0, 0.58),
+                0 0 0 1px rgba(255, 255, 255, 0.12) inset !important;
+  }
+
+  .benefit-card:active {
+    transform: scale(0.97) !important;
+  }
+
+  .benefit-icon-box {
+    width: 34px !important;
+    height: 34px !important;
+    border-radius: 9px !important;
+    margin-bottom: 2px !important;
+  }
+
+  .benefit-icon-box svg {
+    width: 17px !important;
+    height: 17px !important;
+  }
+
+  .benefit-title {
+    font-size: 12.5px !important;
+    font-weight: 700 !important;
+    line-height: 1.25 !important;
+  }
+
+  .benefit-desc {
+    font-size: 10px !important;
+    line-height: 1.35 !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 3 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+  }
+
+  /* Hotels Grid: Two Sides (2 columns) */
+  .hotels-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px 10px !important;
+  }
+
+  .hotel-card {
+    border-radius: 14px !important;
+    overflow: hidden !important;
+    box-shadow: 0 8px 22px -4px rgba(0, 0, 0, 0.58),
+                0 0 0 1px rgba(255, 255, 255, 0.12) inset !important;
+  }
+
+  .hotel-img-wrap {
+    height: 110px !important;
+  }
+
+  .hotel-body {
+    padding: 10px 9px 12px 9px !important;
+    gap: 3px !important;
+  }
+
+  .hotel-title {
+    font-size: 12.5px !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  .hotel-price-val {
+    font-size: 13px !important;
+  }
+
+  /* Search Results Price Filter Bar on Mobile */
+  .price-filter-bar {
+    border-radius: var(--radius-lg) !important;
+    padding: 8px 10px !important;
+    gap: 8px !important;
+    margin-bottom: 14px !important;
+  }
+
+  .price-filter-title {
+    font-size: 11px !important;
+    font-weight: 800 !important;
+  }
+
+  .price-filter-pills-group {
+    width: 100% !important;
+    display: flex !important;
+    gap: 6px !important;
+  }
+
+  .price-filter-pill {
+    flex: 1 1 0 !important;
+    justify-content: center !important;
+    padding: 7px 6px !important;
+    font-size: 11px !important;
+    white-space: nowrap !important;
   }
 }
 
@@ -6746,6 +8666,147 @@ header#site-header.scrolled > div:nth-of-type(1) {
   font-size: 14px;
   font-weight: 700;
   cursor: pointer;
+}
+
+/* ==========================================================================
+   Hero CTA Button Group & Scroll Indicator Prompt
+   ========================================================================== */
+.hero-content {
+  text-align: center;
+  max-width: 840px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-cta-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 24px;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+}
+
+.btn-hero-primary-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(135deg, #E32526 0%, #FF3333 100%);
+  color: #FFFFFF !important;
+  font-weight: 700;
+  font-size: 16px;
+  padding: 14px 30px;
+  border-radius: var(--radius-full);
+  text-decoration: none;
+  box-shadow: 0 10px 28px rgba(227, 37, 38, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.2) inset;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+}
+
+.btn-hero-primary-cta:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 16px 36px rgba(227, 37, 38, 0.6), 0 0 24px rgba(255, 255, 255, 0.3) inset;
+}
+
+.btn-hero-primary-cta .cta-arrow-down {
+  animation: heroArrowBounce 1.8s ease-in-out infinite;
+}
+
+@keyframes heroArrowBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(4px); }
+}
+
+.btn-hero-secondary-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  color: #FFFFFF !important;
+  font-weight: 600;
+  font-size: 15px;
+  padding: 14px 26px;
+  border-radius: var(--radius-full);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  text-decoration: none;
+  transition: all 0.25s ease;
+  cursor: pointer;
+}
+
+.btn-hero-secondary-cta:hover {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.hero-scroll-prompt {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  margin-top: 10px;
+  transition: all 0.25s ease;
+  cursor: pointer;
+}
+
+.hero-scroll-prompt:hover {
+  color: #FFFFFF;
+  transform: translateY(3px);
+}
+
+.scroll-mouse-icon {
+  width: 22px;
+  height: 34px;
+  border: 2px solid rgba(255, 255, 255, 0.55);
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  padding-top: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.scroll-wheel-dot {
+  width: 3px;
+  height: 6px;
+  background: #FFFFFF;
+  border-radius: 2px;
+  animation: scrollWheelAnim 1.6s infinite ease-in-out;
+}
+
+@keyframes scrollWheelAnim {
+  0% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(10px); opacity: 0; }
+}
+
+.scroll-prompt-chevron {
+  animation: chevronPulse 1.8s infinite ease-in-out;
+}
+
+@keyframes chevronPulse {
+  0%, 100% { transform: translateY(0); opacity: 0.6; }
+  50% { transform: translateY(5px); opacity: 1; }
+}
+
+.booking-search-card.pulse-highlight {
+  animation: searchCardPulse 1.2s ease-out;
+}
+
+@keyframes searchCardPulse {
+  0% { box-shadow: 0 0 0 0 rgba(227, 37, 38, 0.7); }
+  50% { box-shadow: 0 0 0 16px rgba(227, 37, 38, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(227, 37, 38, 0); }
 }
 
 /* Print Styles */

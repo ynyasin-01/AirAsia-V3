@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scroll Animation</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            height: 400vh; /* Make enough room to scroll */
+        }
+        
+        .canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        canvas {
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="canvas-container">
+        <canvas id="hero-lightpass"></canvas>
+    </div>
+
+    <script>
+        const canvas = document.getElementById("hero-lightpass");
+        const context = canvas.getContext("2d");
+
+        const frameCount = 300;
+        
+        // Zero padding function (e.g. 1 -> 001)
+        const currentFrame = index => (
+            `ezgif-frame-${index.toString().padStart(3, '0')}.jpg`
+        );
+
+        // Preload images
+        const images = [];
+        const preloadImages = () => {
+            for (let i = 1; i <= frameCount; i++) {
+                images[i] = new Image();
+                images[i].src = currentFrame(i);
+            }
+        };
+
+        const img = new Image();
+        img.src = currentFrame(1);
+        canvas.width = 1920; // Default width, gets updated on load
+        canvas.height = 1080; 
+
+        img.onload = function() {
+            canvas.width = img.width;
+            canvas.height = img.height;
+            context.drawImage(img, 0, 0);
+        }
+
+        // Update image on scroll
+        const updateImage = index => {
+            if (images[index] && images[index].complete) {
+                context.drawImage(images[index], 0, 0);
+            } else {
+                const tempImg = new Image();
+                tempImg.src = currentFrame(index);
+                tempImg.onload = () => {
+                    context.drawImage(tempImg, 0, 0);
+                };
+            }
+        }
+
+        window.addEventListener('scroll', () => {  
+            const scrollTop = document.documentElement.scrollTop;
+            const maxScrollTop = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollFraction = scrollTop / maxScrollTop;
+            
+            // Calculate frame index
+            const frameIndex = Math.min(
+                frameCount - 1,
+                Math.ceil(scrollFraction * frameCount)
+            );
+            
+            // Use 1-based index (1 to 300)
+            requestAnimationFrame(() => updateImage(frameIndex + 1));
+        });
+
+        preloadImages();
+    </script>
+</body>
+</html>
