@@ -546,10 +546,23 @@
         <!-- Round Trip Stepper Banner -->
         <div class="trip-step-banner" id="round-trip-step-banner" style="display: none;"></div>
 
+        <!-- Mobile Filter Toggle Button -->
+        <button type="button" class="btn-mobile-filter-toggle" id="btn-toggle-flight-filters" aria-expanded="false" aria-controls="flight-filters-sidebar">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
+            </svg>
+            <span>Filter Flights</span>
+          </div>
+          <svg class="filter-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M6 9l6 6 6-6"/>
+          </svg>
+        </button>
+
         <!-- Layout: Filters Sidebar + Results List -->
         <div class="results-layout">
           <!-- Sidebar Filters -->
-          <aside class="filters-sidebar">
+          <aside class="filters-sidebar" id="flight-filters-sidebar">
             <div class="filter-header">
               <h3>Filter Flights</h3>
               <button class="btn-reset-filters" id="btn-reset-flight-filters">Reset All</button>
@@ -1220,12 +1233,71 @@
 
       <!-- Hotel Search Card -->
       <div class="container hotel-search-card">
-        <div class="booking-search-card">
+        <div class="booking-search-card" id="hotel-search-card">
+          <!-- Card Header / Tabs -->
+          <div class="search-tabs hotel-search-tabs">
+            <div class="hotel-stay-type-toggle" role="tablist" aria-label="Accommodation type selector">
+              <button type="button" class="hotel-type-btn active" data-stay-type="hotels" role="tab" aria-selected="true">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M3 21h18M3 7v14M21 7v14M6 3h12a2 2 0 012 2v2H4V5a2 2 0 012-2zM7 11h2M7 15h2M15 11h2M15 15h2"/>
+                </svg>
+                <span>Hotels & Resorts</span>
+              </button>
+              <button type="button" class="hotel-type-btn" data-stay-type="villas" role="tab" aria-selected="false">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+                  <polyline points="9 22 9 12 15 12 15 22"/>
+                </svg>
+                <span>Villas & Suites</span>
+              </button>
+              <button type="button" class="hotel-type-btn" data-stay-type="luxury" role="tab" aria-selected="false">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                </svg>
+                <span>Luxury Escapes</span>
+              </button>
+            </div>
+            <div class="hotel-trust-badge">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#34D399" stroke-width="2.2">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                <path d="m9 12 2 2 4-4"/>
+              </svg>
+              <span>Best Rate Guarantee • Instant Confirmation</span>
+            </div>
+          </div>
+
+          <!-- Hotel Search Form Grid -->
           <div class="hotel-form-grid">
-            <div class="form-group">
-              <label class="form-label" for="hotel-dest-select">Destination City</label>
-              <div class="form-control-wrapper">
-                <select id="hotel-dest-select">
+            <!-- Custom Destination City Dropdown Selector -->
+            <div class="form-group hotel-dest-form-group">
+              <label class="form-label" for="hotel-dest-display-btn">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                  <circle cx="12" cy="10" r="3"/>
+                </svg>
+                <span>Destination City</span>
+              </label>
+              <div class="airport-selector-box hotel-dest-selector-box" id="hotel-dest-selector-box">
+                <button type="button" class="airport-display-btn hotel-dest-display-btn" id="hotel-dest-display-btn" aria-haspopup="listbox" aria-expanded="false">
+                  <div class="airport-btn-content">
+                    <span class="airport-btn-code" id="hotel-dest-display-city">Kuala Lumpur</span>
+                    <span class="airport-btn-city" id="hotel-dest-display-country">Malaysia • City Center</span>
+                  </div>
+                  <svg class="hotel-dest-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <path d="M6 9l6 6 6-6"/>
+                  </svg>
+                </button>
+
+                <!-- Custom Frosted Glass Destination Menu -->
+                <div class="airport-dropdown-menu hotel-dest-dropdown-menu" id="hotel-dest-dropdown-menu" role="listbox">
+                  <div class="dropdown-search-input-wrap">
+                    <input type="text" id="hotel-dest-search-input" placeholder="Search destination or country..." autocomplete="off" />
+                  </div>
+                  <div class="hotel-dest-options-list" id="hotel-dest-options-list"></div>
+                </div>
+
+                <!-- Hidden native select for state synchronization and zero regression -->
+                <select id="hotel-dest-select" class="visually-hidden-hotel-select" tabindex="-1" aria-hidden="true">
                   <option value="Kuala Lumpur" selected>Kuala Lumpur, Malaysia</option>
                   <option value="Bangkok">Bangkok, Thailand</option>
                   <option value="Singapore">Singapore</option>
@@ -1241,42 +1313,109 @@
               </div>
             </div>
 
+            <!-- Check-in Date -->
             <div class="form-group">
-              <label class="form-label" for="hotel-checkin-date">Check-in Date</label>
-              <div class="form-control-wrapper">
+              <label class="form-label" for="hotel-checkin-date">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                  <line x1="16" y1="2" x2="16" y2="6"/>
+                  <line x1="8" y1="2" x2="8" y2="6"/>
+                  <line x1="3" y1="10" x2="21" y2="10"/>
+                </svg>
+                <span>Check-in Date</span>
+              </label>
+              <div class="form-control-wrapper hotel-date-wrapper">
                 <input type="date" id="hotel-checkin-date" required />
               </div>
             </div>
 
+            <!-- Check-out Date -->
             <div class="form-group">
-              <label class="form-label" for="hotel-checkout-date">Check-out Date</label>
-              <div class="form-control-wrapper">
+              <label class="form-label" for="hotel-checkout-date">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                  <line x1="16" y1="2" x2="16" y2="6"/>
+                  <line x1="8" y1="2" x2="8" y2="6"/>
+                  <line x1="3" y1="10" x2="21" y2="10"/>
+                </svg>
+                <span>Check-out Date</span>
+              </label>
+              <div class="form-control-wrapper hotel-date-wrapper">
                 <input type="date" id="hotel-checkout-date" required />
               </div>
             </div>
 
+            <!-- Guests Stepper -->
             <div class="form-group">
-              <label class="form-label" for="hotel-guests-count">Guests</label>
-              <div class="form-control-wrapper">
-                <input type="number" id="hotel-guests-count" min="1" max="10" value="2" />
+              <label class="form-label" for="hotel-guests-count">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                  <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+                  <circle cx="9" cy="7" r="4"/>
+                  <path d="M23 21v-2a4 4 0 00-3-3.87"/>
+                  <path d="M16 3.13a4 4 0 010 7.75"/>
+                </svg>
+                <span>Guests</span>
+              </label>
+              <div class="form-control-wrapper number-stepper-wrapper">
+                <button type="button" class="stepper-btn" id="btn-hotel-minus-guests" aria-label="Decrease guests">−</button>
+                <div class="stepper-val-wrap">
+                  <input type="number" id="hotel-guests-count" min="1" max="10" value="2" readonly />
+                  <span class="stepper-unit" id="hotel-guests-unit">Guests</span>
+                </div>
+                <button type="button" class="stepper-btn" id="btn-hotel-plus-guests" aria-label="Increase guests">+</button>
               </div>
             </div>
 
+            <!-- Rooms Stepper -->
             <div class="form-group">
-              <label class="form-label" for="hotel-rooms-count">Rooms</label>
-              <div class="form-control-wrapper">
-                <input type="number" id="hotel-rooms-count" min="1" max="5" value="1" />
+              <label class="form-label" for="hotel-rooms-count">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                  <path d="M3 7v14M21 7v14M4 11h16M4 16h16M7 7V4a1 1 0 011-1h8a1 1 0 011 1v3"/>
+                </svg>
+                <span>Rooms</span>
+              </label>
+              <div class="form-control-wrapper number-stepper-wrapper">
+                <button type="button" class="stepper-btn" id="btn-hotel-minus-rooms" aria-label="Decrease rooms">−</button>
+                <div class="stepper-val-wrap">
+                  <input type="number" id="hotel-rooms-count" min="1" max="5" value="1" readonly />
+                  <span class="stepper-unit" id="hotel-rooms-unit">Room</span>
+                </div>
+                <button type="button" class="stepper-btn" id="btn-hotel-plus-rooms" aria-label="Increase rooms">+</button>
               </div>
             </div>
 
+            <!-- Submit Button -->
             <div class="form-group">
-              <button class="btn-search-main" id="btn-search-hotels" style="width: 100%; justify-content: center; height: 54px;">
+              <button class="btn-search-main btn-search-hotels-main" id="btn-search-hotels">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                   <circle cx="11" cy="11" r="8"/>
                   <line x1="21" y1="21" x2="16.65" y2="16.65"/>
                 </svg>
                 <span>Search Hotels</span>
+                <svg class="btn-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
               </button>
+            </div>
+          </div>
+
+          <!-- Luxury Perks Guarantee Footer -->
+          <div class="hotel-card-bottom-bar">
+            <div class="hotel-perk-pill">
+              <span class="perk-icon">🛡️</span>
+              <span>Price Match Guarantee</span>
+            </div>
+            <div class="hotel-perk-pill">
+              <span class="perk-icon">✨</span>
+              <span>Handpicked 4 & 5-Star Accommodations</span>
+            </div>
+            <div class="hotel-perk-pill">
+              <span class="perk-icon">💳</span>
+              <span>Zero Booking or Hidden Fees</span>
+            </div>
+            <div class="hotel-perk-pill">
+              <span class="perk-icon">⚡</span>
+              <span>Instant Digital Voucher & E-Receipt</span>
             </div>
           </div>
         </div>
@@ -1290,9 +1429,22 @@
 
       <!-- Hotel Results Layout -->
       <div class="container" style="margin-bottom: 80px;">
+        <!-- Mobile Filter Toggle Button -->
+        <button type="button" class="btn-mobile-filter-toggle" id="btn-toggle-hotel-filters" aria-expanded="false" aria-controls="hotel-filters-sidebar">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
+            </svg>
+            <span>Filter Hotels</span>
+          </div>
+          <svg class="filter-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M6 9l6 6 6-6"/>
+          </svg>
+        </button>
+
         <div class="results-layout">
           <!-- Hotel Filters -->
-          <aside class="filters-sidebar">
+          <aside class="filters-sidebar" id="hotel-filters-sidebar">
             <div class="filter-header">
               <h3>Hotel Filters</h3>
             </div>

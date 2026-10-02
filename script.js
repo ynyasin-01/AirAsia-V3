@@ -1788,23 +1788,151 @@
   // ==========================================================================
   // Toast Notification Helper
   // ==========================================================================
-  function showToast(message, type = 'info') {
+  function showToast(message, type = 'info', duration = 3800) {
     const container = document.getElementById('toast-container');
     if (!container) return;
+
+    // Limit maximum active toasts to 4 to prevent clutter
+    const existingToasts = container.querySelectorAll('.toast:not(.toast-hide)');
+    if (existingToasts.length >= 4) {
+      dismissToast(existingToasts[0]);
+    }
+
     const toast = document.createElement('div');
     toast.className = `toast ${type}`;
+    toast.setAttribute('role', 'alert');
+
+    // Select icon and label based on type
+    let iconSvg = '';
+    let typeLabel = 'AirAsia Info';
+
+    if (type === 'success' || type === 'premium-success') {
+      typeLabel = type === 'premium-success' ? 'Confirmed' : 'Success';
+      iconSvg = `
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+      `;
+    } else if (type === 'error') {
+      typeLabel = 'Attention';
+      iconSvg = `
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="12" y1="8" x2="12" y2="12"/>
+          <line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+      `;
+    } else if (type === 'warning') {
+      typeLabel = 'Notice';
+      iconSvg = `
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
+          <line x1="12" y1="9" x2="12" y2="13"/>
+          <line x1="12" y1="17" x2="12.01" y2="17"/>
+        </svg>
+      `;
+    } else {
+      typeLabel = 'Notice';
+      iconSvg = `
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="12" y1="16" x2="12" y2="12"/>
+          <line x1="12" y1="8" x2="12.01" y2="8"/>
+        </svg>
+      `;
+    }
+
     toast.innerHTML = `
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-        <path d="M20 6L9 17l-5-5"/>
-      </svg>
-      <span>${escapeHtml(message)}</span>
+      <div class="toast-icon-badge">
+        ${iconSvg}
+      </div>
+      <div class="toast-content">
+        <div class="toast-header-row">
+          <span class="toast-title-tag">${escapeHtml(typeLabel)}</span>
+          <button type="button" class="toast-close-btn" aria-label="Dismiss notification">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="18" y1="6" x2="6" y2="18"/>
+              <line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+          </button>
+        </div>
+        <div class="toast-message">${escapeHtml(message)}</div>
+      </div>
+      <div class="toast-progress-bar" style="width: 100%;"></div>
     `;
+
     container.appendChild(toast);
+
+    // Smooth enter trigger
+    requestAnimationFrame(() => {
+      toast.classList.add('toast-show');
+      const progressBar = toast.querySelector('.toast-progress-bar');
+      if (progressBar) {
+        progressBar.style.transition = `width ${duration}ms linear`;
+        progressBar.style.width = '0%';
+      }
+    });
+
+    let dismissTimer = null;
+    let remainingTime = duration;
+    let startTime = Date.now();
+
+    function startTimer(time) {
+      startTime = Date.now();
+      dismissTimer = setTimeout(() => {
+        dismissToast(toast);
+      }, time);
+    }
+
+    startTimer(remainingTime);
+
+    // Pause on hover
+    toast.addEventListener('mouseenter', () => {
+      if (dismissTimer) {
+        clearTimeout(dismissTimer);
+        dismissTimer = null;
+        remainingTime -= (Date.now() - startTime);
+        const progressBar = toast.querySelector('.toast-progress-bar');
+        if (progressBar) {
+          const currentWidth = window.getComputedStyle(progressBar).width;
+          progressBar.style.transition = 'none';
+          progressBar.style.width = currentWidth;
+        }
+      }
+    });
+
+    // Resume on mouse leave
+    toast.addEventListener('mouseleave', () => {
+      if (!toast.classList.contains('toast-hide') && remainingTime > 0) {
+        const progressBar = toast.querySelector('.toast-progress-bar');
+        if (progressBar) {
+          progressBar.style.transition = `width ${remainingTime}ms linear`;
+          progressBar.style.width = '0%';
+        }
+        startTimer(remainingTime);
+      }
+    });
+
+    // Close button
+    const closeBtn = toast.querySelector('.toast-close-btn');
+    if (closeBtn) {
+      closeBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (dismissTimer) clearTimeout(dismissTimer);
+        dismissToast(toast);
+      });
+    }
+  }
+
+  function dismissToast(toast) {
+    if (!toast || toast.classList.contains('toast-hide')) return;
+    toast.classList.remove('toast-show');
+    toast.classList.add('toast-hide');
     setTimeout(() => {
-      toast.style.opacity = '0';
-      toast.style.transition = 'opacity 0.3s ease';
-      setTimeout(() => toast.remove(), 300);
-    }, 3500);
+      if (toast.parentNode) {
+        toast.parentNode.removeChild(toast);
+      }
+    }, 360);
   }
 
   function escapeHtml(str) {
@@ -3551,12 +3679,193 @@
   // ==========================================================================
   function initHotelSearchForm() {
     const destSelect = document.getElementById('hotel-dest-select');
+    const destDisplayBtn = document.getElementById('hotel-dest-display-btn');
+    const destDropdownMenu = document.getElementById('hotel-dest-dropdown-menu');
+    const destSearchInput = document.getElementById('hotel-dest-search-input');
+    const destOptionsList = document.getElementById('hotel-dest-options-list');
+    const destCityText = document.getElementById('hotel-dest-display-city');
+    const destCountryText = document.getElementById('hotel-dest-display-country');
+
     const checkInInput = document.getElementById('hotel-checkin-date');
     const checkOutInput = document.getElementById('hotel-checkout-date');
     const guestsInput = document.getElementById('hotel-guests-count');
     const roomsInput = document.getElementById('hotel-rooms-count');
+    const guestsUnit = document.getElementById('hotel-guests-unit');
+    const roomsUnit = document.getElementById('hotel-rooms-unit');
+    const btnMinusGuests = document.getElementById('btn-hotel-minus-guests');
+    const btnPlusGuests = document.getElementById('btn-hotel-plus-guests');
+    const btnMinusRooms = document.getElementById('btn-hotel-minus-rooms');
+    const btnPlusRooms = document.getElementById('btn-hotel-plus-rooms');
     const searchBtn = document.getElementById('btn-search-hotels');
 
+    // Hotel Destination City Options
+    const HOTEL_DESTINATIONS = [
+      { city: 'Kuala Lumpur', country: 'Malaysia', tag: 'Top Choice' },
+      { city: 'Bangkok', country: 'Thailand', tag: 'Popular' },
+      { city: 'Singapore', country: 'Singapore', tag: 'City Break' },
+      { city: 'Bali', country: 'Indonesia', tag: 'Beach & Spa' },
+      { city: 'Phuket', country: 'Thailand', tag: 'Island Escape' },
+      { city: 'Penang', country: 'Malaysia', tag: 'Heritage' },
+      { city: 'Langkawi', country: 'Malaysia', tag: 'Luxury Villas' },
+      { city: 'Tokyo', country: 'Japan', tag: 'Metropolis' },
+      { city: 'Jakarta', country: 'Indonesia', tag: 'Business Center' },
+      { city: 'Dhaka', country: 'Bangladesh', tag: 'Direct Flight' },
+      { city: 'All', country: 'Worldwide Destinations', tag: 'Show All' }
+    ];
+
+    function renderHotelDestOptions(query = '') {
+      if (!destOptionsList) return;
+      destOptionsList.innerHTML = '';
+      const q = query.toLowerCase().trim();
+      const currentVal = destSelect ? destSelect.value : 'Kuala Lumpur';
+
+      const filtered = HOTEL_DESTINATIONS.filter(item => {
+        if (!q) return true;
+        return item.city.toLowerCase().includes(q) || item.country.toLowerCase().includes(q) || item.tag.toLowerCase().includes(q);
+      });
+
+      if (filtered.length === 0) {
+        const noMatch = document.createElement('div');
+        noMatch.style.padding = '14px';
+        noMatch.style.textAlign = 'center';
+        noMatch.style.color = '#94A3B8';
+        noMatch.style.fontSize = '12px';
+        noMatch.textContent = 'No matching destinations found';
+        destOptionsList.appendChild(noMatch);
+        return;
+      }
+
+      filtered.forEach(item => {
+        const row = document.createElement('div');
+        row.className = `hotel-dest-option-item${item.city === currentVal ? ' selected' : ''}`;
+        row.setAttribute('role', 'option');
+        row.setAttribute('aria-selected', item.city === currentVal ? 'true' : 'false');
+        row.innerHTML = `
+          <div class="hotel-option-main">
+            <span class="hotel-option-city">${escapeHtml(item.city === 'All' ? 'All Destinations' : item.city)}</span>
+            <span class="hotel-option-country">${escapeHtml(item.country)}</span>
+          </div>
+          <span class="hotel-option-badge">${escapeHtml(item.tag)}</span>
+        `;
+
+        row.addEventListener('click', () => {
+          if (destSelect) {
+            destSelect.value = item.city;
+            destSelect.dispatchEvent(new Event('change'));
+          }
+          if (destCityText) destCityText.textContent = item.city === 'All' ? 'All Destinations' : item.city;
+          if (destCountryText) destCountryText.textContent = `${item.country} • ${item.tag}`;
+          if (destDropdownMenu) destDropdownMenu.classList.remove('open');
+          if (destDisplayBtn) {
+            destDisplayBtn.classList.remove('active');
+            destDisplayBtn.setAttribute('aria-expanded', 'false');
+          }
+        });
+
+        destOptionsList.appendChild(row);
+      });
+    }
+
+    renderHotelDestOptions('');
+
+    // Toggle custom destination dropdown
+    if (destDisplayBtn) {
+      destDisplayBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        // Close flight dropdowns if open
+        document.querySelectorAll('.airport-dropdown-menu:not(#hotel-dest-dropdown-menu)').forEach(m => m.classList.remove('open'));
+        const isOpen = destDropdownMenu && destDropdownMenu.classList.contains('open');
+        if (destDropdownMenu) destDropdownMenu.classList.toggle('open', !isOpen);
+        destDisplayBtn.classList.toggle('active', !isOpen);
+        destDisplayBtn.setAttribute('aria-expanded', !isOpen ? 'true' : 'false');
+
+        if (!isOpen && destSearchInput) {
+          destSearchInput.value = '';
+          renderHotelDestOptions('');
+          setTimeout(() => destSearchInput.focus(), 60);
+        }
+      });
+    }
+
+    if (destSearchInput) {
+      destSearchInput.addEventListener('input', (e) => {
+        renderHotelDestOptions(e.target.value);
+      });
+      destSearchInput.addEventListener('click', (e) => e.stopPropagation());
+    }
+
+    // Dismiss destination dropdown on outside click
+    document.addEventListener('click', (e) => {
+      if (destDropdownMenu && !destDropdownMenu.contains(e.target) && destDisplayBtn && !destDisplayBtn.contains(e.target)) {
+        destDropdownMenu.classList.remove('open');
+        if (destDisplayBtn) {
+          destDisplayBtn.classList.remove('active');
+          destDisplayBtn.setAttribute('aria-expanded', 'false');
+        }
+      }
+    });
+
+    // Steppers: Guests
+    function updateGuestsState(newVal) {
+      const val = Math.max(1, Math.min(10, newVal));
+      if (guestsInput) guestsInput.value = val;
+      if (guestsUnit) guestsUnit.textContent = val === 1 ? 'Guest' : 'Guests';
+      if (btnMinusGuests) btnMinusGuests.disabled = (val <= 1);
+      if (btnPlusGuests) btnPlusGuests.disabled = (val >= 10);
+      State.hotelSearch.guests = val;
+    }
+
+    if (btnMinusGuests) {
+      btnMinusGuests.addEventListener('click', () => {
+        const cur = guestsInput ? parseInt(guestsInput.value, 10) || 2 : 2;
+        updateGuestsState(cur - 1);
+      });
+    }
+    if (btnPlusGuests) {
+      btnPlusGuests.addEventListener('click', () => {
+        const cur = guestsInput ? parseInt(guestsInput.value, 10) || 2 : 2;
+        updateGuestsState(cur + 1);
+      });
+    }
+
+    // Steppers: Rooms
+    function updateRoomsState(newVal) {
+      const val = Math.max(1, Math.min(5, newVal));
+      if (roomsInput) roomsInput.value = val;
+      if (roomsUnit) roomsUnit.textContent = val === 1 ? 'Room' : 'Rooms';
+      if (btnMinusRooms) btnMinusRooms.disabled = (val <= 1);
+      if (btnPlusRooms) btnPlusRooms.disabled = (val >= 5);
+      State.hotelSearch.rooms = val;
+    }
+
+    if (btnMinusRooms) {
+      btnMinusRooms.addEventListener('click', () => {
+        const cur = roomsInput ? parseInt(roomsInput.value, 10) || 1 : 1;
+        updateRoomsState(cur - 1);
+      });
+    }
+    if (btnPlusRooms) {
+      btnPlusRooms.addEventListener('click', () => {
+        const cur = roomsInput ? parseInt(roomsInput.value, 10) || 1 : 1;
+        updateRoomsState(cur + 1);
+      });
+    }
+
+    // Category Tabs: Hotels & Resorts / Villas / Luxury Escapes
+    const stayTypeBtns = document.querySelectorAll('.hotel-type-btn');
+    stayTypeBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        stayTypeBtns.forEach(b => {
+          b.classList.remove('active');
+          b.setAttribute('aria-selected', 'false');
+        });
+        btn.classList.add('active');
+        btn.setAttribute('aria-selected', 'true');
+        renderHotelsList();
+      });
+    });
+
+    // Date inputs
     const today = new Date().toISOString().split('T')[0];
     if (checkInInput) {
       checkInInput.min = today;
@@ -3578,6 +3887,18 @@
       checkOutInput.value = State.hotelSearch.checkOutDate;
       checkOutInput.addEventListener('change', (e) => {
         State.hotelSearch.checkOutDate = e.target.value;
+      });
+    }
+
+    // Sync if hidden native select changes
+    if (destSelect) {
+      destSelect.addEventListener('change', (e) => {
+        const val = e.target.value;
+        const matched = HOTEL_DESTINATIONS.find(d => d.city === val);
+        if (matched) {
+          if (destCityText) destCityText.textContent = matched.city === 'All' ? 'All Destinations' : matched.city;
+          if (destCountryText) destCountryText.textContent = `${matched.country} • ${matched.tag}`;
+        }
       });
     }
 
@@ -4497,12 +4818,42 @@
       });
     });
 
-    // Mobile Hamburger button
+    // Mobile Hamburger button with outside click dismissal
     const hamburgerBtn = document.getElementById('hamburger-btn');
     const mobileDrawer = document.getElementById('mobile-drawer');
     if (hamburgerBtn && mobileDrawer) {
-      hamburgerBtn.addEventListener('click', () => {
+      hamburgerBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
         mobileDrawer.classList.toggle('open');
+      });
+
+      document.addEventListener('click', (e) => {
+        if (mobileDrawer.classList.contains('open')) {
+          if (!mobileDrawer.contains(e.target) && !hamburgerBtn.contains(e.target)) {
+            mobileDrawer.classList.remove('open');
+          }
+        }
+      });
+    }
+
+    // Mobile Filter Toggle Buttons (Expand/Collapse on Mobile)
+    const toggleFlightFiltersBtn = document.getElementById('btn-toggle-flight-filters');
+    const flightFiltersSidebar = document.getElementById('flight-filters-sidebar');
+    if (toggleFlightFiltersBtn && flightFiltersSidebar) {
+      toggleFlightFiltersBtn.addEventListener('click', () => {
+        const isOpen = flightFiltersSidebar.classList.toggle('is-open');
+        toggleFlightFiltersBtn.setAttribute('aria-expanded', isOpen);
+        toggleFlightFiltersBtn.classList.toggle('active', isOpen);
+      });
+    }
+
+    const toggleHotelFiltersBtn = document.getElementById('btn-toggle-hotel-filters');
+    const hotelFiltersSidebar = document.getElementById('hotel-filters-sidebar');
+    if (toggleHotelFiltersBtn && hotelFiltersSidebar) {
+      toggleHotelFiltersBtn.addEventListener('click', () => {
+        const isOpen = hotelFiltersSidebar.classList.toggle('is-open');
+        toggleHotelFiltersBtn.setAttribute('aria-expanded', isOpen);
+        toggleHotelFiltersBtn.classList.toggle('active', isOpen);
       });
     }
 
