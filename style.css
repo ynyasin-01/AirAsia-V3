@@ -151,8 +151,62 @@ body::after {
   }
 }
 
+@keyframes bookingTitleReveal {
+  0%, 100% {
+    opacity: 0.6;
+    transform: translateY(5px) scale(0.985);
+    filter: blur(1px);
+  }
+  30% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+  60% {
+    opacity: 0.9;
+    transform: translateY(-2px) scale(1.01);
+    filter: blur(0.5px);
+  }
+}
+
+@keyframes successCheckPulse {
+  0% {
+    transform: scale(0.82);
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+  }
+  35% {
+    transform: scale(1.08);
+    box-shadow: 0 18px 36px rgba(16, 185, 129, 0.26);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 14px 30px rgba(16, 185, 129, 0.18);
+  }
+}
+
+@keyframes drawCheckmark {
+  0% {
+    stroke-dasharray: 0 80;
+    opacity: 0;
+  }
+  35% {
+    opacity: 1;
+  }
+  100% {
+    stroke-dasharray: 80 0;
+    opacity: 1;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   body::after {
+    animation: none !important;
+  }
+  .confirmation-header h2 {
+    animation: none !important;
+  }
+  .confirmation-check-badge,
+  .confirmation-check-badge svg {
     animation: none !important;
   }
 }
@@ -3697,51 +3751,104 @@ main#app-main:nth-of-type(1) > section#view-hotel:nth-of-type(6) > div:nth-of-ty
 
 /* Confirmation View (Dark Glossy Glass) */
 .confirmation-container {
-  max-width: 720px;
-  margin: 40px auto 80px;
-  background: rgba(15, 23, 42, 0.75);
-  backdrop-filter: blur(32px) saturate(200%);
-  -webkit-backdrop-filter: blur(32px) saturate(200%);
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  border-radius: var(--radius-xl);
-  box-shadow: 0 28px 60px -10px rgba(0, 0, 0, 0.75), inset 0 1px 1px rgba(255, 255, 255, 0.15);
+  max-width: 540px;
+  margin: 28px auto 60px;
+  background: rgba(15, 23, 42, 0.52);
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  border-radius: 28px;
+  box-shadow: 0 24px 60px -18px rgba(15, 23, 42, 0.9), inset 0 1px 0 rgba(255, 255, 255, 0.12);
   overflow: hidden;
 }
 
 .confirmation-header {
-  background: linear-gradient(135deg, rgba(16, 185, 129, 0.9) 0%, rgba(5, 150, 105, 0.9) 100%);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  color: white;
-  padding: 36px 30px;
+  position: relative;
+  overflow: visible;
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  color: #F8FFFD;
+  padding: 18px 14px 10px;
   text-align: center;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+  border-bottom: none;
+  box-shadow: none;
+}
+
+.confirmation-header > * {
+  position: relative;
+  z-index: 1;
 }
 
 .confirmation-check-badge {
-  color: #FFFFFF;
+  display: inline-flex !important;
+  width: 72px !important;
+  height: 72px !important;
+  border-radius: 50% !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid rgba(255, 255, 255, 0.16) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin-bottom: 16px !important;
+  box-shadow: 0 16px 30px rgba(16, 185, 129, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.18) !important;
+  color: #ffffff !important;
+  animation: successCheckPulse 1.4s ease-out 0.1s both;
+}
+
+.confirmation-check-badge svg {
+  width: 32px;
+  height: 32px;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 80;
+  stroke-dashoffset: 80;
+  animation: drawCheckmark 0.9s ease-out 0.3s forwards;
+}
+
+.confirmation-header h2 {
+  margin: 0;
+  font-size: clamp(2rem, 2.4vw, 2.6rem);
+  line-height: 1.15;
+  letter-spacing: -0.06em;
+  font-weight: 900;
+  animation: bookingTitleReveal 2.8s ease-in-out infinite;
+  color: #F8FFFD;
+  text-shadow: 0 8px 22px rgba(15, 23, 42, 0.2);
+}
+
+.confirmation-header p {
+  margin-top: 8px;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  opacity: 0.92;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .confirmation-ref-pill {
   display: inline-block;
-  background: rgba(255, 255, 255, 0.25);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  padding: 6px 18px;
+  background: rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.36);
+  padding: 8px 22px;
   border-radius: var(--radius-full);
-  font-size: 18px;
+  font-size: 0.98rem;
   font-weight: 800;
-  letter-spacing: 1px;
-  margin-top: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  letter-spacing: 0.12em;
+  margin-top: 14px;
+  box-shadow: 0 10px 24px rgba(6, 78, 59, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }
 
 .confirmation-body {
-  padding: 30px;
+  padding: 22px 20px 20px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 18px;
 }
 
 .boarding-pass-visual {
